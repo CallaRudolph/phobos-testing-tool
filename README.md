@@ -8,6 +8,10 @@ This can be used to crawl a url for all the sites on a domain
 - https://github.com/GoogleChrome/lighthouse#using-programmatically
 The lighthouse API which will be used to build to the database with site feedback
 
+- https://danielkummer.github.io/git-flow-cheatsheet/ GitFlow
+
+- https://travis-ci.org/ Travis CI
+
 # The Project
 - [ ] **Step 1: Scaffolding / Setup**
   - [ ] Express
