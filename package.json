@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/CallaRudolph/phobos-testing-tool#readme",
   "dependencies": {
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
   }
 }
