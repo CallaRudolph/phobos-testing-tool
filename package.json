@@ -1,0 +1,22 @@
+{
+  "name": "phobos-testing-tool",
+  "version": "1.0.0",
+  "description": "A project to automate basic testing of websites using google lighthouse API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CallaRudolph/phobos-testing-tool.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CallaRudolph/phobos-testing-tool/issues"
+  },
+  "homepage": "https://github.com/CallaRudolph/phobos-testing-tool#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
