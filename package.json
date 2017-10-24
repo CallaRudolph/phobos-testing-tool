@@ -2,13 +2,10 @@
   "name": "phobos-testing-tool",
   "version": "1.0.0",
   "description": "A project to automate basic testing of websites using google lighthouse API",
-  "main": "src/index.jsx",
+  "main": "src/client/index.jsx",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --env.dev",
-    "build": "webpack",
-    "start": "webpack-dev-server",
-    "watch": "webpack --watch"
+    "start": "nodemon src/server/server.js",
+    "webpack": "./node_modules/.bin/webpack -w"
   },
   "repository": {
     "type": "git",
@@ -22,7 +19,6 @@
   "homepage": "https://github.com/CallaRudolph/phobos-testing-tool#readme",
   "dependencies": {
     "express": "^4.16.2",
-    "nodemon": "^1.12.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   },
@@ -31,10 +27,6 @@
     "babel-loader": "^7.0.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
-    "html-webpack-plugin": "^2.29.0",
-    "nodemon-webpack-plugin": "^0.1.5",
-    "react-hot-loader": "^3.0.0-beta.7",
-    "webpack": "^2.6.0",
-    "webpack-dev-server": "^2.5.0"
+    "webpack": "^2.6.0"
   }
 }

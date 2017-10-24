@@ -1,70 +1,42 @@
 const webpack = require('webpack');
-const { resolve } = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const NodemonPlugin = require('nodemon-webpack-plugin');
+var path = require('path');
 
-module.exports = {
 
-  entry: [
-    'react-hot-loader/patch',
-    'webpack-dev-server/client?http://localhost:8080',
-    'webpack/hot/only-dev-server',
-    resolve(__dirname, "src") + "/index.jsx"
-  ],
+const BUILD_DIR = path.resolve(__dirname, './build');
+const APP_DIR = path.resolve(__dirname, './src/client');
 
+const config = {
+  entry: {
+    main: APP_DIR + '/index.jsx'
+  },
   output: {
-    filename: 'app.bundle.js',
-    path: resolve(__dirname, 'build'),
-    publicPath: '/'
+    filename: 'bundle.js',
+    path: BUILD_DIR,
   },
-
-  resolve: {
-    extensions: ['.js', '.jsx']
-  },
-
-  devtool: '#source-map',
-
-  devServer: {
-    hot: true,
-    contentBase: resolve(__dirname, 'build'),
-    publicPath: '/'
-  },
-
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
+        test: /(\.css|.scss)$/,
+        use: [{
+          loader: "style-loader" // creates style nodes from JS strings
+        }, {
+          loader: "css-loader" // translates CSS into CommonJS
+        }, {
+          loader: "sass-loader" // compiles Sass to CSS
+        }]
+      },
+      {
+        test: /\.(jsx|js)?$/,
+        use: [{
+          loader: "babel-loader",
           options: {
-            presets: [
-              ['es2015', {'modules': false}],
-              'react',
-            ],
-            plugins: [
-              'react-hot-loader/babel'
-            ]
+            cacheDirectory: true,
+            presets: ['react', 'es2015'] // Transpiles JSX and ES6
           }
-        }
+        }]
       }
-    ]
-  },
+    ],
+  }
+}
 
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
-    new NodemonPlugin(),
-    new HtmlWebpackPlugin({
-      template:'template.ejs',
-      appMountId: 'react-app-root',
-      title: 'phobos testing tool',
-      filename: resolve(__dirname, "build", "index.html"),
-    }),
-  ]
-  // node: {
-  //   fs: 'empty',
-  //   net: 'empty'
-  // }
-
-};
+module.exports = config;
