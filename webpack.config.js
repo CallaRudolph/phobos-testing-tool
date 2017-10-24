@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const { resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const NodemonPlugin = require('nodemon-webpack-plugin');
 
 module.exports = {
 
@@ -53,6 +54,7 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
+    new NodemonPlugin(),
     new HtmlWebpackPlugin({
       template:'template.ejs',
       appMountId: 'react-app-root',

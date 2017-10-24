@@ -11,7 +11,6 @@ var server = app.listen(process.env.PORT || 3000, function (){
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'build' + 'index.html'));
 });
-//template.ejs??
 
 
 // Generic error handler used by all endpoints.
