@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/CallaRudolph/phobos-testing-tool#readme",
   "dependencies": {
+    "axios": "^0.17.0",
     "express": "^4.16.2",
+    "mongodb": "^2.2.26",
     "mongoose": "^4.12.4",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
