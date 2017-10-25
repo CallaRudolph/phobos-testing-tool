@@ -4,8 +4,9 @@ import axios from 'axios';
 class Task extends Component {
   constructor(props) {
     super(props);
-    this.state = {data: []};
+    this.state = {value: ''};
     this.loadTasksFromServer = this.loadTasksFromServer.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -16,20 +17,17 @@ class Task extends Component {
     })
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    const { _title } = this.refs;
-    console.log(_title.value);
-    var sample = _title.value;
-    var task = {'title': sample};
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    var task = {'title': this.state.value};
     console.log(task);
-    // let tasks = this.state.data;
-    // let newTasks = tasks.concat([_title.value]);
-    // this.setState({ data: newTasks });
     axios.post('http://localhost:3000/api/tasks', task)
     .catch(err => {
       console.error(err);
-
     });
   }
 
@@ -37,13 +35,11 @@ class Task extends Component {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-          <input
-            ref="_title"
-            type="text"
-            id="title"
-            placeholder="add a task"/>
-          <br/>
-          <button type="submit">submit</button>
+          <label>
+            task:
+            <input type="text" value={this.state.value} onChange={this.handleChange} />
+          </label>
+          <input type="submit" value="submit" />
         </form>
       </div>
     )
