@@ -1,5 +1,6 @@
 var express = require('express');
 var mongodb = require('mongodb');
+var bodyParser = require('body-parser');
 var Mongoose = require('mongoose');
 const path = require('path');
 
@@ -7,20 +8,17 @@ var TASK_COLLECTION = 'tasks';
 
 var app = express();
 
+app.use(bodyParser.json());
+
 app.use(express.static(__dirname + './../../'));
 
 var mongoDB = 'mongodb://127.0.0.1/my_database';
 
-Mongoose.connect(mongoDB, {
-  useMongoClient: true
-});
+Mongoose.connect(mongoDB);
 
 var db = Mongoose.connection;
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-db.once('open', function callback() {
-  console.log("mongo is working");
-});
 
 var server = app.listen(process.env.PORT || 3000, function (){
   var port = server.address().port;
@@ -47,9 +45,9 @@ app.post("/api/tasks", function(req, res) {
   var newTask = req.body;
   newTask.createDate = new Date();
 
-  if (!req.body.title) {
-    handleError(res, "Invalid user input", "Must provide a title.", 400);
-  }
+  // if (!req.body.title) {
+  //   handleError(res, "Invalid user input", "Must provide a title.", 400);
+  // }
 
   db.collection(TASK_COLLECTION).insertOne(newTask, function(err, doc) {
     if (err) {
