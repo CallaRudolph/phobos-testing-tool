@@ -19,7 +19,7 @@ var db = Mongoose.connection;
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', function callback() {
-  console.log("mongo connected");
+  console.log("mongo is working");
 });
 
 var server = app.listen(process.env.PORT || 3000, function (){
