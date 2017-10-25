@@ -1,8 +1,14 @@
 import React, { Component } from "react";
+import Task from './Task.jsx';
 
 class App extends Component {
   render() {
-    return <h2>Hello, world.</h2>
+    return (
+      <div>
+        <h2>Hello, world.</h2>
+        <Task/>
+      </div>
+    )
   }
 }
 
