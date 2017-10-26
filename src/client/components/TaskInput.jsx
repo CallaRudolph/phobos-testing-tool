@@ -6,9 +6,10 @@ import { Button } from "react-bootstrap";
 class TaskInput extends Component {
   constructor(props) {
     super(props);
-    this.state = { value: '', data: []};
+    this.state = { title: '', time: '', data: []};
     this.loadTasksFromServer = this.loadTasksFromServer.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleTaskChange = this.handleTaskChange.bind(this);
+    this.handleTimeChange = this.handleTimeChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTaskDelete = this.handleTaskDelete.bind(this);
   }
@@ -20,23 +21,28 @@ class TaskInput extends Component {
     })
   }
 
-  handleChange(event) {
-    this.setState({value: event.target.value});
+  handleTaskChange(event) {
+    this.setState({title: event.target.value});
+  }
+
+  handleTimeChange(event) {
+    this.setState({time: event.target.value});
   }
 
   handleSubmit(event) {
     event.preventDefault();
     let tasks = this.state.data;
-    var task = {'title': this.state.value};
+    var task = {'title': this.state.title, 'time': this.state.time};
+    console.log(task);
     axios.post('http://localhost:3000/api/tasks', task)
     .catch(err => {
       console.error(err);
     });
-    this.state.value = '';
+    this.state.title = '';
+    this.state.time = '';
   }
 
-  handleTaskDelete(id){
-    console.log(id);
+  handleTaskDelete(id) {
     axios.delete('http://localhost:3000/api/tasks/' + id)
     .then(res => {
       console.log(res);
@@ -60,9 +66,11 @@ class TaskInput extends Component {
       <div>
         <form onSubmit={this.handleSubmit}>
           <input
-            placeholder="enter a task" type="text" value={this.state.value} onChange={this.handleChange} />
-            <br/>
-            <Button bsStyle="info" bsSize="xsmall" type="submit">submit</Button>
+            placeholder="enter a task" type="text" value={this.state.title} onChange={this.handleTaskChange} />
+          <input
+            placeholder="enter a time" type="text" value={this.state.time} onChange={this.handleTimeChange} />
+          <br/>
+          <Button bsStyle="info" bsSize="xsmall" type="submit">submit</Button>
         </form>
         <TaskList
           data={ taskNodes }

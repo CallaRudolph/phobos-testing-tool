@@ -12,7 +12,8 @@ class Task extends Component {
       <div>
         <h3>{this.props.title}</h3>
         <TaskDetail
-          id={this.props.id}/>
+          id={this.props.id}
+          time={this.props.time}/>
         <TaskDelete
           onTaskDelete={this.props.onTaskDelete}
           id={this.props.id}/>
