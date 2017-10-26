@@ -12,13 +12,13 @@ class TaskList extends Component {
         <Task
           key={ task._id }
           id={ task._id }
-          title={ task._id }
+          title={ task.title }
           onTaskDelete={this.props.onTaskDelete}/>
       )
     });
     return (
       <div>
-        <p>these are all of the task id's:</p>
+        <p>these are all of the tasks:</p>
         { taskNodes }
       </div>
     )

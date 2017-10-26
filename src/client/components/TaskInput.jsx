@@ -31,6 +31,7 @@ class TaskInput extends Component {
     .catch(err => {
       console.error(err);
     });
+    this.state.value = '';
   }
 
   handleTaskDelete(id){

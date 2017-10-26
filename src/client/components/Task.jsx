@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import axios from 'axios';
+import TaskDetail from './TaskDetail.jsx';
 
 class Task extends Component {
   constructor(props) {
@@ -11,13 +11,16 @@ class Task extends Component {
     e.preventDefault();
     let id = this.props.id;
     this.props.onTaskDelete(id);
-    console.log('deleted');
   }
 
   render() {
     return (
       <div>
-        <a href='#' onClick={ this.deleteTask }>{this.props.title}</a>
+        <p>{this.props.title}</p>
+        <a href='#' onClick={ this.deleteTask }>delete {this.props.title}</a>
+        <TaskDetail
+          title={this.props.title}
+          id={this.props.id}/>
       </div>
     )
   }

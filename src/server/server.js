@@ -59,15 +59,15 @@ app.post("/api/tasks", function(req, res) {
   });
 });
 
-app.get("/api/tasks/:id", function(req, res) {
-  db.collection(TASK_COLLECTION).findOne({ _id: new ObjectID(req.params.id) }, function(err, doc) {
-    if (err) {
-      handleError(res, err.message, "Failed to get task");
-    } else {
-      res.status(200).json(doc);
-    }
-  });
-});
+// app.get("/api/tasks/:id", function(req, res) {
+//   db.collection(TASK_COLLECTION).findOne({ _id: new ObjectID(req.params.id) }, function(err, doc) {
+//     if (err) {
+//       handleError(res, err.message, "Failed to get task");
+//     } else {
+//       res.status(200).json(doc);
+//     }
+//   });
+// });
 
 app.delete("/api/tasks/:id", function(req, res) {
   db.collection(TASK_COLLECTION).deleteOne({_id: new ObjectID(req.params.id)}, function(err, result) {
