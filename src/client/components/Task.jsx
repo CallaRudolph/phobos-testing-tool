@@ -1,57 +1,23 @@
 import React, { Component } from "react";
-import TaskList from './TaskList.jsx';
 import axios from 'axios';
 
 class Task extends Component {
   constructor(props) {
     super(props);
-    this.state = {value: '', data: []};
-    this.loadTasksFromServer = this.loadTasksFromServer.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.deleteTask = this.deleteTask.bind(this);
   }
 
-  loadTasksFromServer() {
-    axios.get('http://localhost:3000/api/tasks')
-    .then(res => {
-      this.setState({ data: res.data });
-    })
-  }
-
-  handleChange(event) {
-    this.setState({value: event.target.value});
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-    let tasks = this.state.data;
-    var task = {'title': this.state.value};
-    axios.post('http://localhost:3000/api/tasks', task)
-    .catch(err => {
-      console.error(err);
-    });
-  }
-
-  componentDidMount() {
-    this.loadTasksFromServer();
-    setInterval(this.loadTasksFromServer, 2000);
+  deleteTask(e) {
+    e.preventDefault();
+    let id = this.props.id;
+    this.props.onTaskDelete(id);
+    console.log('deleted');
   }
 
   render() {
-    var allTasks = this.state.data;
-    let taskNodes = allTasks.map(task => {
-      return (task)
-    });
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            placeholder="enter a task" type="text" value={this.state.value} onChange={this.handleChange} />
-          <br/>
-          <input type="submit" value="submit" />
-        </form>
-        <TaskList
-          data={ taskNodes }/>
+        <a href='#' onClick={ this.deleteTask }>{this.props.title}</a>
       </div>
     )
   }

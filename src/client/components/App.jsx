@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import Task from './Task.jsx';
+import TaskInput from './TaskInput.jsx';
 
 class App extends Component {
   render() {
     return (
       <div>
         <h2>Hello, world.</h2>
-        <Task/>
+        <TaskInput/>
       </div>
     )
   }
