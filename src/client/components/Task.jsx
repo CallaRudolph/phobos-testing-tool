@@ -13,7 +13,8 @@ class Task extends Component {
         <h3>{this.props.title}</h3>
         <TaskDetail
           id={this.props.id}
-          time={this.props.time}/>
+          time={this.props.time}
+          details={this.props.details}/>
         <TaskDelete
           onTaskDelete={this.props.onTaskDelete}
           id={this.props.id}/>

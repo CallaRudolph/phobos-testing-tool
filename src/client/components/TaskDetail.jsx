@@ -30,7 +30,8 @@ class TaskDetail extends Component {
     } else {
       formAreaContent =
         <div>
-          <p>{this.props.time}</p>
+          <p>complete: {this.props.time}</p>
+          <p>details: {this.props.details}</p>
           <a href='#' onClick={ this.hideTaskDetails }>hide info</a>
         </div>
     }

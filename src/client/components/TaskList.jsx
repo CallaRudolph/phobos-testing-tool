@@ -14,6 +14,7 @@ class TaskList extends Component {
           id={ task._id }
           title={ task.title }
           time={ task.time }
+          details={ task.details}
           onTaskDelete={this.props.onTaskDelete}/>
       )
     });
