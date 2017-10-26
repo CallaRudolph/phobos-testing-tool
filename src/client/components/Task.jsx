@@ -1,23 +1,19 @@
 import React, { Component } from "react";
 import TaskDetail from './TaskDetail.jsx';
+import TaskDelete from './TaskDelete.jsx';
 
 class Task extends Component {
   constructor(props) {
     super(props);
-    this.deleteTask = this.deleteTask.bind(this);
-  }
-
-  deleteTask(e) {
-    e.preventDefault();
-    let id = this.props.id;
-    this.props.onTaskDelete(id);
   }
 
   render() {
     return (
       <div>
         <p>{this.props.title}</p>
-        <a href='#' onClick={ this.deleteTask }>delete {this.props.title}</a>
+        <TaskDelete
+          onTaskDelete={this.props.onTaskDelete}
+          id={this.props.id}/>
         <TaskDetail
           title={this.props.title}
           id={this.props.id}/>
