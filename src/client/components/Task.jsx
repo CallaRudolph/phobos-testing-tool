@@ -10,13 +10,13 @@ class Task extends Component {
   render() {
     return (
       <div>
-        <p>{this.props.title}</p>
+        <h3>{this.props.title}</h3>
+        <TaskDetail
+          id={this.props.id}/>
         <TaskDelete
           onTaskDelete={this.props.onTaskDelete}
           id={this.props.id}/>
-        <TaskDetail
-          title={this.props.title}
-          id={this.props.id}/>
+          <hr/>
       </div>
     )
   }

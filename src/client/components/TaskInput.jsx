@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import TaskList from './TaskList.jsx';
 import axios from 'axios';
+import { Button } from "react-bootstrap";
 
 class TaskInput extends Component {
   constructor(props) {
@@ -60,8 +61,8 @@ class TaskInput extends Component {
         <form onSubmit={this.handleSubmit}>
           <input
             placeholder="enter a task" type="text" value={this.state.value} onChange={this.handleChange} />
-          <br/>
-          <input type="submit" value="submit" />
+            <br/>
+            <Button bsStyle="info" bsSize="xsmall" type="submit">submit</Button>
         </form>
         <TaskList
           data={ taskNodes }

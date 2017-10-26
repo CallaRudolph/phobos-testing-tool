@@ -15,7 +15,7 @@ The lighthouse API which will be used to build to the database with site feedbac
 # The Project
 - [ ] **Step 1: Scaffolding / Setup**
   - [x] Express
-  - [ ] MongoDB
+  - [x] MongoDB
   - [x] React
   - [ ] Mocha/Chai
   - [ ] Heroku

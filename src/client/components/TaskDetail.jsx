@@ -26,12 +26,12 @@ class TaskDetail extends Component {
     let formAreaContent;
     if (this.state.detailShowing === false) {
       formAreaContent =
-        <a href='#' onClick={ this.viewTaskDetails }>more info on {this.props.title}</a>
+        <a href='#' onClick={ this.viewTaskDetails }>more info</a>
     } else {
       formAreaContent =
         <div>
           <p>{this.props.id}</p>
-          <a href='#' onClick={ this.hideTaskDetails }>hide info</a>  
+          <a href='#' onClick={ this.hideTaskDetails }>hide info</a>
         </div>
     }
     return (
