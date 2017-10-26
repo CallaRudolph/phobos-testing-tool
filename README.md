@@ -39,3 +39,9 @@ The lighthouse API which will be used to build to the database with site feedbac
   - [ ] Create Basic UX / Component Map for Displaying Results of Multiple Sites Reviewed
   - [ ] Write Unit Tests for Displaying Sites and Lighthouse Page Audits
   - [ ] Write React Components to Display Results and Pass Tests
+
+# Setup
+1. `npm install`
+2. `npm run webpack` (1st window to watch for changes and rebuild)
+3. `npm run start` (2nd window to run nodemon/express server)
+4. `mongod` (3rd window to start local mongoDB server)
