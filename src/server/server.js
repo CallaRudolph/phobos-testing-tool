@@ -32,6 +32,7 @@ function handleError(res, reason, message, code) {
   res.status(code || 500).json({"error": message});
 }
 
+// Get request to view all tasks
 app.get('/api/tasks', function(req, res) {
   db.collection(TASK_COLLECTION).find({}).sort({title: 1}).toArray(function(err, docs) {
     if (err) {
@@ -42,6 +43,7 @@ app.get('/api/tasks', function(req, res) {
   });
 });
 
+// Post request to add new task
 app.post("/api/tasks", function(req, res) {
   var newTask = req.body;
   newTask.createDate = new Date();
@@ -69,6 +71,7 @@ app.post("/api/tasks", function(req, res) {
 //   });
 // });
 
+// Delete request to remove task
 app.delete("/api/tasks/:id", function(req, res) {
   db.collection(TASK_COLLECTION).deleteOne({_id: new ObjectID(req.params.id)}, function(err, result) {
     if (err) {

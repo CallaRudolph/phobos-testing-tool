@@ -8,6 +8,7 @@ class Task extends Component {
   }
 
   render() {
+    // continues path for Delete function
     return (
       <div>
         <h3>{this.props.title}</h3>

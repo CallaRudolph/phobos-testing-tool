@@ -6,6 +6,7 @@ import { Button } from "react-bootstrap";
 class TaskInput extends Component {
   constructor(props) {
     super(props);
+    // each new mongo field needs an initial empty state for React
     this.state = { title: '', time: '', details: '', data: []};
     this.loadTasksFromServer = this.loadTasksFromServer.bind(this);
     this.handleTaskChange = this.handleTaskChange.bind(this);
@@ -16,12 +17,14 @@ class TaskInput extends Component {
   }
 
   loadTasksFromServer() {
+    // makes axios Get request to save all data into state
     axios.get('http://localhost:3000/api/tasks')
     .then(res => {
       this.setState({ data: res.data });
     })
   }
 
+  // each new mongo input field needs state change handler as JSON
   handleTaskChange(event) {
     this.setState({title: event.target.value});
   }
@@ -36,8 +39,9 @@ class TaskInput extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    let tasks = this.state.data;
+    // retrieves input state
     var task = {'title': this.state.title, 'time': this.state.time, 'details': this.state.details};
+    // sends axios Post request with new input to mongo
     axios.post('http://localhost:3000/api/tasks', task)
     .catch(err => {
       console.error(err);
@@ -48,6 +52,7 @@ class TaskInput extends Component {
   }
 
   handleTaskDelete(id) {
+    // id sent from Delete comp to create axios Delete request
     axios.delete('http://localhost:3000/api/tasks/' + id)
     .then(res => {
       console.log(res);
@@ -58,12 +63,15 @@ class TaskInput extends Component {
   }
 
   componentDidMount() {
+    // loads all tasks from axios Get request when comp loads
     this.loadTasksFromServer();
     setInterval(this.loadTasksFromServer, 2000);
   }
 
   render() {
+    // retrieves all tasks stored to state
     var allTasks = this.state.data;
+    // maps out each task to send to TaskList child comp
     let taskNodes = allTasks.map(task => {
       return (task)
     });

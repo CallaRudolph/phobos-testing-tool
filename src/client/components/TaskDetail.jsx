@@ -10,6 +10,7 @@ class TaskDetail extends Component {
     };
   }
 
+  // toggle for detail view w/ boolean state
   viewTaskDetails() {
     this.setState({
       detailShowing: true
@@ -23,6 +24,7 @@ class TaskDetail extends Component {
   }
 
   render() {
+    // formAreaContent for render return value based on boolean
     let formAreaContent;
     if (this.state.detailShowing === false) {
       formAreaContent =

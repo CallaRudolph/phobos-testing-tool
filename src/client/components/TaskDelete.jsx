@@ -9,6 +9,7 @@ class TaskDelete extends Component {
   deleteTask(e) {
     e.preventDefault();
     let id = this.props.id;
+    // sends delete request to parent TaskInput component
     this.props.onTaskDelete(id);
   }
 

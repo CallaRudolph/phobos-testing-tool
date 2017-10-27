@@ -7,6 +7,7 @@ class TaskList extends Component {
   }
 
   render() {
+    // maps out each piece of one task; sends Delete function down
     let taskNodes = this.props.data.map(task => {
       return (
         <Task
