@@ -2,7 +2,7 @@
 A project to automate basic testing of websites using google lighthouse API.
 
 # Packages, APIS, and Such
-- https://www.npmjs.com/package/simplecrawler 
+- https://www.npmjs.com/package/simplecrawler
 This can be used to crawl a url for all the sites on a domain
 
 - https://github.com/GoogleChrome/lighthouse#using-programmatically
@@ -14,9 +14,9 @@ The lighthouse API which will be used to build to the database with site feedbac
 
 # The Project
 - [ ] **Step 1: Scaffolding / Setup**
-  - [ ] Express
-  - [ ] MongoDB
-  - [ ] React
+  - [x] Express
+  - [x] MongoDB
+  - [x] React
   - [ ] Mocha/Chai
   - [ ] Heroku
   - [ ] TravisCI
@@ -39,3 +39,17 @@ The lighthouse API which will be used to build to the database with site feedbac
   - [ ] Create Basic UX / Component Map for Displaying Results of Multiple Sites Reviewed
   - [ ] Write Unit Tests for Displaying Sites and Lighthouse Page Audits
   - [ ] Write React Components to Display Results and Pass Tests
+
+# Setup
+
+**MongoDB Installation (with Homebrew)**
+1. `brew install mongodb`
+2. `sudo mkdir -p /data/db` (configures local data storage)
+3. `sudo chown -R `id -un` /data/db` (provides access to store data locally)
+
+**Development**
+1. `npm install -g nodemon` (monitors changes in src file and restarts server as needed)
+2. `npm install`
+3. `npm run webpack` (1st window to watch for changes and rebuild)
+4. `npm run start` (2nd window to run nodemon/express server)
+5. `mongod` (3rd window to start local mongoDB server)
