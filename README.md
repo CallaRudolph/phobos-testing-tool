@@ -41,7 +41,15 @@ The lighthouse API which will be used to build to the database with site feedbac
   - [ ] Write React Components to Display Results and Pass Tests
 
 # Setup
-1. `npm install`
-2. `npm run webpack` (1st window to watch for changes and rebuild)
-3. `npm run start` (2nd window to run nodemon/express server)
-4. `mongod` (3rd window to start local mongoDB server)
+
+**MongoDB Installation (with Homebrew)**
+1. `brew install mongodb`
+2. `sudo mkdir -p /data/db` (configures local data storage)
+3. `sudo chown -R `id -un` /data/db` (provides access to store data locally)
+
+**Development**
+1. `npm install -g nodemon` (monitors changes in src file and restarts server as needed)
+2. `npm install`
+3. `npm run webpack` (1st window to watch for changes and rebuild)
+4. `npm run start` (2nd window to run nodemon/express server)
+5. `mongod` (3rd window to start local mongoDB server)
