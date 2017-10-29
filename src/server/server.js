@@ -4,6 +4,16 @@ var bodyParser = require('body-parser');
 var Mongoose = require('mongoose');
 const path = require('path');
 var ObjectID = mongodb.ObjectID;
+let morgan = require('morgan');
+let port = 8080;
+let task = require('../app/routes/task'); //maybe this is components instead?
+let config = require('config');
+
+//db options
+let options = {
+  server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
+  replset: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }
+}
 
 var TASK_COLLECTION = 'tasks';
 
@@ -13,14 +23,45 @@ app.use(bodyParser.json());
 
 app.use(express.static(__dirname + './../../'));
 
-var mongoDB = 'mongodb://127.0.0.1/my_database';
+// var mongoDB = 'mongodb://127.0.0.1/my_database';
+// comes from config file now w/ testing
+// Mongoose.connect(mongoDB);
 
-Mongoose.connect(mongoDB);
+//db connection
+Mongoose.connect(config.DBHost, options);
 
 var db = Mongoose.connection;
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
+//don't show the log when it is test
+if(config.util.getEnv('NODE_ENV') !== 'test') {
+  //use morgan to log at command line
+  app.use(morgan('combined')); //'combined' outputs the Apache style LOGs
+}
+
+//pase application/json and look for raw text
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.text());
+app.use(bodyParser.json({ type: 'application/json'}));
+
+app.get("/", (req, res) => res.json({message: "Welcome to the task list"}));
+//maybe this can be component paths??
+app.route("/task")
+  .get(task.getTasks)
+  .post(task.postTask);
+app.route("/task/:id")
+  .get(task.getTask)
+  .delete(task.deleteTask)
+  .put(task.updateTask);
+
+app.listen(port);
+console.log("listening on port " + port);
+
+module.exports = app; //for testing
+
+// pre mocha //\\\\\\\\\\\\\\\\\\\\\\\\\
 var server = app.listen(process.env.PORT || 3000, function (){
   var port = server.address().port;
   console.log("app now running on port", port);
