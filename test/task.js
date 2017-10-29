@@ -29,7 +29,28 @@ describe('Tasks', () => {
           res.should.have.status(200);
           res.body.should.be.a('array');
           res.body.length.should.be.eql(0);
-          done();
+        done();
+      });
+    });
+  });
+
+  //test the /POST route
+  describe('/POST task', () => {
+    it('it should not POST a task without details field', (done) => {
+      let task = {
+        title: "wash dishes",
+        time: "never"
+      }
+      chai.request(server)
+        .post('/task')
+        .send(task)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('errors');
+          res.body.errors.should.have.property('details');
+          res.body.errors.details.should.have.property('kind').eql('required');
+        done();
       });
     });
   });
