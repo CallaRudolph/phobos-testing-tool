@@ -17,7 +17,7 @@ The lighthouse API which will be used to build to the database with site feedbac
   - [x] Express
   - [x] MongoDB
   - [x] React
-  - [ ] Mocha/Chai
+  - [x] Mocha/Chai
   - [ ] Heroku
   - [ ] TravisCI
 - [ ] **Step 2: Crawling**
