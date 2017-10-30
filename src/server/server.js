@@ -37,7 +37,7 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
   // });
 });
 
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+// db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 //parse application/json and look for raw text
 app.use(bodyParser.urlencoded({extended: true}));
