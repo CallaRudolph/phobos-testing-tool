@@ -53,6 +53,25 @@ describe('Tasks', () => {
         done();
       });
     });
+    it('it should POST a task ', (done) => {
+      let task = {
+        title: "give dog a bath",
+        time: "next week",
+        details: "scrub a dub dub"
+      }
+      chai.request(server)
+        .post('/task')
+        .send(task)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.a.property('message').eql('task successfully added');
+          res.body.task.should.have.property('title');
+          res.body.task.should.have.property('time');
+          res.body.task.should.have.property('details');
+        done();
+      });
+    });
   });
 
 });
