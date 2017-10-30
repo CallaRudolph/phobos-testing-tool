@@ -7,7 +7,7 @@
     "start": "node src/server/server.js",
     "webpack": "./node_modules/.bin/webpack -w",
     "test": "mocha",
-    "build": "webpack --config webpack.config.js"
+    "build": "webpack --config webpack.prod.config.js"
   },
   "repository": {
     "type": "git",
