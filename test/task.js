@@ -74,4 +74,25 @@ describe('Tasks', () => {
     });
   });
 
+  //test the /GET/:id route
+  describe('/GET/:id task', () => {
+    it('it should GET a task by the given id', (done) => {
+      let task = new Task({ title: "give dog a bath", time: "next week", details: "scrub a dub dub" });
+      task.save((err, task) => {
+        chai.request(server)
+        .get('/task/' + task.id)
+        .send(task)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('title');
+          res.body.should.have.property('time');
+          res.body.should.have.property('details');
+          res.body.should.have.property('_id').eql(task.id);
+        done();
+        });
+      });
+    });
+  });
+
 });
