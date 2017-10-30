@@ -13,7 +13,7 @@ var app = express();
 
 app.use(bodyParser.json());
 
-app.use(express.static(__dirname + './../../'));
+app.use(express.static(__dirname + './../../build'));
 
 // var mongoDB = 'mongodb://127.0.0.1/my_database';
 // Mongoose.connect(mongoDB);
