@@ -15,10 +15,27 @@ app.use(bodyParser.json());
 
 app.use(express.static(__dirname + './../../'));
 
-var mongoDB = 'mongodb://127.0.0.1/my_database';
-Mongoose.connect(mongoDB);
+// var mongoDB = 'mongodb://127.0.0.1/my_database';
+// Mongoose.connect(mongoDB);
+//
+// var db = Mongoose.connection;
 
-var db = Mongoose.connection;
+var db ;
+
+mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
+  if (err) {
+    console.log(err);
+    process.exit(1);
+  }
+//
+  db = database;
+  console.log("Database connection ready");
+//
+  // var server = app.listen(process.env.PORT || 8080, function () {
+  //   var port = server.address().port;
+  //   console.log("App now running on port", port);
+  // });
+});
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
