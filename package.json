@@ -4,7 +4,7 @@
   "description": "A project to automate basic testing of websites using google lighthouse API",
   "main": "src/client/index.jsx",
   "scripts": {
-    "start": "nodemon src/server/server.js",
+    "start": "node src/server/server.js",
     "webpack": "./node_modules/.bin/webpack -w",
     "test": "mocha"
   },
