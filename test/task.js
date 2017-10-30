@@ -95,4 +95,25 @@ describe('Tasks', () => {
     });
   });
 
+  //skipping the PUT/:id test
+
+  //test the /DELETE/:id route
+  describe('/DELETE/:id task', () => {
+    it('it should DELETE a task given the id', (done) => {
+      let task = new Task({title: "eat a sandwich", time: "daily", details: "BLT avocado"})
+      task.save((err, task) => {
+        chai.request(server)
+        .delete('/task/' + task.id)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('message').eql('task successfully deleted');
+          res.body.result.should.have.property('ok').eql(1);
+          res.body.result.should.have.property('n').eql(1);
+        done();
+        });
+      });
+    });
+  });
+
 });
