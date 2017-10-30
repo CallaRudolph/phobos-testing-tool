@@ -19,7 +19,7 @@ The lighthouse API which will be used to build to the database with site feedbac
   - [x] React
   - [x] Mocha/Chai
   - [ ] Heroku
-  - [ ] TravisCI
+  - [x] TravisCI
 - [ ] **Step 2: Crawling**
   - [ ] Crawl Unit Tests Written and Failing
   - [ ] SimpleCrawler Implementation and Tests Passing
