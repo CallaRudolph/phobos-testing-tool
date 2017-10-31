@@ -13,12 +13,12 @@ The lighthouse API which will be used to build to the database with site feedbac
 - https://travis-ci.org/ Travis CI
 
 # The Project
-- [ ] **Step 1: Scaffolding / Setup**
+- [x] **Step 1: Scaffolding / Setup**
   - [x] Express
   - [x] MongoDB
   - [x] React
   - [x] Mocha/Chai
-  - [ ] Heroku
+  - [x] Heroku
   - [x] TravisCI
 - [ ] **Step 2: Crawling**
   - [ ] Crawl Unit Tests Written and Failing
