@@ -5,9 +5,8 @@
   "main": "src/client/index.jsx",
   "scripts": {
     "start": "node src/server/server.js",
-    "webpack": "./node_modules/.bin/webpack -w",
-    "test": "mocha",
-    "build": "webpack --config webpack.prod.config.js"
+    "build": "./node_modules/.bin/webpack",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",

@@ -20,6 +20,10 @@ app.use(express.static(__dirname + 'build'));
 //
 // var db = Mongoose.connection;
 
+app.get('/', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+});
+
 var db ;
 
 mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
