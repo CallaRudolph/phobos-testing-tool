@@ -31,7 +31,12 @@ app.use(express.static(__dirname + './../../'));
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect(process.env.MONGODB_URI);
+if(process.env.MONGODB_URI) {
+  mongoose.connect(process.env.MONGODB_URI);
+} else {
+  var mongoDB = 'mongodb://127.0.0.1/my_database';
+  mongoose.connect(mongoDB);
+}
 
 var db = mongoose.connection;
 
