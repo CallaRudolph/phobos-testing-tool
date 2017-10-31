@@ -57,6 +57,16 @@ function handleError(res, reason, message, code) {
   res.status(code || 500).json({"error": message});
 }
 
+app.get('/tasks', function(req, res) {
+  db.collection(TASK_COLLECTION).find({}).sort({title: 1}).toArray(function(err, docs) {
+    if (err) {
+      handleError(res, err.message, "Failed to get tasks.");
+    } else {
+      res.status(200).json(docs);
+    }
+  });
+});
+
 app.get("/", (req, res) => res.json({message: "Welcome to the task list"}));
 app.route("/tasks")
   .get(task.getTasks)
