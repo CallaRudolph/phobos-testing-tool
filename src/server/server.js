@@ -2,8 +2,6 @@ var express = require('express');
 var mongodb = require('mongodb');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-const path = require('path');
-var ObjectID = mongodb.ObjectID;
 
 let task = require('../app/routes/task');
 

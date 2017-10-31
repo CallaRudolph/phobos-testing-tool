@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/CallaRudolph/phobos-testing-tool.svg?branch=develop)](https://travis-ci.org/CallaRudolph/phobos-testing-tool)
+
 # phobos-testing-tool
 A project to automate basic testing of websites using google lighthouse API.
 

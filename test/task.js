@@ -24,7 +24,7 @@ describe('Tasks', () => {
   describe('/GET task', () => {
     it('it should GET all the tasks', (done) => {
       chai.request(server)
-      .get('/task')
+      .get('/tasks')
       .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('array');
@@ -42,7 +42,7 @@ describe('Tasks', () => {
         time: "never"
       }
       chai.request(server)
-        .post('/task')
+        .post('/tasks')
         .send(task)
         .end((err, res) => {
           res.should.have.status(200);
@@ -60,7 +60,7 @@ describe('Tasks', () => {
         details: "scrub a dub dub"
       }
       chai.request(server)
-        .post('/task')
+        .post('/tasks')
         .send(task)
         .end((err, res) => {
           res.should.have.status(200);
@@ -80,7 +80,7 @@ describe('Tasks', () => {
       let task = new Task({ title: "give dog a bath", time: "next week", details: "scrub a dub dub" });
       task.save((err, task) => {
         chai.request(server)
-        .get('/task/' + task.id)
+        .get('/tasks/' + task.id)
         .send(task)
         .end((err, res) => {
           res.should.have.status(200);
@@ -103,7 +103,7 @@ describe('Tasks', () => {
       let task = new Task({title: "eat a sandwich", time: "daily", details: "BLT avocado"})
       task.save((err, task) => {
         chai.request(server)
-        .delete('/task/' + task.id)
+        .delete('/tasks/' + task.id)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
