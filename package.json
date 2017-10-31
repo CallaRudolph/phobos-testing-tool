@@ -5,6 +5,7 @@
   "main": "src/client/index.jsx",
   "scripts": {
     "start": "node src/server/server.js",
+    "webpack": "./node_modules/.bin/webpack -w",
     "heroku-postbuild": "webpack --progress",
     "test": "mocha"
   },
