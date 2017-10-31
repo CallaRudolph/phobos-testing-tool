@@ -17,16 +17,6 @@ app.use(bodyParser.json({ type: 'application/json'}));
 
 app.use(express.static(__dirname + './../../'));
 
-// mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
-//   if (err) {
-//     console.log(err);
-//     process.exit(1);
-//   }
-//
-//   db = database;
-//   console.log("Database connection ready");
-// });
-
 mongoose.Promise = global.Promise;
 
 if(process.env.MONGODB_URI) {

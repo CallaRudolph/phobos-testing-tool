@@ -95,8 +95,6 @@ describe('Tasks', () => {
     });
   });
 
-  //skipping the PUT/:id test
-
   //test the /DELETE/:id route
   describe('/DELETE/:id task', () => {
     it('it should DELETE a task given the id', (done) => {
