@@ -31,21 +31,21 @@ Mongoose.Promise = global.Promise
 Mongoose.connect(uri);
 
 var db = Mongoose.connection;
-
-mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
-  if (err) {
-    console.log(err);
-    process.exit(1);
-  }
-
-  db = database;
-  console.log("Database connection ready");
-
-  var server = app.listen(process.env.PORT || 3000, function () {
-    var port = server.address().port;
-    console.log("app now running on port", port);
-  });
-});
+// 
+// mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
+//   if (err) {
+//     console.log(err);
+//     process.exit(1);
+//   }
+//
+//   db = database;
+//   console.log("Database connection ready");
+//
+//   var server = app.listen(process.env.PORT || 3000, function () {
+//     var port = server.address().port;
+//     console.log("app now running on port", port);
+//   });
+// });
 
 // Generic error handler used by all endpoints.
 function handleError(res, reason, message, code) {
