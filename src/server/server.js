@@ -46,10 +46,10 @@ function handleError(res, reason, message, code) {
 }
 
 app.get("/", (req, res) => res.json({message: "Welcome to the task list"}));
-app.route("/task")
+app.route("/tasks")
   .get(task.getTasks)
   .post(task.postTask);
-app.route("/task/:id")
+app.route("/tasks/:id")
   .get(task.getTask)
   .delete(task.deleteTask)
   .put(task.updateTask);
