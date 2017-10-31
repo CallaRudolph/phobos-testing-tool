@@ -24,6 +24,14 @@ app.use(express.static(__dirname + './../../'));
 //
 // var db = Mongoose.connection;
 
+var uri = 'mongodb://<dbuser>:<dbpassword>@ds229835.mlab.com:29835/phobos-testing-tool';
+
+Mongoose.Promise = global.Promise
+
+Mongoose.connect(uri);
+
+var db = Mongoose.connection;
+
 mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
   if (err) {
     console.log(err);
