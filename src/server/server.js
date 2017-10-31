@@ -31,6 +31,10 @@ Mongoose.Promise = global.Promise
 Mongoose.connect(uri);
 
 var db = Mongoose.connection;
+
+db.once('open', function() {
+  // yay
+});
 //
 // mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
 //   if (err) {
