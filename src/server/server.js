@@ -20,10 +20,6 @@ app.use(express.static(__dirname + 'build'));
 //
 // var db = Mongoose.connection;
 
-app.get('/', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
-});
-
 var db ;
 
 mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
@@ -58,7 +54,11 @@ function handleError(res, reason, message, code) {
   res.status(code || 500).json({"error": message});
 }
 
-app.get("/", (req, res) => res.json({message: "Welcome to the task list"}));
+app.get('/', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+});
+
+// app.get("/", (req, res) => res.json({message: "Welcome to the task list"}));
 app.route("/task")
   .get(task.getTasks)
   .post(task.postTask);
