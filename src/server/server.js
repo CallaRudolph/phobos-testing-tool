@@ -1,7 +1,7 @@
 var express = require('express');
 var mongodb = require('mongodb');
 var bodyParser = require('body-parser');
-var Mongoose = require('mongoose');
+var mongoose = require('mongoose');
 const path = require('path');
 var ObjectID = mongodb.ObjectID;
 
@@ -19,23 +19,6 @@ app.use(bodyParser.json({ type: 'application/json'}));
 
 app.use(express.static(__dirname + './../../'));
 
-// var mongoDB = 'mongodb://127.0.0.1/my_database';
-// Mongoose.connect(mongoDB);
-//
-// var db = Mongoose.connection;
-
-var uri = 'mongodb://Phobos:phobos@ds229835.mlab.com:29835/phobos-testing-tool';
-
-Mongoose.Promise = global.Promise
-
-Mongoose.connect(uri);
-
-var db = Mongoose.connection;
-
-db.once('open', function() {
-  // yay
-});
-//
 // mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
 //   if (err) {
 //     console.log(err);
@@ -44,28 +27,26 @@ db.once('open', function() {
 //
 //   db = database;
 //   console.log("Database connection ready");
-//
-//   var server = app.listen(process.env.PORT || 3000, function () {
-//     var port = server.address().port;
-//     console.log("app now running on port", port);
-//   });
 // });
+
+mongoose.Promise = global.Promise;
+
+mongoose.connect(process.env.MONGODB_URI);
+
+var db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'connection error:'));
+
+var server = app.listen(process.env.PORT || 3000, function () {
+  var port = server.address().port;
+  console.log("app now running on port", port);
+});
 
 // Generic error handler used by all endpoints.
 function handleError(res, reason, message, code) {
   console.log("ERROR: " + reason);
   res.status(code || 500).json({"error": message});
 }
-
-app.get('/tasks', function(req, res) {
-  db.collection(TASK_COLLECTION).find({}).sort({title: 1}).toArray(function(err, docs) {
-    if (err) {
-      handleError(res, err.message, "Failed to get tasks.");
-    } else {
-      res.status(200).json(docs);
-    }
-  });
-});
 
 app.get("/", (req, res) => res.json({message: "Welcome to the task list"}));
 app.route("/tasks")
