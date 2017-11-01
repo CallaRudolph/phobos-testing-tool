@@ -5,7 +5,7 @@ class App extends Component {
   render() {
     return (
       <div className='container'>
-        <h2>Hello, world.</h2>
+        <h2>Hello, world?</h2>
         <TaskInput/>
       </div>
     )

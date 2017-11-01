@@ -1,9 +1,7 @@
 var express = require('express');
 var mongodb = require('mongodb');
 var bodyParser = require('body-parser');
-var Mongoose = require('mongoose');
-const path = require('path');
-var ObjectID = mongodb.ObjectID;
+var mongoose = require('mongoose');
 
 let task = require('../app/routes/task');
 
@@ -13,20 +11,26 @@ var app = express();
 
 app.use(bodyParser.json());
 
-app.use(express.static(__dirname + './../../'));
-
-var mongoDB = 'mongodb://127.0.0.1/my_database';
-Mongoose.connect(mongoDB);
-
-var db = Mongoose.connection;
-
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
 //parse application/json and look for raw text
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({ type: 'application/json'}));
 
-var server = app.listen(process.env.PORT || 3000, function (){
+app.use(express.static(__dirname + './../../'));
+
+mongoose.Promise = global.Promise;
+
+if(process.env.MONGODB_URI) {
+  mongoose.connect(process.env.MONGODB_URI);
+} else {
+  var mongoDB = 'mongodb://127.0.0.1/my_database';
+  mongoose.connect(mongoDB);
+}
+
+var db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'connection error:'));
+
+var server = app.listen(process.env.PORT || 3000, function () {
   var port = server.address().port;
   console.log("app now running on port", port);
 });
@@ -38,10 +42,10 @@ function handleError(res, reason, message, code) {
 }
 
 app.get("/", (req, res) => res.json({message: "Welcome to the task list"}));
-app.route("/task")
+app.route("/tasks")
   .get(task.getTasks)
   .post(task.postTask);
-app.route("/task/:id")
+app.route("/tasks/:id")
   .get(task.getTask)
   .delete(task.deleteTask)
   .put(task.updateTask);

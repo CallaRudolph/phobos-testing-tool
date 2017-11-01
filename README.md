@@ -1,4 +1,7 @@
+[![Build Status](https://travis-ci.org/CallaRudolph/phobos-testing-tool.svg?branch=develop)](https://travis-ci.org/CallaRudolph/phobos-testing-tool)
+
 # phobos-testing-tool
+
 A project to automate basic testing of websites using google lighthouse API.
 
 # Packages, APIS, and Such
@@ -13,12 +16,12 @@ The lighthouse API which will be used to build to the database with site feedbac
 - https://travis-ci.org/ Travis CI
 
 # The Project
-- [ ] **Step 1: Scaffolding / Setup**
+- [x] **Step 1: Scaffolding / Setup**
   - [x] Express
   - [x] MongoDB
   - [x] React
   - [x] Mocha/Chai
-  - [ ] Heroku
+  - [x] Heroku
   - [x] TravisCI
 - [ ] **Step 2: Crawling**
   - [ ] Crawl Unit Tests Written and Failing
@@ -53,3 +56,13 @@ The lighthouse API which will be used to build to the database with site feedbac
 3. `npm run webpack` (1st window to watch for changes and rebuild)
 4. `npm run start` (2nd window to run nodemon/express server)
 5. `mongod` (3rd window to start local mongoDB server)
+
+**Heroku**
+1. Create a free Heroku account [here](https://signup.heroku.com/login).
+2. `brew install heroku/brew/heroku` (Heroku's CLI)
+3. `heroku login`
+4. `heroku create 'app name'`
+5. `heroku addons:create mongolab`
+6. `heroku addons:open mongolab`
+7. `git push heroku master`
+8. `heroku open`

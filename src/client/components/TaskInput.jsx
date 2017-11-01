@@ -18,7 +18,7 @@ class TaskInput extends Component {
 
   loadTasksFromServer() {
     // makes axios Get request to save all data into state
-    axios.get('http://localhost:3000/api/tasks')
+    axios.get('tasks')
     .then(res => {
       this.setState({ data: res.data });
     })
@@ -42,7 +42,7 @@ class TaskInput extends Component {
     // retrieves input state
     var task = {'title': this.state.title, 'time': this.state.time, 'details': this.state.details};
     // sends axios Post request with new input to mongo
-    axios.post('http://localhost:3000/api/tasks', task)
+    axios.post('tasks', task)
     .catch(err => {
       console.error(err);
     });
@@ -53,7 +53,7 @@ class TaskInput extends Component {
 
   handleTaskDelete(id) {
     // id sent from Delete comp to create axios Delete request
-    axios.delete('http://localhost:3000/api/tasks/' + id)
+    axios.delete('tasks/' + id)
     .then(res => {
       console.log(res);
     })
