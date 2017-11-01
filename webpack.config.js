@@ -5,7 +5,7 @@ var path = require('path');
 const BUILD_DIR = path.resolve(__dirname, './build');
 const APP_DIR = path.resolve(__dirname, './src/client');
 
-const config = {
+module.exports = {
   entry: {
     main: APP_DIR + '/index.jsx'
   },
@@ -36,7 +36,8 @@ const config = {
         }]
       }
     ],
+  },
+  node: {
+    fs: 'empty'
   }
 }
-
-module.exports = config;
