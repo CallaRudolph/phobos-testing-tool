@@ -48,7 +48,7 @@ The lighthouse API which will be used to build to the database with site feedbac
 **MongoDB Installation (with Homebrew)**
 1. `brew install mongodb`
 2. `sudo mkdir -p /data/db` (configures local data storage)
-3. `sudo chown -R `id -un` /data/db` (provides access to store data locally)
+3. `chmod -R a+rw /data/db` (provides access to store data locally)
 
 **Development**
 1. `npm install -g nodemon` (monitors changes in src file and restarts server as needed)
@@ -58,11 +58,15 @@ The lighthouse API which will be used to build to the database with site feedbac
 5. `mongod` (3rd window to start local mongoDB server)
 
 **Heroku**
-1. Create a free Heroku account [here](https://signup.heroku.com/login).
-2. `brew install heroku/brew/heroku` (Heroku's CLI)
-3. `heroku login`
-4. `heroku create 'app name'`
-5. `heroku addons:create mongolab`
-6. `heroku addons:open mongolab`
-7. `git push heroku master`
-8. `heroku open`
+1. `brew install ruby` (If you don't have Ruby)
+2. `sudo gem install travis -v 1.8.8 --no-rdoc --no-ri` (Travis CLI)
+3. Create a free Heroku account [here](https://signup.heroku.com/login).
+4. `brew install heroku/brew/heroku` (Heroku CLI)
+5. `heroku login`
+6. `heroku create 'app name'`
+7. `heroku addons:create mongolab`
+8. `heroku addons:open mongolab`
+9. `travis encrypt $(heroku auth:token) --add deploy.api_key` (adds your API key to .travis.yml)
+10. Update .travis.yml with your specific Heroku app name --> app: my-app-123
+11. Commit any changes you have made.
+12. `git push origin master`

@@ -1,11 +1,8 @@
 var express = require('express');
-var mongodb = require('mongodb');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 let task = require('../app/routes/task');
-
-var TASK_COLLECTION = 'tasks';
 
 var app = express();
 
