@@ -33,7 +33,6 @@
     "react": "^16.0.0",
     "react-bootstrap": "^0.31.5",
     "react-dom": "^16.0.0",
-    "simplecrawler": "^1.1.6",
     "webpack": "^2.6.0"
   },
   "devDependencies": {

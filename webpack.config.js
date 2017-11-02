@@ -3,11 +3,11 @@ var path = require('path');
 
 
 const BUILD_DIR = path.resolve(__dirname, './build');
-const APP_DIR = path.resolve(__dirname, './src/client');
+const APP_DIR = path.resolve(__dirname, './src');
 
 module.exports = {
   entry: {
-    main: APP_DIR + '/index.jsx'
+    main: APP_DIR + '/client/index.jsx'
   },
   output: {
     filename: 'bundle.js',
