@@ -16,7 +16,6 @@ function getUrls(req, res) {
 function postUrl(req, res) {
   console.log("Crawler running.....")
   var currentUrl = req.body.url;
-  var pages = [];
   var crawler = new Crawler().configure({
     shouldCrawl: function(url) {
       if (url.indexOf(currentUrl) < 0) {
@@ -40,7 +39,6 @@ function postUrl(req, res) {
     url: currentUrl,
     success: function(page) {
       console.log("page: " + page.url);
-      pages.push(page.url);
     },
     failure: function(page) {
       console.log(page.status);
@@ -48,7 +46,7 @@ function postUrl(req, res) {
     finished: function (crawledUrls) {
       console.log(crawledUrls);
       console.log(crawledUrls.length + " pages crawled");
-      res.status(200).json(pages);
+      res.status(200).json(crawledUrls);
     }
   });
 }

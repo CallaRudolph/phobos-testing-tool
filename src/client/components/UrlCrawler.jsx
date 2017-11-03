@@ -23,12 +23,13 @@ class UrlCrawler extends Component {
     var url = {'url': this.state.url};
     axios.post('/crawl', url)
     .then(function(response) {
-      console.log("hi");
-      this.state.url = '';
+      console.log("done");
+      console.log(response);
     })
     .catch(err => {
       console.error(err);
     });
+    this.setState({url: ''});
   }
 
   render() {
