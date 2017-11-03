@@ -1,4 +1,4 @@
-let Url = require('../models/urlModel');
+// let Url = require('../models/urlModel');
 var Crawler = require("js-crawler");
 
 // GET /crawl route to retrieve all the tasks.
@@ -14,18 +14,19 @@ function getUrls(req, res) {
 
 //POST /crawl to save a new site
 function postUrl(req, res) {
+  console.log("Crawler running.....")
   var currentUrl = req.body.url;
   var pages = [];
   var crawler = new Crawler().configure({
     shouldCrawl: function(url) {
       if (url.indexOf(currentUrl) < 0) {
-        return false;
+        return false; // does not allow crawling outside main site
       } else if (url.indexOf("google") > 0) {
-        return false;
+        return false; // does not include google links
       } else if (url.indexOf(".jpg") > 0) {
-        return false;
+        return false; // does not include .jpg links
       } else if (url.indexOf(".pdf") > 0) {
-        return false;
+        return false; // does not include .pdf links
       } else {
         return true;
       }
@@ -45,8 +46,8 @@ function postUrl(req, res) {
       console.log(page.status);
     },
     finished: function (crawledUrls) {
-      console.log(crawledUrls);
-      console.log("finished! " + pages);
+      // console.log(crawledUrls);
+      console.log("finished!!!!! " + pages);
     }
   });
   res.status(200);

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import { Button } from "react-bootstrap";
+import { postUrl } from "./../../app/routes/url";
+// import routes file to track changes in webpack
 
 class UrlCrawler extends Component {
   constructor(props) {
@@ -20,16 +22,19 @@ class UrlCrawler extends Component {
     event.preventDefault();
     var url = {'url': this.state.url};
     axios.post('/crawl', url)
+    .then(function(response) {
+      console.log("hi");
+      this.state.url = '';
+    })
     .catch(err => {
       console.error(err);
     });
-    this.state.url = '';
   }
 
   render() {
     return (
       <div>
-        <h2>crawling</h2>
+        <h2>crawling.</h2>
         <form onSubmit={this.handleSubmit}>
           <input
             placeholder="enter a url" type="text" value={this.state.url} onChange={this.handleUrlChange} />
