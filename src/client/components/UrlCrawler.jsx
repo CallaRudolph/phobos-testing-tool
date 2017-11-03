@@ -8,7 +8,8 @@ class UrlCrawler extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      url: ''
+      url: '',
+      data: []
     };
     this.handleUrlChange = this.handleUrlChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -21,15 +22,16 @@ class UrlCrawler extends Component {
   handleSubmit(event) {
     event.preventDefault();
     var url = {'url': this.state.url};
+    var crawlResponse = [];
     axios.post('/crawl', url)
     .then(function(response) {
       console.log("done");
-      console.log(response);
+      crawlResponse.push(response.data);
     })
     .catch(err => {
       console.error(err);
     });
-    this.setState({url: ''});
+    this.setState({url: '', data: crawlResponse});
   }
 
   render() {
