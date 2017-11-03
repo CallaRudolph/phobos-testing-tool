@@ -46,11 +46,11 @@ function postUrl(req, res) {
       console.log(page.status);
     },
     finished: function (crawledUrls) {
-      // console.log(crawledUrls);
-      console.log("finished!!!!! " + pages);
+      console.log(crawledUrls);
+      console.log(crawledUrls.length + " pages crawled");
+      res.status(200).json(pages);
     }
   });
-  res.status(200);
 }
 
 //export all the functions
