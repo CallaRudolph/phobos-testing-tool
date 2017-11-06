@@ -8,7 +8,7 @@ class App extends Component {
       <div className='container'>
         <h2>Hello, world!!</h2>
         <TaskInput/>
-      <UrlCrawler/>
+        <UrlCrawler/>
       </div>
     )
   }

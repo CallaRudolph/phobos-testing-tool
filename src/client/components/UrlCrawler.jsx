@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import { Button } from "react-bootstrap";
-import { postUrl } from "./../../app/routes/url";
-// import routes file to track changes in webpack
+import CrawlList from "./CrawlList.jsx";
+// import { postUrl } from "./../../app/routes/url";
+// << import routes file to track changes in webpack
 
 class UrlCrawler extends Component {
   constructor(props) {
@@ -22,28 +23,34 @@ class UrlCrawler extends Component {
   handleSubmit(event) {
     event.preventDefault();
     var url = {'url': this.state.url};
-    var crawlResponse = [];
     axios.post('/crawl', url)
     .then(function(response) {
-      console.log("done");
+      var crawlResponse = [];
       crawlResponse.push(response.data);
-    })
+      this.setState({url: ''});
+      this.setState({data: crawlResponse[0]});
+    }.bind(this)) //need the bind for axios post response to affect state
     .catch(err => {
       console.error(err);
     });
-    this.setState({url: '', data: crawlResponse});
   }
 
   render() {
+    var allCrawled = this.state.data;
+    let crawlNodes = allCrawled.map(url => {
+      return (url)
+    });
     return (
       <div>
-        <h2>crawling.</h2>
+        <h2>enter a url to crawl:</h2>
         <form onSubmit={this.handleSubmit}>
           <input
             placeholder="enter a url" type="text" value={this.state.url} onChange={this.handleUrlChange} />
             <Button bsStyle="success"
             bsSize="xsmall" type="submit">crawl</Button>
         </form>
+        <CrawlList
+          data={ crawlNodes }/>
       </div>
     )
   }
