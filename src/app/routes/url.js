@@ -15,7 +15,9 @@ function getUrls(req, res) {
 //POST /crawl to save a new site
 function postUrl(req, res) {
   console.log("Crawler running.....")
+  console.log(req.body);
   var currentUrl = req.body.url;
+
   var crawler = new Crawler().configure({
     shouldCrawl: function(url) {
       if (url.indexOf(currentUrl) < 0) {
@@ -46,18 +48,11 @@ function postUrl(req, res) {
     finished: function (crawledUrls) {
       console.log(crawledUrls);
       console.log(crawledUrls.length + " pages crawled");
+      var newUrl = new Url(req.body);
+      console.log(req.body);
       res.status(200).json(crawledUrls);
     }
   });
-  // var newUrl = new Url(req.body.url);
-  // newUrl.save((err,url) => {
-  //   if(err) {
-  //     res.send(err)
-  //   }
-  //   else {
-  //     res.json({message: "url successfully added", url})
-  //   }
-  // });
 }
 
 //export all the functions

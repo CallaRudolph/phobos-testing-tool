@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class Crawl extends Component {
+class Page extends Component {
   constructor(props) {
     super(props);
   }
@@ -14,4 +14,4 @@ class Crawl extends Component {
   }
 }
 
-export default Crawl;
+export default Page;

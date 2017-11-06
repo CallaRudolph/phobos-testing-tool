@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import { Button } from "react-bootstrap";
-import CrawlList from "./CrawlList.jsx";
-// import { postUrl } from "./../../app/routes/url";
-// << import routes file to track changes in webpack
+import PageList from "./PageList.jsx";
 
 class UrlCrawler extends Component {
   constructor(props) {
@@ -36,8 +34,8 @@ class UrlCrawler extends Component {
   }
 
   render() {
-    var allCrawled = this.state.data;
-    let crawlNodes = allCrawled.map(url => {
+    var crawledPages = this.state.data;
+    let pageNodes = crawledPages.map(url => {
       return (url)
     });
     return (
@@ -49,8 +47,8 @@ class UrlCrawler extends Component {
             <Button bsStyle="success"
             bsSize="xsmall" type="submit">crawl</Button>
         </form>
-        <CrawlList
-          data={ crawlNodes }/>
+        <PageList
+          data={ pageNodes }/>
       </div>
     )
   }

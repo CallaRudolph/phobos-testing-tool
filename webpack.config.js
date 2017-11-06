@@ -27,7 +27,7 @@ module.exports = {
       },
       {
         test: /\.(jsx|js)?$/,
-        exclude: /node_modules/,
+        exclude: /node_modules/, // watches routes file without error messages from node_modules
         use: [{
           loader: "babel-loader",
           options: {

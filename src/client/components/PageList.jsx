@@ -1,27 +1,27 @@
 import React, { Component } from "react";
-import Crawl from './Crawl.jsx';
+import Page from './Page.jsx';
 
-class CrawlList extends Component {
+class PageList extends Component {
   constructor(props) {
     super(props);
   }
 
   render() {
-    let crawlNodes = this.props.data.map(url => {
+    let pageNodes = this.props.data.map(url => {
       return (
-        <Crawl
+        <Page
           url={ url }
           key={ url }/>
       )
     });
     let formAreaContent;
-    if (crawlNodes.length === 0) {
+    if (pageNodes.length === 0) {
       formAreaContent = ''
     } else {
       formAreaContent =
         <div>
-          <h3>crawl response:</h3>
-          { crawlNodes }
+          <h3>pages found from crawler:</h3>
+          { pageNodes }
         </div>
     }
     return (
@@ -32,4 +32,4 @@ class CrawlList extends Component {
   }
 }
 
-export default CrawlList;
+export default PageList;
