@@ -5,7 +5,7 @@
 A project to automate basic testing of websites using google lighthouse API.
 
 # Packages, APIS, and Such
-- https://www.npmjs.com/package/simplecrawler
+- https://github.com/antivanov/js-crawler
 This can be used to crawl a url for all the sites on a domain
 
 - https://github.com/GoogleChrome/lighthouse#using-programmatically
@@ -25,7 +25,7 @@ The lighthouse API which will be used to build to the database with site feedbac
   - [x] TravisCI
 - [ ] **Step 2: Crawling**
   - [ ] Crawl Unit Tests Written and Failing
-  - [ ] SimpleCrawler Implementation and Tests Passing
+  - [ ] js-crawler Implementation and Tests Passing
 - [ ] **Step 3: Lighthouse API Integration**
   - [ ] Lighthouse API Unit Tests Written and Failing
   - [ ] Lighthouse API Integrated and Basic Tests Passing
