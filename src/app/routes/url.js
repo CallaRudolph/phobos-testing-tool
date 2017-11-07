@@ -48,7 +48,12 @@ function postUrl(req, res) {
     finished: function (crawledUrls) {
       console.log(crawledUrls);
       console.log(crawledUrls.length + " pages crawled");
-      res.status(200).json(crawledUrls);
+      var error = ["the crawler couldn't find anything with that url, check it again"];
+      if (crawledUrls.length === 0) {
+        res.status(200).json(error);
+      } else {
+        res.status(200).json(crawledUrls);
+      }
     }
   });
 }
