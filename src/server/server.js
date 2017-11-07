@@ -3,7 +3,8 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 let task = require('../app/routes/task');
-let url = require('../app/routes/url');
+let crawl = require('../app/routes/crawl');
+let lighthouse = require('../app/routes/lighthouse');
 
 var app = express();
 
@@ -48,7 +49,8 @@ app.route("/tasks/:id")
   .delete(task.deleteTask)
   .put(task.updateTask);
 app.route("/crawl")
-  .get(url.getUrls)
-  .post(url.postUrl);
+  .post(crawl.postCrawl);
+// app.route("/lighthouse")
+//   .post(lighthouse.postUrl);
 
 module.exports = app; //for testing

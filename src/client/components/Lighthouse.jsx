@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import { Button } from "react-bootstrap";
-import PageList from "./PageList.jsx";
 
-class UrlCrawler extends Component {
+class Lighthouse extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,12 +20,12 @@ class UrlCrawler extends Component {
   handleSubmit(event) {
     event.preventDefault();
     var url = {'url': this.state.url};
-    axios.post('/crawl', url)
+    axios.post('/lighthouse', url)
     .then(function(response) {
-      var crawlResponse = [];
-      crawlResponse.push(response.data);
-      this.setState({url: ''});
-      this.setState({data: crawlResponse[0]});
+      // var crawlResponse = [];
+      // crawlResponse.push(response.data);
+      // this.setState({url: ''});
+      // this.setState({data: crawlResponse[0]});
     }.bind(this)) //need the bind for axios post response to affect state
     .catch(err => {
       console.error(err);
@@ -34,24 +33,22 @@ class UrlCrawler extends Component {
   }
 
   render() {
-    var crawledPages = this.state.data;
-    let pageNodes = crawledPages.map(url => {
-      return (url)
-    });
+    // var crawledPages = this.state.data;
+    // let pageNodes = crawledPages.map(url => {
+    //   return (url)
+    // });
     return (
       <div>
-        <h3>Enter a url to crawl:</h3>
+        <h3>Enter a url for lighthouse:</h3>
         <form onSubmit={this.handleSubmit}>
           <input
             placeholder="https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
             <Button bsStyle="success"
             bsSize="xsmall" type="submit">crawl</Button>
         </form>
-        <PageList
-          data={ pageNodes }/>
       </div>
     )
   }
 }
 
-export default UrlCrawler;
+export default Lighthouse;
