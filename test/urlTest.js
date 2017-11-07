@@ -36,6 +36,18 @@ describe('Urls', () => {
 
   //test the /POST route
   describe('/POST url', () => {
+    it('it should return error message with faulty url input', (done) => {
+      let url = {
+        url: "http://maxobaxo.com",
+      }
+      chai.request(server)
+        .post('/crawl')
+        .send(url)
+        .end((err, res) => {
+
+        done();
+      });
+    });
     it('it should POST a url ', (done) => {
       let url = {
         url: "https://maxobaxo.com",
@@ -46,7 +58,10 @@ describe('Urls', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('array');
-
+          res.body.length.should.be.eql(35);
+          res.body.should.not.include('google');
+          res.body.should.not.include('.jpg');
+          res.body.should.not.include('.pdf');
         done();
       });
     });

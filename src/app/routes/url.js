@@ -48,8 +48,6 @@ function postUrl(req, res) {
     finished: function (crawledUrls) {
       console.log(crawledUrls);
       console.log(crawledUrls.length + " pages crawled");
-      var newUrl = new Url(req.body);
-      console.log(req.body);
       res.status(200).json(crawledUrls);
     }
   });

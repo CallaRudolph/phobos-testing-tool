@@ -24,9 +24,14 @@ class UrlCrawler extends Component {
     axios.post('/crawl', url)
     .then(function(response) {
       var crawlResponse = [];
+      var error = ["the crawler returned nothing, check your url"];
       crawlResponse.push(response.data);
       this.setState({url: ''});
-      this.setState({data: crawlResponse[0]});
+      if (crawlResponse[0].length === 0) {
+        this.setState({data: error});
+      } else {
+        this.setState({data: crawlResponse[0]});
+      }
     }.bind(this)) //need the bind for axios post response to affect state
     .catch(err => {
       console.error(err);
