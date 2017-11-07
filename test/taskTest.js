@@ -2,7 +2,7 @@
 process.env.NODE_ENV = 'test';
 
 var mongoose = require("mongoose");
-var Task = require('../src/app/models/task');
+var Task = require('../src/app/models/taskModel');
 
 //Require the dev-dependencies
 var chai = require('chai');

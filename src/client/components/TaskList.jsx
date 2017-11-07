@@ -21,7 +21,7 @@ class TaskList extends Component {
     });
     return (
       <div>
-        <h3>these are all of the tasks:</h3>
+        <h5>these are all of the tasks:</h5>
         { taskNodes }
       </div>
     )
