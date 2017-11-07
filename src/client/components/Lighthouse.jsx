@@ -43,8 +43,8 @@ class Lighthouse extends Component {
         <form onSubmit={this.handleSubmit}>
           <input
             placeholder="https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
-            <Button bsStyle="success"
-            bsSize="xsmall" type="submit">crawl</Button>
+            <Button bsStyle="warning"
+            bsSize="xsmall" type="submit">lighthouse it</Button>
         </form>
       </div>
     )
