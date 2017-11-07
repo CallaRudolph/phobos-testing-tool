@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import TaskInput from './TaskInput.jsx';
 import UrlCrawler from './UrlCrawler.jsx';
+import Lighthouse from './Lighthouse.jsx';
 
 class App extends Component {
   render() {
@@ -9,6 +10,7 @@ class App extends Component {
         <h2>Phobos Testing Tool</h2>
         <TaskInput/>
         <UrlCrawler/>
+        <Lighthouse/>
       </div>
     )
   }
