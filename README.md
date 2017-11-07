@@ -23,9 +23,9 @@ The lighthouse API which will be used to build to the database with site feedbac
   - [x] Mocha/Chai
   - [x] Heroku
   - [x] TravisCI
-- [ ] **Step 2: Crawling**
-  - [ ] Crawl Unit Tests Written and Failing
-  - [ ] js-crawler Implementation and Tests Passing
+- [x] **Step 2: Crawling**
+  - [x] Crawl Unit Tests Written and Failing
+  - [x] js-crawler Implementation and Tests Passing
 - [ ] **Step 3: Lighthouse API Integration**
   - [ ] Lighthouse API Unit Tests Written and Failing
   - [ ] Lighthouse API Integrated and Basic Tests Passing

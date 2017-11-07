@@ -14,9 +14,9 @@ function getUrls(req, res) {
 
 //POST /crawl to save a new site
 function postUrl(req, res) {
-  console.log("Crawler running.....")
-  console.log(req.body);
-  var currentUrl = req.body.url;
+  console.log("Crawler running...");
+  var currentUrl = req.body.url; // from user input
+  var pages = []; // dummy array that will be used to check for duplicate entries
 
   var crawler = new Crawler().configure({
     shouldCrawl: function(url) {
@@ -32,27 +32,30 @@ function postUrl(req, res) {
         return true;
       }
     },
-    depth: 3,
-    maxRequestsPerSecond: 10,
-    maxConcurrentRequests: 5
+    depth: 3, // depth to which links from original site will be crawled. 1 is low.
+    maxRequestsPerSecond: 10, // max # of HTTP requests per second that can be made by the crawler
+    maxConcurrentRequests: 5 // max # of concurrent requests that should not be exceeded by the crawler
   });
 
   crawler.crawl({
     url: currentUrl,
     success: function(page) {
-      console.log("page: " + page.url);
+      pages.push(page.url); // sends crawled Urls to dummy array
     },
     failure: function(page) {
-      console.log(page.status);
+      console.log(page.status + ": " + page.url); // 404 errors
     },
     finished: function (crawledUrls) {
-      console.log(crawledUrls);
-      console.log(crawledUrls.length + " pages crawled");
-      var error = ["the crawler couldn't find anything with that url, check it again"];
-      if (crawledUrls.length === 0) {
-        res.status(200).json(error);
+      // crawledUrls is array of what the crawler returns
+      var duplicateCheck = pages.concat(crawledUrls); // combines two separate arrays of all crawled urls
+      var set = new Set(duplicateCheck); // removes duplicates from combined array
+      noDuplicates = Array.from(set); //creates new array without duplicates
+
+      var error = ["The crawler couldn't find anything from " + currentUrl + ". Check the URL."]; // error message for invalid url inputs - no https, etc.
+      if (crawledUrls.length <= 1) {
+        res.status(200).json(error); // send error when crawler returns nothing
       } else {
-        res.status(200).json(crawledUrls);
+        res.status(200).json(noDuplicates); // send full list from crawler with no duplicates
       }
     }
   });

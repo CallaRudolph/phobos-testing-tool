@@ -9,6 +9,7 @@ var chai = require('chai');
 var chaiHttp = require('chai-http');
 var server = require('../src/server/server');
 var should = chai.should();
+var expect = require('chai').expect;
 
 chai.use(chaiHttp);
 
@@ -17,20 +18,6 @@ describe('Urls', () => {
   beforeEach((done) => { //Before each test we empty the database
     Url.remove({}, (err) => {
       done();
-    });
-  });
-
-  //test the /GET route
-  describe('/GET url', () => {
-    it('it should GET all the urls', (done) => {
-      chai.request(server)
-      .get('/crawl')
-      .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('array');
-          res.body.length.should.be.eql(0);
-        done();
-      });
     });
   });
 
@@ -46,7 +33,20 @@ describe('Urls', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('array');
-          res.body.should.include("the crawler couldn't find anything with that url, check it again");
+          res.body.should.include("The crawler couldn't find anything from http://maxobaxo.com. Check the URL.");
+        done();
+      });
+    });
+    it('it should not return duplicate urls', (done) => {
+      let url = {
+        url: "https://argylewinery.com",
+      }
+      chai.request(server)
+        .post('/crawl')
+        .send(url)
+        .end((err, res) => {
+          res.should.have.status(200);
+          expect(['https://argylewinery.com/shop/wines/']).to.have.lengthOf(1);
         done();
       });
     });

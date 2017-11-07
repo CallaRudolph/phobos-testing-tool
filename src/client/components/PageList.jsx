@@ -20,7 +20,7 @@ class PageList extends Component {
     } else {
       formAreaContent =
         <div>
-          <h3>pages found from crawler:</h3>
+          <h4>pages found from crawler:</h4>
           { pageNodes }
         </div>
     }
