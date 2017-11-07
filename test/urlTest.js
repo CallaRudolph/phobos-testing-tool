@@ -44,7 +44,9 @@ describe('Urls', () => {
         .post('/crawl')
         .send(url)
         .end((err, res) => {
-
+          res.should.have.status(200);
+          res.body.should.be.a('array');
+          res.body.should.include("the crawler couldn't find anything with that url, check it again");
         done();
       });
     });
