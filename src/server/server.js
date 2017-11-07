@@ -1,11 +1,9 @@
 var express = require('express');
-var mongodb = require('mongodb');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 let task = require('../app/routes/task');
-
-var TASK_COLLECTION = 'tasks';
+let url = require('../app/routes/url');
 
 var app = express();
 
@@ -49,5 +47,8 @@ app.route("/tasks/:id")
   .get(task.getTask)
   .delete(task.deleteTask)
   .put(task.updateTask);
+app.route("/crawl")
+  .get(url.getUrls)
+  .post(url.postUrl);
 
 module.exports = app; //for testing
