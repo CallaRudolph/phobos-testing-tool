@@ -1,4 +1,8 @@
 const lighthouse = require('lighthouse');
+self.setImmediate = function(callback, ...argsForCallback) {
+  Promise.resolve().then(() => callback(...argsForCallback));
+  return 0;
+}; // prevents '_destroySSL' error message during testing between lighthouse & crawler
 const chromeLauncher = require('chrome-launcher');
 
 function launchChromeAndRunLighthouse(url, flags = {}, config = null) {
