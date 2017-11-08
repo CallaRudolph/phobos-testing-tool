@@ -50,7 +50,7 @@ app.route("/tasks/:id")
   .put(task.updateTask);
 app.route("/crawl")
   .post(crawl.postCrawl);
-// app.route("/lighthouse")
-//   .post(lighthouse.postUrl);
+app.route("/lighthouse")
+  .post(lighthouse.postLighthouse);
 
 module.exports = app; //for testing

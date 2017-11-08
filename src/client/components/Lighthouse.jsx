@@ -22,9 +22,15 @@ class Lighthouse extends Component {
     var url = {'url': this.state.url};
     axios.post('/lighthouse', url)
     .then(function(response) {
+      console.log(response);
+      console.log("first meaningful paint: " + response.data.audits['first-meaningful-paint']['rawValue']);
+      console.log("perceptual speed index: " + response.data.audits['speed-index-metric']['rawValue']);
+      console.log("lighthouse score for performance: " + response.data.reportCategories[1].score);
+      console.log("lighthouse score for best practices: " + response.data.reportCategories[3].score);
+      console.log("lighthouse score for accessibility: " + response.data.reportCategories[2].score);
       // var crawlResponse = [];
       // crawlResponse.push(response.data);
-      // this.setState({url: ''});
+      this.setState({url: ''});
       // this.setState({data: crawlResponse[0]});
     }.bind(this)) //need the bind for axios post response to affect state
     .catch(err => {

@@ -20,7 +20,7 @@ class UrlCrawler extends Component {
   }
 
   handleSubmit(event) {
-    this.setState({pending: true});
+    this.setState({pending: true}); // alters state for pending crawler message
     event.preventDefault();
     var url = {'url': this.state.url};
     axios.post('/crawl', url)
@@ -41,7 +41,8 @@ class UrlCrawler extends Component {
     let pageNodes = crawledPages.map(url => {
       return (url)
     });
-    let crawlPending;
+
+    let crawlPending; // displays a pending message to let user know the crawler is running
     if (this.state.pending === false) {
       crawlPending = ''
     } else {
@@ -50,6 +51,7 @@ class UrlCrawler extends Component {
           <p>the crawler is running, results will show soon...</p>
         </div>
     }
+
     return (
       <div>
         <h3>Enter a url to crawl:</h3>
