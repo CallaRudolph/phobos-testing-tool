@@ -1,22 +1,24 @@
 import React, { Component } from "react";
-import Page from './Page.jsx';
 
-class PageList extends Component {
+class CrawlList extends Component {
   constructor(props) {
     super(props);
   }
 
   render() {
+    let pageNodes = this.props.data.map(url => {
+      return (
+          <p key={url}>{url}</p>
+      )
+    });
     let formAreaContent;
-    if (this.props.data.length === 0) {
+    if (pageNodes.length === 0) {
       formAreaContent = ''
     } else {
-      console.log(this.props.data);
       formAreaContent =
         <div>
-          <h4>lighthouse results:</h4>
-          <Page
-          data={this.props.data}/>
+          <h4>pages found from crawler:</h4>
+          { pageNodes }
         </div>
     }
     return (
@@ -27,4 +29,4 @@ class PageList extends Component {
   }
 }
 
-export default PageList;
+export default CrawlList;

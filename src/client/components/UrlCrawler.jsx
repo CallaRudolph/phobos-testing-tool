@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import { Button } from "react-bootstrap";
-import PageList from "./PageList.jsx";
+import CrawlList from "./CrawlList.jsx";
 
 class UrlCrawler extends Component {
   constructor(props) {
@@ -62,7 +62,7 @@ class UrlCrawler extends Component {
             bsSize="xsmall" type="submit">crawl</Button>
         </form>
         { crawlPending }
-        <PageList
+        <CrawlList
           data={ pageNodes }/>
       </div>
     )
