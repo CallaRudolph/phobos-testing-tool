@@ -11,10 +11,8 @@ class PageList extends Component {
     if (this.props.data.length === 0) {
       formAreaContent = ''
     } else {
-      console.log(this.props.data);
       formAreaContent =
         <div>
-          <h4>lighthouse results:</h4>
           <Page
           data={this.props.data}/>
         </div>
