@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Grid, Col, Row } from 'react-bootstrap';
+import PageDetail from './PageDetail.jsx';
 
 class Page extends Component {
   constructor(props) {
@@ -38,6 +39,8 @@ class Page extends Component {
             <p>Accessibility score: {accessibilityScore}</p>
           </Col>
         </Row>
+        <PageDetail
+          data={this.props.data}/>
       </Grid>
     )
   }
