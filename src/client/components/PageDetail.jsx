@@ -24,18 +24,22 @@ class PageDetail extends Component {
   }
 
   render() {
-    let url = this.props.data.initialUrl;
-    let progressiveWebApp = this.props.data.reportCategories[0].name;
-    let pwaDescription = this.props.data.reportCategories[0].description;
-    let performance = this.props.data.reportCategories[1].name;
-    let perfDescription = this.props.data.reportCategories[1].description;
-    let firstPaint = this.props.data.audits['first-meaningful-paint']['displayValue'];
-    let speedScore = this.props.data.audits['speed-index-metric']['score'];
-    let optimalSpeed = this.props.data.audits['speed-index-metric']['optimalValue'];
-    let accessibility = this.props.data.reportCategories[2].name;
-    let accDescription = this.props.data.reportCategories[2].description;
-    let bestPractices = this.props.data.reportCategories[3].name;
-    let bpDescription = this.props.data.reportCategories[3].description;
+    let data = this.props.data;
+    let url = data.initialUrl;
+    let reports = data.reportCategories;
+    let audits = data.audits;
+
+    let progressiveWebApp = reports[0].name;
+    let pwaDescription = reports[0].description;
+    let performance = reports[1].name;
+    let perfDescription = reports[1].description;
+    let firstPaint = audits['first-meaningful-paint']['displayValue'];
+    let speedScore = audits['speed-index-metric']['score'];
+    let optimalSpeed = audits['speed-index-metric']['optimalValue'];
+    let accessibility = reports[2].name;
+    let accDescription = reports[2].description;
+    let bestPractices = reports[3].name;
+    let bpDescription = reports[3].description;
 
     // formAreaContent for render return value based on boolean
     let formAreaContent;
@@ -65,6 +69,7 @@ class PageDetail extends Component {
           <p>map through audit result scores and show false (fails)</p>
         </div>
     }
+
     return (
       <div>
         {formAreaContent}

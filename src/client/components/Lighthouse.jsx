@@ -28,7 +28,7 @@ class Lighthouse extends Component {
     .then(function(response) {
       console.log(response);
       this.setState({url: ''});
-      this.setState({data: response.data});
+      this.setState({data: response});
       this.setState({pending: false});
     }.bind(this)) //need the bind for axios post response to affect state
     .catch(err => {

@@ -8,15 +8,26 @@ class Page extends Component {
   }
 
   render() {
-    let url = this.props.data.initialUrl;
-    let paintScore = this.props.data.audits['first-meaningful-paint']['score'];
-    let performanceScore = (this.props.data.reportCategories[1].score).toFixed();
-    let bestPracticeScore = (this.props.data.reportCategories[3].score).toFixed();
-    let accessibilityScore = (this.props.data.reportCategories[2].score).toFixed();
+    let data = this.props.data.data;
+    let reports = data.reportCategories;
+    let url = data.initialUrl;
+    let date = this.props.data.headers.date;
+    
+    let paintScore = data.audits['first-meaningful-paint']['score'];
+    let performanceScore = (reports[1].score).toFixed();
+    let bestPracticeScore = (reports[3].score).toFixed();
+    let accessibilityScore = (reports[2].score).toFixed();
 
     return (
       <Grid>
-        <h4>Results for: {url}</h4>
+        <Row>
+          <Col xs={4} md={4}>
+            <h4>Results for: {url}</h4>
+          </Col>
+          <Col xs={6} md={6}>
+            <p>{date}</p>
+          </Col>
+        </Row>
         <Row>
           <Col xs={2} md={2}>
             <p>First paint score: {paintScore}</p>
@@ -32,7 +43,7 @@ class Page extends Component {
           </Col>
         </Row>
         <PageDetail
-          data={this.props.data}/>
+          data={data}/>
       </Grid>
     )
   }
