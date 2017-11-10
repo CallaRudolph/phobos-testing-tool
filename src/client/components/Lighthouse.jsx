@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import axios from 'axios';
 import { Button } from "react-bootstrap";
 import PageList from "./PageList.jsx";
+import { Grid, Col, Row } from 'react-bootstrap';
 
 class Lighthouse extends Component {
   constructor(props) {
     super(props);
     this.state = {
       url: '',
+      pending: false,
       data: []
     };
     this.handleUrlChange = this.handleUrlChange.bind(this);
@@ -19,6 +21,7 @@ class Lighthouse extends Component {
   }
 
   handleSubmit(event) {
+    this.setState({pending: true}); // alters state for pending crawler message
     event.preventDefault();
     var url = {'url': this.state.url};
     axios.post('/lighthouse', url)
@@ -26,6 +29,7 @@ class Lighthouse extends Component {
       console.log(response);
       this.setState({url: ''});
       this.setState({data: response.data});
+      this.setState({pending: false});
     }.bind(this)) //need the bind for axios post response to affect state
     .catch(err => {
       console.error(err);
@@ -33,15 +37,35 @@ class Lighthouse extends Component {
   }
 
   render() {
+    let lighthousePending; // displays a pending message to let user know the crawler is running
+    if (this.state.pending === false) {
+      lighthousePending = ''
+    } else {
+      lighthousePending =
+        <div>
+          <p>Lighthouse is running, results will show soon...</p>
+        </div>
+    }
+
     return (
       <div>
-        <h3>Enter a url for lighthouse:</h3>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            placeholder="https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
-            <Button bsStyle="warning"
-            bsSize="xsmall" type="submit">lighthouse it</Button>
-        </form>
+        <Grid>
+          <form onSubmit={this.handleSubmit}>
+            <Row>
+              <Col xs={3} md={3}>
+                <input
+                  size="28"
+                  placeholder="enter a url - - https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
+              </Col>
+              <Col xs={2} md={2}>
+              <Button bsStyle="warning"
+                bsSize="xsmall" type="submit">Start Testing</Button>
+              </Col>
+              <Col xs={7} md={7}></Col>
+            </Row>
+          </form>
+        </Grid>
+        { lighthousePending }
         <PageList
           data={ this.state.data }/>
       </div>

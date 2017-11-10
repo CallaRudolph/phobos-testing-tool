@@ -8,8 +8,9 @@ class App extends Component {
     return (
       <div className='container'>
         <h2>Phobos Testing Tool</h2>
-        <TaskInput/>
-        <UrlCrawler/>
+        <p><em>description here</em></p>
+        {/* <TaskInput/>
+        <UrlCrawler/> */}
         <Lighthouse/>
       </div>
     )
