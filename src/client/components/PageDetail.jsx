@@ -47,12 +47,34 @@ class PageDetail extends Component {
       formAreaContent =
         <a href='#' onClick={ this.viewPageDetails }>show details for {url}</a>
     } else {
+
+      // need to differentiate b/w manual checks and actual failed audits.
+      // do we want to show passing audits?
+      // do we want this info in sub components?
+      let pwaAudit = reports[0].audits;
+      let pwaFail = [];
+      console.log(pwaAudit);
+      for (var i = 0; i < pwaAudit.length; i++) {
+        if (pwaAudit[i].score === 0) {
+          var pwaFailDescript = pwaAudit[i].result.description;
+          var pwaFailHelp = pwaAudit[i].result.helpText;
+          pwaFail.push(pwaFailDescript + ": " + pwaFailHelp);
+        }
+      }
+      console.log(pwaFail);
+      let pwaFailNodes = pwaFail.map(pwaFail => {
+        return (<p key={pwaFail}>- {pwaFail}</p>);
+      })
+      console.log(pwaFailNodes);
+
       formAreaContent =
         <div>
           <a href='#' onClick={ this.hidePageDetails }>hide details for {url}</a>
+
           <h4>{progressiveWebApp}</h4>
           <h6>{pwaDescription}</h6>
-          <p>map through audit result scores and show false (fails)</p>
+          <p>Failed Audits ({pwaFailNodes.length}):</p>
+          {pwaFailNodes}
 
           <h4>{performance}</h4>
           <h6>{perfDescription}</h6>
