@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Grid, Col, Row } from 'react-bootstrap';
 import PageDetail from './PageDetail.jsx';
+import ProgressArc from 'progress-arc-component'
 
 class Page extends Component {
   constructor(props) {
@@ -11,35 +12,37 @@ class Page extends Component {
     let data = this.props.data.data;
     let reports = data.reportCategories;
     let url = data.initialUrl;
-    let date = this.props.data.headers.date;
-    
-    let paintScore = data.audits['first-meaningful-paint']['score'];
-    let performanceScore = (reports[1].score).toFixed();
-    let bestPracticeScore = (reports[3].score).toFixed();
-    let accessibilityScore = (reports[2].score).toFixed();
+    // do you want the date?
+    // let date = this.props.data.headers.date;
+
+    let paintScore = parseInt(data.audits['first-meaningful-paint']['score']);
+    let performanceScore = parseInt((reports[1].score).toFixed());
+    let bestPracticeScore = parseInt((reports[3].score).toFixed());
+    let accessibilityScore = parseInt((reports[2].score).toFixed());
+
+    var center = {
+      textAlign: "center"
+    }
 
     return (
       <Grid>
-        <Row>
-          <Col xs={4} md={4}>
-            <h4>Results for: {url}</h4>
-          </Col>
-          <Col xs={6} md={6}>
-            <p>{date}</p>
-          </Col>
-        </Row>
+        <h4>Results for {url}</h4>
         <Row>
           <Col xs={2} md={2}>
-            <p>First paint score: {paintScore}</p>
+            <ProgressArc value={paintScore}/>
+            <p style={center}>First Paint</p>
           </Col>
           <Col xs={2} md={2}>
-            <p>Performance score: {performanceScore}</p>
+            <ProgressArc value={performanceScore}/>
+            <p style={center}> Performance</p>
           </Col>
           <Col xs={2} md={2}>
-            <p>Best practice score: {bestPracticeScore}</p>
+            <ProgressArc value={bestPracticeScore}/>
+            <p style={center}>Best Practices</p>
           </Col>
           <Col xs={2} md={2}>
-            <p>Accessibility score: {accessibilityScore}</p>
+            <ProgressArc value={accessibilityScore}/>
+            <p style={center}> Accessibility</p>
           </Col>
         </Row>
         <PageDetail
