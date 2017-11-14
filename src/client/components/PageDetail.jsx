@@ -40,7 +40,7 @@ class PageDetail extends Component {
     let accDescription = reports[2].description;
     let bestPractices = reports[3].name;
     let bpDescription = reports[3].description;
-    let manualPWAcheck = data.reportGroups['manual-pwa-checks']['description'];
+    let manualPWAnotes = data.reportGroups['manual-pwa-checks']['description'];
 
     // formAreaContent for render return value based on boolean
     let formAreaContent;
@@ -48,25 +48,28 @@ class PageDetail extends Component {
       formAreaContent =
         <a href='#' onClick={ this.viewPageDetails }>show details for {url}</a>
     } else {
-
-      // need to differentiate b/w manual checks and actual failed audits.
       // do we want to show passing audits?
       // do we want this info in sub components?
       let pwaAudit = reports[0].audits;
       let pwaCheck = [];
-      console.log(pwaAudit);
+      let pwaFail = [];
       for (var i = 0; i < pwaAudit.length; i++) {
-        if (pwaAudit[i].score === 0 && pwaAudit[i].group === "manual-pwa-checks") {
+        if (pwaAudit[i].score === 0 && pwaAudit[i].weight === 0) {
           var pwaCheckDescript = pwaAudit[i].result.description;
           var pwaCheckHelp = pwaAudit[i].result.helpText;
           pwaCheck.push(pwaCheckDescript + ": " + pwaCheckHelp);
+        } else if (pwaAudit[i].score === 0 && pwaAudit[i].weight === 1) {
+          var pwaFailDescript = pwaAudit[i].result.description;
+          var pwaFailHelp = pwaAudit[i].result.helpText;
+          pwaFail.push(pwaFailDescript + ": " + pwaFailHelp);
         }
       }
-      console.log(pwaCheck);
       let pwaCheckNodes = pwaCheck.map(pwaCheck => {
         return (<p key={pwaCheck}>- {pwaCheck}</p>);
       })
-      console.log(pwaCheckNodes);
+      let pwaFailNodes = pwaFail.map(pwaFail => {
+        return (<p key={pwaFail}>- {pwaFail}</p>);
+      })
 
       formAreaContent =
         <div>
@@ -74,9 +77,11 @@ class PageDetail extends Component {
 
           <h4>{progressiveWebApp}</h4>
           <h6>{pwaDescription}</h6>
-        <p>Manual checks to verify ({pwaCheckNodes.length}):</p>
-          <p>{manualPWAcheck}</p>
-        {pwaCheckNodes}
+          <h5>{pwaFailNodes.length} failed audits</h5>
+          {pwaFailNodes}
+          <h5>Manual checks to verify</h5>
+          <p>{manualPWAnotes}</p>
+          {pwaCheckNodes}
 
           <h4>{performance}</h4>
           <h6>{perfDescription}</h6>

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from 'axios';
 import { Button } from "react-bootstrap";
 import PageList from "./PageList.jsx";
-import { Grid, Col, Row } from 'react-bootstrap';
+// import { Grid, Col, Row } from 'react-bootstrap';
 
 class Lighthouse extends Component {
   constructor(props) {
