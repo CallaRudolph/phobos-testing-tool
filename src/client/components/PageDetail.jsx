@@ -31,16 +31,29 @@ class PageDetail extends Component {
 
     let progressiveWebApp = reports[0].name;
     let pwaDescription = reports[0].description;
+    let manualPWAnotes = data.reportGroups['manual-pwa-checks']['description'];
+
     let performance = reports[1].name;
     let perfDescription = reports[1].description;
     let firstPaint = audits['first-meaningful-paint']['displayValue'];
-    let speedScore = audits['speed-index-metric']['score'];
+    let firstPaintOptimal = audits['first-meaningful-paint']['optimalValue'];
+    let firstPaintDescript = audits['first-meaningful-paint']['helpText'];
+    let firstInteractive = audits['consistently-interactive']['displayValue'];
+    let firstInteractiveDescript = audits['consistently-interactive']['helpText'];
+    let consistentlyInteractive = audits['first-interactive']['displayValue'];
+    let consistentlyInteractiveDescript = audits['first-interactive']['helpText'];
+    let speedScore = audits['speed-index-metric']['displayValue'];
     let optimalSpeed = audits['speed-index-metric']['optimalValue'];
+    let speedScoreDescript = audits['speed-index-metric']['helpText'];
+    let inputLatency = audits['estimated-input-latency']['displayValue'];
+    let inputLatencyOptimal = audits['estimated-input-latency']['optimalValue'];
+    let inputLatencyDescript = audits['estimated-input-latency']['helpText'];
+    let perfOpportunitiesDescript = data.reportGroups['perf-hint']['description'];
+
     let accessibility = reports[2].name;
     let accDescription = reports[2].description;
     let bestPractices = reports[3].name;
     let bpDescription = reports[3].description;
-    let manualPWAnotes = data.reportGroups['manual-pwa-checks']['description'];
 
     // formAreaContent for render return value based on boolean
     let formAreaContent;
@@ -50,6 +63,8 @@ class PageDetail extends Component {
     } else {
       // do we want to show passing audits?
       // do we want this info in sub components?
+
+      // progressive web app setup
       let pwaAudit = reports[0].audits;
       let pwaCheck = [];
       let pwaFail = [];
@@ -66,10 +81,25 @@ class PageDetail extends Component {
       }
       let pwaCheckNodes = pwaCheck.map(pwaCheck => {
         return (<p key={pwaCheck}>- {pwaCheck}</p>);
-      })
+      });
       let pwaFailNodes = pwaFail.map(pwaFail => {
         return (<p key={pwaFail}>- {pwaFail}</p>);
-      })
+      });
+
+      // performance setup
+      let perfAudit = reports[1].audits;
+      // so much can be mapped out here! what to display?
+      let perfOpportunities = [];
+      for (var i = 0; i < perfAudit.length; i++) {
+        if (perfAudit[i].group === "perf-hint" && perfAudit[i].score < 100) {
+          var perfOpportunityDescript = perfAudit[i].result.description;
+          var perfOpportunityHelp = perfAudit[i].result.helpText;
+          perfOpportunities.push(perfOpportunityDescript + ": " + perfOpportunityHelp);
+        }
+      }
+      let perfOpportunityNodes = perfOpportunities.map(perfOpportunity => {
+        return (<p key={perfOpportunity}>- {perfOpportunity}</p>);
+      });
 
       formAreaContent =
         <div>
@@ -85,8 +115,20 @@ class PageDetail extends Component {
 
           <h4>{performance}</h4>
           <h6>{perfDescription}</h6>
-          <p>First meaningful paint {firstPaint}</p>
+          <p>First meaningful paint: {firstPaint} (target: {firstPaintOptimal})</p>
+          <p>{firstPaintDescript}</p>
+          <p>First Interactive (beta): {firstInteractive}</p>
+          <p>{firstInteractiveDescript}</p>
+          <p>Consistently Interactive (beta): {consistentlyInteractive}</p>
+          <p>{consistentlyInteractiveDescript}</p>
           <p>Perceptual Speed Index: {speedScore} (target: {optimalSpeed})</p>
+          <p>{speedScoreDescript}</p>
+          <p>Estimated Input Latency: {inputLatency} (target: {inputLatencyOptimal})</p>
+          <p>{inputLatencyDescript}</p>
+          <h5>Opportunities</h5>
+          <h6>{perfOpportunitiesDescript}</h6>
+          {perfOpportunityNodes}
+
           <p>opportunities vs. diagnostics: map through audit result scores and show false (fails) vs. diagnostics</p>
 
           <h4>{accessibility}</h4>
