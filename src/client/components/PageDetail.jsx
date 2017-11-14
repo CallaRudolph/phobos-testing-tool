@@ -52,6 +52,7 @@ class PageDetail extends Component {
 
     let accessibility = reports[2].name;
     let accDescription = reports[2].description;
+
     let bestPractices = reports[3].name;
     let bpDescription = reports[3].description;
 
@@ -88,7 +89,7 @@ class PageDetail extends Component {
 
       // performance setup
       let perfAudit = reports[1].audits;
-      // so much can be mapped out here! what to display?
+      // so much can be mapped out here! what to display? should we check diagnostics as well? passed audits?
       let perfOpportunities = [];
       for (var i = 0; i < perfAudit.length; i++) {
         if (perfAudit[i].group === "perf-hint" && perfAudit[i].score < 100) {
@@ -99,6 +100,21 @@ class PageDetail extends Component {
       }
       let perfOpportunityNodes = perfOpportunities.map(perfOpportunity => {
         return (<p key={perfOpportunity}>- {perfOpportunity}</p>);
+      });
+
+      // accessibility setup
+      let accessAudit = reports[2].audits;
+      let accessFails = [];
+      // display passing audits?
+      for (var i = 0; i < accessAudit.length; i++) {
+        if (accessAudit[i].score === 0) {
+          var accessFailDescript = accessAudit[i].result.description;
+          var accessFailHelp = accessAudit[i].result.helpText;
+          accessFails.push(accessFailDescript + ": " + accessFailHelp);
+        }
+      }
+      let accessFailNodes = accessFails.map(accessFail => {
+        return (<p key={accessFail}>- {accessFail}</p>);
       });
 
       formAreaContent =
@@ -129,11 +145,9 @@ class PageDetail extends Component {
           <h6>{perfOpportunitiesDescript}</h6>
           {perfOpportunityNodes}
 
-          <p>opportunities vs. diagnostics: map through audit result scores and show false (fails) vs. diagnostics</p>
-
           <h4>{accessibility}</h4>
           <h6>{accDescription}</h6>
-          <p>map through audit result scores and show false (fails)</p>
+          {accessFailNodes}
 
           <h4>{bestPractices}</h4>
           <h6>{bpDescription}</h6>
