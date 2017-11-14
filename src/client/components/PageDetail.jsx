@@ -40,6 +40,7 @@ class PageDetail extends Component {
     let accDescription = reports[2].description;
     let bestPractices = reports[3].name;
     let bpDescription = reports[3].description;
+    let manualPWAcheck = data.reportGroups['manual-pwa-checks']['description'];
 
     // formAreaContent for render return value based on boolean
     let formAreaContent;
@@ -52,20 +53,20 @@ class PageDetail extends Component {
       // do we want to show passing audits?
       // do we want this info in sub components?
       let pwaAudit = reports[0].audits;
-      let pwaFail = [];
+      let pwaCheck = [];
       console.log(pwaAudit);
       for (var i = 0; i < pwaAudit.length; i++) {
-        if (pwaAudit[i].score === 0) {
-          var pwaFailDescript = pwaAudit[i].result.description;
-          var pwaFailHelp = pwaAudit[i].result.helpText;
-          pwaFail.push(pwaFailDescript + ": " + pwaFailHelp);
+        if (pwaAudit[i].score === 0 && pwaAudit[i].group === "manual-pwa-checks") {
+          var pwaCheckDescript = pwaAudit[i].result.description;
+          var pwaCheckHelp = pwaAudit[i].result.helpText;
+          pwaCheck.push(pwaCheckDescript + ": " + pwaCheckHelp);
         }
       }
-      console.log(pwaFail);
-      let pwaFailNodes = pwaFail.map(pwaFail => {
-        return (<p key={pwaFail}>- {pwaFail}</p>);
+      console.log(pwaCheck);
+      let pwaCheckNodes = pwaCheck.map(pwaCheck => {
+        return (<p key={pwaCheck}>- {pwaCheck}</p>);
       })
-      console.log(pwaFailNodes);
+      console.log(pwaCheckNodes);
 
       formAreaContent =
         <div>
@@ -73,8 +74,9 @@ class PageDetail extends Component {
 
           <h4>{progressiveWebApp}</h4>
           <h6>{pwaDescription}</h6>
-          <p>Failed Audits ({pwaFailNodes.length}):</p>
-          {pwaFailNodes}
+        <p>Manual checks to verify ({pwaCheckNodes.length}):</p>
+          <p>{manualPWAcheck}</p>
+        {pwaCheckNodes}
 
           <h4>{performance}</h4>
           <h6>{perfDescription}</h6>

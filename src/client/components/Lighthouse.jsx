@@ -49,22 +49,15 @@ class Lighthouse extends Component {
 
     return (
       <div>
-        <Grid>
-          <form onSubmit={this.handleSubmit}>
-            <Row>
-              <Col xs={3} md={3}>
-                <input
-                  size="28"
-                  placeholder="enter a url - - https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
-              </Col>
-              <Col xs={2} md={2}>
-              <Button bsStyle="warning"
-                bsSize="xsmall" type="submit">Start Testing</Button>
-              </Col>
-              <Col xs={7} md={7}></Col>
-            </Row>
-          </form>
-        </Grid>
+        <form onSubmit={this.handleSubmit}>
+          <input
+            size="28"
+            placeholder="enter a url - - https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
+          <Button bsStyle="warning"
+            bsSize="xsmall" type="submit">
+            Start Testing
+          </Button>
+        </form>
         { lighthousePending }
         <PageList
           data={ this.state.data }/>
