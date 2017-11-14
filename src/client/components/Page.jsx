@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Grid, Col, Row } from 'react-bootstrap';
 import PageDetail from './PageDetail.jsx';
 import ProgressArc from 'progress-arc-component'
+import styled from 'styled-components';
 
 class Page extends Component {
   constructor(props) {
@@ -21,28 +22,34 @@ class Page extends Component {
     let accessibilityScore = parseInt((reports[2].score).toFixed());
 
     var center = {
-      textAlign: "center"
+      textAlign: "center",
+      fontSize: "12px"
     }
+
+    const StyledProgressArc = styled(ProgressArc)`
+      height: 4em;
+      width: 4em;
+    `
 
     return (
       <Grid>
         <h4>Results for {url}</h4>
         <Row>
-          <Col xs={2} md={2}>
-            <ProgressArc value={paintScore}/>
+          <Col xs={1} md={1}>
+            <StyledProgressArc value={paintScore}/>
             <p style={center}>First Paint</p>
           </Col>
-          <Col xs={2} md={2}>
-            <ProgressArc value={performanceScore}/>
-            <p style={center}> Performance</p>
+          <Col xs={1} md={1}>
+            <StyledProgressArc value={performanceScore}/>
+            <p style={center}>Performance</p>
           </Col>
-          <Col xs={2} md={2}>
-            <ProgressArc value={bestPracticeScore}/>
+          <Col xs={1} md={1}>
+            <StyledProgressArc value={bestPracticeScore}/>
             <p style={center}>Best Practices</p>
           </Col>
-          <Col xs={2} md={2}>
-            <ProgressArc value={accessibilityScore}/>
-            <p style={center}> Accessibility</p>
+          <Col xs={1} md={1}>
+            <StyledProgressArc value={accessibilityScore}/>
+            <p style={center}>Accessibility</p>
           </Col>
         </Row>
         <PageDetail
