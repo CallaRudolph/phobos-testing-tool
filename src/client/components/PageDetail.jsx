@@ -117,6 +117,21 @@ class PageDetail extends Component {
         return (<p key={accessFail}>- {accessFail}</p>);
       });
 
+      // best practices setup
+      let bestPracticesAudit = reports[3].audits;
+      let bestPracticesFails = [];
+      // display passing audits?
+      for (var i = 0; i < bestPracticesAudit.length; i++) {
+        if (bestPracticesAudit[i].score === 0) {
+          var bestPracticesFailDescript = bestPracticesAudit[i].result.description;
+          var bestPracticesFailHelp = bestPracticesAudit[i].result.helpText;
+          bestPracticesFails.push(bestPracticesFailDescript + ": " + bestPracticesFailHelp);
+        }
+      }
+      let bestPracticesFailNodes = bestPracticesFails.map(bestPracticeFail => {
+        return (<p key={bestPracticeFail}>- {bestPracticeFail}</p>);
+      });
+
       formAreaContent =
         <div>
           <a href='#' onClick={ this.hidePageDetails }>hide details for {url}</a>
@@ -151,7 +166,8 @@ class PageDetail extends Component {
 
           <h4>{bestPractices}</h4>
           <h6>{bpDescription}</h6>
-          <p>map through audit result scores and show false (fails)</p>
+          <h5>{bestPracticesFailNodes.length} failed audits</h5>
+          {bestPracticesFailNodes}
         </div>
     }
 
