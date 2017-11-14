@@ -29,10 +29,6 @@ class PageDetail extends Component {
     let reports = data.reportCategories;
     let audits = data.audits;
 
-    let progressiveWebApp = reports[0].name;
-    let pwaDescription = reports[0].description;
-    let manualPWAnotes = data.reportGroups['manual-pwa-checks']['description'];
-
     let performance = reports[1].name;
     let perfDescription = reports[1].description;
     let firstPaint = audits['first-meaningful-paint']['displayValue'];
@@ -62,34 +58,8 @@ class PageDetail extends Component {
       formAreaContent =
         <a href='#' onClick={ this.viewPageDetails }>show details for {url}</a>
     } else {
-      // do we want to show passing audits?
-      // do we want this info in sub components?
-
-      // progressive web app setup
-      let pwaAudit = reports[0].audits;
-      let pwaCheck = [];
-      let pwaFail = [];
-      for (var i = 0; i < pwaAudit.length; i++) {
-        if (pwaAudit[i].score === 0 && pwaAudit[i].weight === 0) {
-          var pwaCheckDescript = pwaAudit[i].result.description;
-          var pwaCheckHelp = pwaAudit[i].result.helpText;
-          pwaCheck.push(pwaCheckDescript + ": " + pwaCheckHelp);
-        } else if (pwaAudit[i].score === 0 && pwaAudit[i].weight === 1) {
-          var pwaFailDescript = pwaAudit[i].result.description;
-          var pwaFailHelp = pwaAudit[i].result.helpText;
-          pwaFail.push(pwaFailDescript + ": " + pwaFailHelp);
-        }
-      }
-      let pwaCheckNodes = pwaCheck.map(pwaCheck => {
-        return (<p key={pwaCheck}>- {pwaCheck}</p>);
-      });
-      let pwaFailNodes = pwaFail.map(pwaFail => {
-        return (<p key={pwaFail}>- {pwaFail}</p>);
-      });
-
       // performance setup
       let perfAudit = reports[1].audits;
-      // so much can be mapped out here! what to display? should we check diagnostics as well? passed audits?
       let perfOpportunities = [];
       for (var i = 0; i < perfAudit.length; i++) {
         if (perfAudit[i].group === "perf-hint" && perfAudit[i].score < 100) {
@@ -105,7 +75,6 @@ class PageDetail extends Component {
       // accessibility setup
       let accessAudit = reports[2].audits;
       let accessFails = [];
-      // display passing audits?
       for (var i = 0; i < accessAudit.length; i++) {
         if (accessAudit[i].score === 0) {
           var accessFailDescript = accessAudit[i].result.description;
@@ -120,7 +89,6 @@ class PageDetail extends Component {
       // best practices setup
       let bestPracticesAudit = reports[3].audits;
       let bestPracticesFails = [];
-      // display passing audits?
       for (var i = 0; i < bestPracticesAudit.length; i++) {
         if (bestPracticesAudit[i].score === 0) {
           var bestPracticesFailDescript = bestPracticesAudit[i].result.description;
@@ -135,14 +103,6 @@ class PageDetail extends Component {
       formAreaContent =
         <div>
           <a href='#' onClick={ this.hidePageDetails }>hide details for {url}</a>
-
-          <h4>{progressiveWebApp}</h4>
-          <h6>{pwaDescription}</h6>
-          <h5>{pwaFailNodes.length} failed audits</h5>
-          {pwaFailNodes}
-          <h5>Manual checks to verify</h5>
-          <p>{manualPWAnotes}</p>
-          {pwaCheckNodes}
 
           <h4>{performance}</h4>
           <h6>{perfDescription}</h6>
