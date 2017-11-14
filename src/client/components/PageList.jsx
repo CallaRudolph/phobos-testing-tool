@@ -14,7 +14,7 @@ class PageList extends Component {
       formAreaContent =
         <div>
           <Page
-          data={this.props.data}/>
+            data={this.props.data}/>
         </div>
     }
     return (
