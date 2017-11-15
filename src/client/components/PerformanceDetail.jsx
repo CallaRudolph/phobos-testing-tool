@@ -11,13 +11,16 @@ class PerformanceDetail extends Component {
     this.hideConsistentlyInteractiveDetail = this.hideConsistentlyInteractiveDetail.bind(this);
     this.viewSpeedIndexDetail = this.viewSpeedIndexDetail.bind(this);
     this.hideSpeedIndexDetail = this.hideSpeedIndexDetail.bind(this);
+    this.viewInputLatencyDetail = this.viewInputLatencyDetail.bind(this);
+    this.hideInputLatencyDetail = this.hideInputLatencyDetail.bind(this);
     this.state = {
       paintDetailShowing: false,
       paintStyle: '',
       firstInteractiveShowing: false,
       consistentlyInteractiveShowing: false,
       speedIndexShowing: false,
-      speedStyle: ''
+      speedStyle: '',
+      inputLatencyShowing: false,
     };
   }
 
@@ -67,6 +70,18 @@ class PerformanceDetail extends Component {
   hideSpeedIndexDetail() {
     this.setState({
       speedIndexShowing: false
+    });
+  }
+
+  viewInputLatencyDetail() {
+    this.setState({
+      inputLatencyShowing: true
+    });
+  }
+
+  hideInputLatencyDetail() {
+    this.setState({
+      inputLatencyShowing: false
     });
   }
 
@@ -129,6 +144,7 @@ class PerformanceDetail extends Component {
     let inputLatency = audits['estimated-input-latency']['displayValue'];
     let inputLatencyOptimal = audits['estimated-input-latency']['optimalValue'];
     let inputLatencyDescript = audits['estimated-input-latency']['helpText'];
+
     let perfOpportunitiesDescript = data.reportGroups['perf-hint']['description'];
 
     let paintDisplay;
@@ -184,8 +200,22 @@ class PerformanceDetail extends Component {
       speedIndexDisplay =
       <div className="well well-sm">
         <p style={this.state.speedStyle}><a href='#/' onClick={ this.hideSpeedIndexDetail }>Perceptual Speed Index:</a> {speedScore} ms</p>
-        <p> (target: {optimalSpeed} ms)</p>
+        <p>(target: {optimalSpeed} ms)</p>
         <p>{speedScoreDescript}</p>
+      </div>
+    }
+
+    let inputLatencyDisplay;
+    if (this.state.inputLatencyShowing === false) {
+      inputLatencyDisplay =
+      <div className="well well-sm">
+        <p><a href='#/' onClick={ this.viewInputLatencyDetail}>Estimated Input Latency:</a> {inputLatency} (target: {inputLatencyOptimal})</p>
+      </div>
+    } else {
+      inputLatencyDisplay =
+      <div className="well well-sm">
+        <p><a href='#/' onClick={ this.hideInputLatencyDetail }>Estimated Input Latency:</a> {inputLatency} (target: {inputLatencyOptimal})</p>
+        <p>{inputLatencyDescript}</p>
       </div>
     }
 
@@ -217,8 +247,8 @@ class PerformanceDetail extends Component {
 
         {speedIndexDisplay}
 
-        <p>Estimated Input Latency: {inputLatency} (target: {inputLatencyOptimal})</p>
-        <p>{inputLatencyDescript}</p>
+        {inputLatencyDisplay}
+
         <h5>Opportunities</h5>
         <h6>{perfOpportunitiesDescript}</h6>
         {perfOpportunityNodes}
