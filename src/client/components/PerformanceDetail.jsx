@@ -5,13 +5,16 @@ class PerformanceDetail extends Component {
     super(props);
     this.viewPaintDetail = this.viewPaintDetail.bind(this);
     this.hidePaintDetail = this.hidePaintDetail.bind(this);
+    this.viewFirstInteractiveDetail = this.viewFirstInteractiveDetail.bind(this);
+    this.hideFirstInteractiveDetail = this.hideFirstInteractiveDetail.bind(this);
     this.state = {
       paintDetailShowing: false,
-      paintStyle: ''
+      paintStyle: '',
+      firstInteractiveShowing: false
     };
   }
 
-  // toggle for detail view w/ boolean state
+  // toggle for detail views w/ boolean state
   viewPaintDetail() {
     this.setState({
       paintDetailShowing: true
@@ -21,6 +24,18 @@ class PerformanceDetail extends Component {
   hidePaintDetail() {
     this.setState({
       paintDetailShowing: false
+    });
+  }
+
+  viewFirstInteractiveDetail() {
+    this.setState({
+      firstInteractiveShowing: true
+    });
+  }
+
+  hideFirstInteractiveDetail() {
+    this.setState({
+      firstInteractiveShowing: false
     });
   }
 
@@ -55,13 +70,17 @@ class PerformanceDetail extends Component {
 
     let performance = reports[1].name;
     let perfDescription = reports[1].description;
+
     let firstPaint = audits['first-meaningful-paint']['displayValue'];
     let firstPaintOptimal = audits['first-meaningful-paint']['optimalValue'];
     let firstPaintDescript = audits['first-meaningful-paint']['helpText'];
-    let firstInteractive = audits['consistently-interactive']['displayValue'];
-    let firstInteractiveDescript = audits['consistently-interactive']['helpText'];
-    let consistentlyInteractive = audits['first-interactive']['displayValue'];
-    let consistentlyInteractiveDescript = audits['first-interactive']['helpText'];
+
+    let firstInteractive = audits['first-interactive']['displayValue'];
+    let firstInteractiveDescript = audits['first-interactive']['helpText'];
+
+    let consistentlyInteractive = audits['consistently-interactive']['displayValue'];
+    let consistentlyInteractiveDescript = audits['consistently-interactive']['helpText'];
+
     let speedScore = audits['speed-index-metric']['displayValue'];
     let optimalSpeed = audits['speed-index-metric']['optimalValue'];
     let speedScoreDescript = audits['speed-index-metric']['helpText'];
@@ -73,14 +92,29 @@ class PerformanceDetail extends Component {
     let paintDisplay;
     if (this.state.paintDetailShowing === false) {
       paintDisplay =
-      <div className="panel-footer" >
+      <div className="well well-sm" >
         <p style={this.state.paintStyle}><a href='#/' onClick={ this.viewPaintDetail }>First meaningful paint:</a> {firstPaint}</p>
       </div>
     } else {
       paintDisplay =
-      <div className="panel-footer">
-        <p style={this.state.paintStyle}><a href='#/' onClick={ this.hidePaintDetail }>First meaningful paint:</a> {firstPaint} (target: {firstPaintOptimal})</p>
+      <div className="well well-sm">
+        <p style={this.state.paintStyle}><a href='#/' onClick={ this.hidePaintDetail }>First meaningful paint:</a> {firstPaint}</p>
+        <p>(target: {firstPaintOptimal})</p>
         <p>{firstPaintDescript}</p>
+      </div>
+    }
+
+    let firstInteractiveDisplay;
+    if (this.state.firstInteractiveShowing === false) {
+      firstInteractiveDisplay =
+      <div className="well well-sm">
+        <p><a href='#/' onClick={ this.viewFirstInteractiveDetail}>First Interactive (beta):</a> {firstInteractive}</p>
+      </div>
+    } else {
+      firstInteractiveDisplay =
+      <div className="well well-sm">
+        <p><a href='#/' onClick={ this.hideFirstInteractiveDetail }>First Interactive (beta):</a> {firstInteractive}</p>
+      <p>{firstInteractiveDescript}</p>
       </div>
     }
 
@@ -106,8 +140,7 @@ class PerformanceDetail extends Component {
 
         {paintDisplay}
 
-        <p>First Interactive (beta): {firstInteractive}</p>
-        <p>{firstInteractiveDescript}</p>
+        {firstInteractiveDisplay}
         <p>Consistently Interactive (beta): {consistentlyInteractive}</p>
         <p>{consistentlyInteractiveDescript}</p>
         <p>Perceptual Speed Index: {speedScore} (target: {optimalSpeed})</p>
