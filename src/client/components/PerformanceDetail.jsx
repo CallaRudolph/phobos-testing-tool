@@ -7,10 +7,13 @@ class PerformanceDetail extends Component {
     this.hidePaintDetail = this.hidePaintDetail.bind(this);
     this.viewFirstInteractiveDetail = this.viewFirstInteractiveDetail.bind(this);
     this.hideFirstInteractiveDetail = this.hideFirstInteractiveDetail.bind(this);
+    this.viewConsistentlyInteractiveDetail = this.viewConsistentlyInteractiveDetail.bind(this);
+    this.hideConsistentlyInteractiveDetail = this.hideConsistentlyInteractiveDetail.bind(this);
     this.state = {
       paintDetailShowing: false,
       paintStyle: '',
-      firstInteractiveShowing: false
+      firstInteractiveShowing: false,
+      consistentlyInteractiveShowing: false
     };
   }
 
@@ -39,6 +42,19 @@ class PerformanceDetail extends Component {
     });
   }
 
+  viewConsistentlyInteractiveDetail() {
+    this.setState({
+      consistentlyInteractiveShowing: true
+    });
+  }
+
+  hideConsistentlyInteractiveDetail() {
+    this.setState({
+      consistentlyInteractiveShowing: false
+    });
+  }
+
+  // assign color to specific score values
   componentWillMount() {
     let data = this.props.data;
     let audits = data.audits;
@@ -114,7 +130,21 @@ class PerformanceDetail extends Component {
       firstInteractiveDisplay =
       <div className="well well-sm">
         <p><a href='#/' onClick={ this.hideFirstInteractiveDetail }>First Interactive (beta):</a> {firstInteractive}</p>
-      <p>{firstInteractiveDescript}</p>
+        <p>{firstInteractiveDescript}</p>
+      </div>
+    }
+
+    let consistentlyInteractiveDisplay;
+    if (this.state.consistentlyInteractiveShowing === false) {
+      consistentlyInteractiveDisplay =
+      <div className="well well-sm">
+        <p><a href='#/' onClick={ this.viewConsistentlyInteractiveDetail}>Consistently Interactive (beta):</a> {consistentlyInteractive}</p>
+      </div>
+    } else {
+      consistentlyInteractiveDisplay =
+      <div className="well well-sm">
+        <p><a href='#/' onClick={ this.hideConsistentlyInteractiveDetail }>Consistently Interactive (beta):</a> {consistentlyInteractive}</p>
+        <p>{consistentlyInteractiveDescript}</p>
       </div>
     }
 
@@ -141,8 +171,9 @@ class PerformanceDetail extends Component {
         {paintDisplay}
 
         {firstInteractiveDisplay}
-        <p>Consistently Interactive (beta): {consistentlyInteractive}</p>
-        <p>{consistentlyInteractiveDescript}</p>
+
+        {consistentlyInteractiveDisplay}
+
         <p>Perceptual Speed Index: {speedScore} (target: {optimalSpeed})</p>
         <p>{speedScoreDescript}</p>
         <p>Estimated Input Latency: {inputLatency} (target: {inputLatencyOptimal})</p>
