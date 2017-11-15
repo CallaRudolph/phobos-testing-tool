@@ -40,7 +40,7 @@ class PageDetail extends Component {
     let formAreaContent;
     if (this.state.detailShowing === false) {
       formAreaContent =
-        <a href='#' onClick={ this.viewPageDetails }>show details for {url}</a>
+        <a href='#/' onClick={ this.viewPageDetails }>show details for {url}</a>
     } else {
       // accessibility setup
       let accessAudit = reports[2].audits;
@@ -72,7 +72,7 @@ class PageDetail extends Component {
 
       formAreaContent =
         <div>
-          <a href='#' onClick={ this.hidePageDetails }>hide details for {url}</a>
+          <a href='#/' onClick={ this.hidePageDetails }>hide details for {url}</a>
 
           <PerformanceDetail
             data={this.props.data}/>

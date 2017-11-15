@@ -3,6 +3,49 @@ import React, { Component } from "react";
 class PerformanceDetail extends Component {
   constructor(props) {
     super(props);
+    this.viewPaintDetail = this.viewPaintDetail.bind(this);
+    this.hidePaintDetail = this.hidePaintDetail.bind(this);
+    this.state = {
+      paintDetailShowing: false,
+      paintStyle: ''
+    };
+  }
+
+  // toggle for detail view w/ boolean state
+  viewPaintDetail() {
+    this.setState({
+      paintDetailShowing: true
+    });
+  }
+
+  hidePaintDetail() {
+    this.setState({
+      paintDetailShowing: false
+    });
+  }
+
+  componentWillMount() {
+    let data = this.props.data;
+    let audits = data.audits;
+    let firstPaintValue = audits['first-meaningful-paint']['rawValue'];
+
+    var red = {
+      color: "red"
+    }
+    var orange = {
+      color: "orange"
+    }
+    var green = {
+      color: "green"
+    }
+
+    if (firstPaintValue <= 1600) {
+      this.setState({paintStyle: green});
+    } else if (firstPaintValue > 1600 && firstPaintValue < 4000) {
+      this.setState({paintStyle: orange});
+    } else {
+      this.setState({paintStyle: red});
+    }
   }
 
   render() {
@@ -27,6 +70,20 @@ class PerformanceDetail extends Component {
     let inputLatencyDescript = audits['estimated-input-latency']['helpText'];
     let perfOpportunitiesDescript = data.reportGroups['perf-hint']['description'];
 
+    let paintDisplay;
+    if (this.state.paintDetailShowing === false) {
+      paintDisplay =
+      <div className="panel-footer" >
+        <p style={this.state.paintStyle}><a href='#/' onClick={ this.viewPaintDetail }>First meaningful paint:</a> {firstPaint}</p>
+      </div>
+    } else {
+      paintDisplay =
+      <div className="panel-footer">
+        <p style={this.state.paintStyle}><a href='#/' onClick={ this.hidePaintDetail }>First meaningful paint:</a> {firstPaint} (target: {firstPaintOptimal})</p>
+        <p>{firstPaintDescript}</p>
+      </div>
+    }
+
     let perfAudit = reports[1].audits;
     let perfOpportunities = [];
     for (var i = 0; i < perfAudit.length; i++) {
@@ -39,13 +96,16 @@ class PerformanceDetail extends Component {
     let perfOpportunityNodes = perfOpportunities.map(perfOpportunity => {
       return (<p key={perfOpportunity}>- {perfOpportunity}</p>);
     });
-    
-    let formAreaContent =
+
+
+
+    return (
       <div>
         <h4>{performance}</h4>
         <h6>{perfDescription}</h6>
-        <p>First meaningful paint: {firstPaint} (target: {firstPaintOptimal})</p>
-        <p>{firstPaintDescript}</p>
+
+        {paintDisplay}
+
         <p>First Interactive (beta): {firstInteractive}</p>
         <p>{firstInteractiveDescript}</p>
         <p>Consistently Interactive (beta): {consistentlyInteractive}</p>
@@ -57,11 +117,6 @@ class PerformanceDetail extends Component {
         <h5>Opportunities</h5>
         <h6>{perfOpportunitiesDescript}</h6>
         {perfOpportunityNodes}
-      </div>
-
-    return (
-      <div>
-        {formAreaContent}
       </div>
     )
   }
