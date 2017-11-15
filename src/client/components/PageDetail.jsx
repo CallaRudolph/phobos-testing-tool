@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PerformanceDetail from "./PerformanceDetail.jsx";
+import AccessibilityDetail from "./AccessibilityDetail.jsx";
 
 class PageDetail extends Component {
   constructor(props) {
@@ -30,9 +31,6 @@ class PageDetail extends Component {
     let reports = data.reportCategories;
     let audits = data.audits;
 
-    let accessibility = reports[2].name;
-    let accDescription = reports[2].description;
-
     let bestPractices = reports[3].name;
     let bpDescription = reports[3].description;
 
@@ -42,20 +40,6 @@ class PageDetail extends Component {
       formAreaContent =
         <a href='#/' onClick={ this.viewPageDetails }>show details for {url}</a>
     } else {
-      // accessibility setup
-      let accessAudit = reports[2].audits;
-      let accessFails = [];
-      for (var i = 0; i < accessAudit.length; i++) {
-        if (accessAudit[i].score === 0) {
-          var accessFailDescript = accessAudit[i].result.description;
-          var accessFailHelp = accessAudit[i].result.helpText;
-          accessFails.push(accessFailDescript + ": " + accessFailHelp);
-        }
-      }
-      let accessFailNodes = accessFails.map(accessFail => {
-        return (<p key={accessFail}>- {accessFail}</p>);
-      });
-
       // best practices setup
       let bestPracticesAudit = reports[3].audits;
       let bestPracticesFails = [];
@@ -77,9 +61,8 @@ class PageDetail extends Component {
           <PerformanceDetail
             data={this.props.data}/>
 
-          <h4>{accessibility}</h4>
-          <h6>{accDescription}</h6>
-          {accessFailNodes}
+          <AccessibilityDetail
+            data={this.props.data}/>
 
           <h4>{bestPractices}</h4>
           <h6>{bpDescription}</h6>
