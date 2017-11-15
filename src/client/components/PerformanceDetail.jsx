@@ -13,6 +13,10 @@ class PerformanceDetail extends Component {
     this.hideSpeedIndexDetail = this.hideSpeedIndexDetail.bind(this);
     this.viewInputLatencyDetail = this.viewInputLatencyDetail.bind(this);
     this.hideInputLatencyDetail = this.hideInputLatencyDetail.bind(this);
+    this.viewInputLatencyDetail = this.viewInputLatencyDetail.bind(this);
+    this.hideInputLatencyDetail = this.hideInputLatencyDetail.bind(this);
+    this.viewOpportunityDetail = this.viewOpportunityDetail.bind(this);
+    this.hideOpportunityDetail = this.hideOpportunityDetail.bind(this);
     this.state = {
       paintDetailShowing: false,
       paintStyle: '',
@@ -21,6 +25,7 @@ class PerformanceDetail extends Component {
       speedIndexShowing: false,
       speedStyle: '',
       inputLatencyShowing: false,
+      opportunityDetailShowing: false
     };
   }
 
@@ -85,6 +90,18 @@ class PerformanceDetail extends Component {
     });
   }
 
+  viewOpportunityDetail() {
+    this.setState({
+      opportunityDetailShowing: true
+    });
+  }
+
+  hideOpportunityDetail() {
+    this.setState({
+      opportunityDetailShowing: false
+    });
+  }
+
   // assign color to specific score values
   componentWillMount() {
     let data = this.props.data;
@@ -102,6 +119,7 @@ class PerformanceDetail extends Component {
       color: "green"
     }
 
+    // first meaningful paint color display
     if (firstPaintValue <= 1600) {
       this.setState({paintStyle: green});
     } else if (firstPaintValue > 1600 && firstPaintValue < 4000) {
@@ -110,6 +128,7 @@ class PerformanceDetail extends Component {
       this.setState({paintStyle: red});
     }
 
+    // perceptual speed index color display
     if (speedScore <= 1600) {
       this.setState({speedStyle: green});
     } else if (speedScore > 1600 && speedScore < 4000) {
@@ -127,26 +146,10 @@ class PerformanceDetail extends Component {
     let performance = reports[1].name;
     let perfDescription = reports[1].description;
 
+    // first paint information and display
     let firstPaint = audits['first-meaningful-paint']['displayValue'];
     let firstPaintOptimal = audits['first-meaningful-paint']['optimalValue'];
     let firstPaintDescript = audits['first-meaningful-paint']['helpText'];
-
-    let firstInteractive = audits['first-interactive']['displayValue'];
-    let firstInteractiveDescript = audits['first-interactive']['helpText'];
-
-    let consistentlyInteractive = audits['consistently-interactive']['displayValue'];
-    let consistentlyInteractiveDescript = audits['consistently-interactive']['helpText'];
-
-    let speedScore = audits['speed-index-metric']['displayValue'];
-    let optimalSpeed = audits['speed-index-metric']['optimalValue'];
-    let speedScoreDescript = audits['speed-index-metric']['helpText'];
-
-    let inputLatency = audits['estimated-input-latency']['displayValue'];
-    let inputLatencyOptimal = audits['estimated-input-latency']['optimalValue'];
-    let inputLatencyDescript = audits['estimated-input-latency']['helpText'];
-
-    let perfOpportunitiesDescript = data.reportGroups['perf-hint']['description'];
-
     let paintDisplay;
     if (this.state.paintDetailShowing === false) {
       paintDisplay =
@@ -162,6 +165,9 @@ class PerformanceDetail extends Component {
       </div>
     }
 
+    // first interactive information and display
+    let firstInteractive = audits['first-interactive']['displayValue'];
+    let firstInteractiveDescript = audits['first-interactive']['helpText'];
     let firstInteractiveDisplay;
     if (this.state.firstInteractiveShowing === false) {
       firstInteractiveDisplay =
@@ -176,6 +182,9 @@ class PerformanceDetail extends Component {
       </div>
     }
 
+    // consistently interactive information and display
+    let consistentlyInteractive = audits['consistently-interactive']['displayValue'];
+    let consistentlyInteractiveDescript = audits['consistently-interactive']['helpText'];
     let consistentlyInteractiveDisplay;
     if (this.state.consistentlyInteractiveShowing === false) {
       consistentlyInteractiveDisplay =
@@ -190,6 +199,10 @@ class PerformanceDetail extends Component {
       </div>
     }
 
+    // perceptual speed index information and display
+    let speedScore = audits['speed-index-metric']['displayValue'];
+    let optimalSpeed = audits['speed-index-metric']['optimalValue'];
+    let speedScoreDescript = audits['speed-index-metric']['helpText'];
     let speedIndexDisplay;
     if (this.state.speedIndexShowing === false) {
       speedIndexDisplay =
@@ -205,6 +218,10 @@ class PerformanceDetail extends Component {
       </div>
     }
 
+    // estimated input latency information and display
+    let inputLatency = audits['estimated-input-latency']['displayValue'];
+    let inputLatencyOptimal = audits['estimated-input-latency']['optimalValue'];
+    let inputLatencyDescript = audits['estimated-input-latency']['helpText'];
     let inputLatencyDisplay;
     if (this.state.inputLatencyShowing === false) {
       inputLatencyDisplay =
@@ -219,6 +236,8 @@ class PerformanceDetail extends Component {
       </div>
     }
 
+    // performance opportunity information and display
+    let perfOpportunitiesDescript = data.reportGroups['perf-hint']['description'];
     let perfAudit = reports[1].audits;
     let perfOpportunities = [];
     for (var i = 0; i < perfAudit.length; i++) {
@@ -228,9 +247,24 @@ class PerformanceDetail extends Component {
         perfOpportunities.push(perfOpportunityDescript + ": " + perfOpportunityHelp);
       }
     }
+    // maps out each performance opportunity
     let perfOpportunityNodes = perfOpportunities.map(perfOpportunity => {
       return (<p key={perfOpportunity}>- {perfOpportunity}</p>);
     });
+    let opportunityDetailDisplay;
+    if (this.state.opportunityDetailShowing === false) {
+      opportunityDetailDisplay =
+      <div className="well well-sm">
+        <h5><a href='#/' onClick={ this.viewOpportunityDetail}>Opportunities</a> ({perfOpportunityNodes.length})</h5> 
+      </div>
+    } else {
+      opportunityDetailDisplay =
+      <div className="well well-sm">
+        <h5><a href='#/' onClick={ this.hideOpportunityDetail}>Opportunities</a></h5>
+        <h6>{perfOpportunitiesDescript}</h6>
+        {perfOpportunityNodes}
+      </div>
+    }
 
 
 
@@ -249,9 +283,7 @@ class PerformanceDetail extends Component {
 
         {inputLatencyDisplay}
 
-        <h5>Opportunities</h5>
-        <h6>{perfOpportunitiesDescript}</h6>
-        {perfOpportunityNodes}
+        {opportunityDetailDisplay}
       </div>
     )
   }
