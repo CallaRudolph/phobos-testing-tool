@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PerformanceDetail from "./PerformanceDetail.jsx";
 import AccessibilityDetail from "./AccessibilityDetail.jsx";
+import BestPracticesDetail from "./BestPracticesDetail.jsx";
 
 class PageDetail extends Component {
   constructor(props) {
@@ -31,29 +32,12 @@ class PageDetail extends Component {
     let reports = data.reportCategories;
     let audits = data.audits;
 
-    let bestPractices = reports[3].name;
-    let bpDescription = reports[3].description;
-
     // formAreaContent for render return value based on boolean
     let formAreaContent;
     if (this.state.detailShowing === false) {
       formAreaContent =
         <a href='#/' onClick={ this.viewPageDetails }>show details for {url}</a>
     } else {
-      // best practices setup
-      let bestPracticesAudit = reports[3].audits;
-      let bestPracticesFails = [];
-      for (var i = 0; i < bestPracticesAudit.length; i++) {
-        if (bestPracticesAudit[i].score === 0) {
-          var bestPracticesFailDescript = bestPracticesAudit[i].result.description;
-          var bestPracticesFailHelp = bestPracticesAudit[i].result.helpText;
-          bestPracticesFails.push(bestPracticesFailDescript + ": " + bestPracticesFailHelp);
-        }
-      }
-      let bestPracticesFailNodes = bestPracticesFails.map(bestPracticeFail => {
-        return (<p key={bestPracticeFail}>- {bestPracticeFail}</p>);
-      });
-
       formAreaContent =
         <div>
           <a href='#/' onClick={ this.hidePageDetails }>hide details for {url}</a>
@@ -64,10 +48,8 @@ class PageDetail extends Component {
           <AccessibilityDetail
             data={this.props.data}/>
 
-          <h4>{bestPractices}</h4>
-          <h6>{bpDescription}</h6>
-          <h5>{bestPracticesFailNodes.length} failed audits</h5>
-          {bestPracticesFailNodes}
+          <BestPracticesDetail
+            data={this.props.data}/>
         </div>
     }
 
