@@ -62,21 +62,31 @@ class Page extends Component {
     let data = this.props.data.data;
     let reports = data.reportCategories;
     let url = data.initialUrl;
-    // do you want the date?
-    // let date = this.props.data.headers.date;
+    let date = this.props.data.headers.date;
 
     let paintScore = parseInt(data.audits['first-meaningful-paint']['score']);
     let performanceScore = parseInt((reports[1].score).toFixed());
     let bestPracticeScore = parseInt((reports[3].score).toFixed());
     let accessibilityScore = parseInt((reports[2].score).toFixed());
 
-    // this center-aligns the arc titles
-    var center = {
-      textAlign: "center",
-      fontSize: "12px"
+    // increases top padding on date
+    var dateStyle = {
+      paddingTop: "9px"
     }
 
-    // this makes the progress arcs smaller
+    // center-aligns the arc titles
+    var center = {
+      textAlign: "center",
+      fontSize: "13px",
+      whiteSpace: "nowrap"
+    }
+
+    // spaces out the progress arcs
+    var arcStyle = {
+      marginRight: "40px"
+    }
+
+    // makes the progress arcs smaller
     const StyledProgressArc = styled(ProgressArc)`
       height: 4em;
       width: 4em;
@@ -84,34 +94,52 @@ class Page extends Component {
 
     return (
       <Grid>
-        <h4>Results for {url}</h4>
-        <Row>
-          <Col xs={1} md={1}>
-            <StyledProgressArc
-              value={paintScore}
-              arcColor={this.state.paint}/>
-            <p style={center}>First Paint</p>
-          </Col>
-          <Col xs={1} md={1}>
-            <StyledProgressArc value={performanceScore}
-            arcColor={this.state.performance}/>
-            <p style={center}>Performance</p>
-          </Col>
-          <Col xs={1} md={1}>
-            <StyledProgressArc value={bestPracticeScore}
-            arcColor={this.state.bestPractice}/>
-            <p style={center}>Best Practices</p>
-          </Col>
-          <Col xs={1} md={1}>
-            <StyledProgressArc value={accessibilityScore}
-            arcColor={this.state.accessibility}/>
-            <p style={center}>Accessibility</p>
-          </Col>
-        </Row>
-
+        <div>
+          <div>
+            <Row>
+              <Col xs={3} md={3}></Col>
+              <Col xs={4} md={4}>
+                <h4>Results for {url}</h4>
+              </Col>
+              <Col xs={3} md={3}>
+                <p style={dateStyle}>{date}</p>
+              </Col>
+              <Col xs={2} md={2}></Col>
+            </Row>
+            <Row>
+              <Col xs={4} md={4}></Col>
+            <Col style={arcStyle} xs={1} md={1}>
+                <StyledProgressArc
+                  value={paintScore}
+                  arcColor={this.state.paint}/>
+                <h6 style={center}>First Paint</h6>
+              </Col>
+              <Col style={arcStyle} xs={1} md={1}>
+                <StyledProgressArc
+                  value={performanceScore}
+                  arcColor={this.state.performance}/>
+                <h6 style={center}>Performance</h6>
+              </Col>
+              <Col style={arcStyle} xs={1} md={1}>
+                <StyledProgressArc
+                  value={bestPracticeScore}
+                  arcColor={this.state.bestPractice}/>
+                <h5 style={center}>Best Practices</h5>
+              </Col>
+              <Col style={arcStyle} xs={1} md={1}>
+                <StyledProgressArc
+                  value={accessibilityScore}
+                  arcColor={this.state.accessibility}/>
+                <h5 style={center}>Accessibility</h5>
+              </Col>
+              <Col xs={4} md={4}></Col>
+            </Row>
+          </div>
+        </div>
+        
         <PageDetail
           data={data}/>
-        
+
       </Grid>
     )
   }
