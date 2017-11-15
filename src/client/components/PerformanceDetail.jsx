@@ -9,11 +9,15 @@ class PerformanceDetail extends Component {
     this.hideFirstInteractiveDetail = this.hideFirstInteractiveDetail.bind(this);
     this.viewConsistentlyInteractiveDetail = this.viewConsistentlyInteractiveDetail.bind(this);
     this.hideConsistentlyInteractiveDetail = this.hideConsistentlyInteractiveDetail.bind(this);
+    this.viewSpeedIndexDetail = this.viewSpeedIndexDetail.bind(this);
+    this.hideSpeedIndexDetail = this.hideSpeedIndexDetail.bind(this);
     this.state = {
       paintDetailShowing: false,
       paintStyle: '',
       firstInteractiveShowing: false,
-      consistentlyInteractiveShowing: false
+      consistentlyInteractiveShowing: false,
+      speedIndexShowing: false,
+      speedStyle: ''
     };
   }
 
@@ -54,11 +58,24 @@ class PerformanceDetail extends Component {
     });
   }
 
+  viewSpeedIndexDetail() {
+    this.setState({
+      speedIndexShowing: true
+    });
+  }
+
+  hideSpeedIndexDetail() {
+    this.setState({
+      speedIndexShowing: false
+    });
+  }
+
   // assign color to specific score values
   componentWillMount() {
     let data = this.props.data;
     let audits = data.audits;
     let firstPaintValue = audits['first-meaningful-paint']['rawValue'];
+    let speedScore = audits['speed-index-metric']['displayValue'];
 
     var red = {
       color: "red"
@@ -76,6 +93,14 @@ class PerformanceDetail extends Component {
       this.setState({paintStyle: orange});
     } else {
       this.setState({paintStyle: red});
+    }
+
+    if (speedScore <= 1600) {
+      this.setState({speedStyle: green});
+    } else if (speedScore > 1600 && speedScore < 4000) {
+      this.setState({speedStyle: orange});
+    } else {
+      this.setState({speedStyle: red});
     }
   }
 
@@ -100,6 +125,7 @@ class PerformanceDetail extends Component {
     let speedScore = audits['speed-index-metric']['displayValue'];
     let optimalSpeed = audits['speed-index-metric']['optimalValue'];
     let speedScoreDescript = audits['speed-index-metric']['helpText'];
+
     let inputLatency = audits['estimated-input-latency']['displayValue'];
     let inputLatencyOptimal = audits['estimated-input-latency']['optimalValue'];
     let inputLatencyDescript = audits['estimated-input-latency']['helpText'];
@@ -148,6 +174,21 @@ class PerformanceDetail extends Component {
       </div>
     }
 
+    let speedIndexDisplay;
+    if (this.state.speedIndexShowing === false) {
+      speedIndexDisplay =
+      <div className="well well-sm">
+        <p style={this.state.speedStyle}><a href='#/' onClick={ this.viewSpeedIndexDetail}>Perceptual Speed Index:</a> {speedScore} ms</p>
+      </div>
+    } else {
+      speedIndexDisplay =
+      <div className="well well-sm">
+        <p style={this.state.speedStyle}><a href='#/' onClick={ this.hideSpeedIndexDetail }>Perceptual Speed Index:</a> {speedScore} ms</p>
+        <p> (target: {optimalSpeed} ms)</p>
+        <p>{speedScoreDescript}</p>
+      </div>
+    }
+
     let perfAudit = reports[1].audits;
     let perfOpportunities = [];
     for (var i = 0; i < perfAudit.length; i++) {
@@ -174,8 +215,8 @@ class PerformanceDetail extends Component {
 
         {consistentlyInteractiveDisplay}
 
-        <p>Perceptual Speed Index: {speedScore} (target: {optimalSpeed})</p>
-        <p>{speedScoreDescript}</p>
+        {speedIndexDisplay}
+
         <p>Estimated Input Latency: {inputLatency} (target: {inputLatencyOptimal})</p>
         <p>{inputLatencyDescript}</p>
         <h5>Opportunities</h5>
