@@ -17,6 +17,8 @@ class PerformanceDetail extends Component {
     this.hideInputLatencyDetail = this.hideInputLatencyDetail.bind(this);
     this.viewOpportunityDetail = this.viewOpportunityDetail.bind(this);
     this.hideOpportunityDetail = this.hideOpportunityDetail.bind(this);
+    this.viewPassedAuditsDetail = this.viewPassedAuditsDetail.bind(this);
+    this.hidePassedAuditsDetail = this.hidePassedAuditsDetail.bind(this);
     this.state = {
       paintDetailShowing: false,
       paintStyle: '',
@@ -25,7 +27,8 @@ class PerformanceDetail extends Component {
       speedIndexShowing: false,
       speedStyle: '',
       inputLatencyShowing: false,
-      opportunityDetailShowing: false
+      opportunityDetailShowing: false,
+      passedAuditsShowing: false
     };
   }
 
@@ -99,6 +102,18 @@ class PerformanceDetail extends Component {
   hideOpportunityDetail() {
     this.setState({
       opportunityDetailShowing: false
+    });
+  }
+
+  viewPassedAuditsDetail() {
+    this.setState({
+      passedAuditsShowing: true
+    });
+  }
+
+  hidePassedAuditsDetail() {
+    this.setState({
+      passedAuditsShowing: false
     });
   }
 
@@ -237,8 +252,9 @@ class PerformanceDetail extends Component {
     }
 
     // performance opportunity information and display
-    let perfOpportunitiesDescript = data.reportGroups['perf-hint']['description'];
     let perfAudit = reports[1].audits;
+
+    let perfOpportunitiesDescript = data.reportGroups['perf-hint']['description'];
     let perfOpportunities = [];
     for (var i = 0; i < perfAudit.length; i++) {
       if (perfAudit[i].group === "perf-hint" && perfAudit[i].score < 100) {
@@ -255,7 +271,7 @@ class PerformanceDetail extends Component {
     if (this.state.opportunityDetailShowing === false) {
       opportunityDetailDisplay =
       <div className="well well-sm">
-        <h5><a href='#/' onClick={ this.viewOpportunityDetail}>Opportunities</a> ({perfOpportunityNodes.length})</h5> 
+        <h5><a href='#/' onClick={ this.viewOpportunityDetail}>Opportunities</a> ({perfOpportunityNodes.length})</h5>
       </div>
     } else {
       opportunityDetailDisplay =
@@ -266,7 +282,34 @@ class PerformanceDetail extends Component {
       </div>
     }
 
+    // finds all passed audits for performance
+    let passedAudits = [];
+    for (var i = 0; i < perfAudit.length; i++) {
+      if (perfAudit[i].score === 100) {
+        var passedAuditDescript = perfAudit[i].result.description;
+        var passedAuditHelp = perfAudit[i].result.helpText;
+        passedAudits.push(passedAuditDescript + ": " + passedAuditHelp);
+      }
+    }
+    // maps out all passed audits to split them up
+    let performancePassNodes = passedAudits.map(passedAudit => {
+      return (<div key={passedAudit}><p>- {passedAudit}</p></div>);
+    });
 
+    // options for passing audit display
+    let passedAuditsDisplay;
+    if (this.state.passedAuditsShowing === false) {
+      passedAuditsDisplay =
+      <div className="well well-sm">
+        <h5>{passedAudits.length} <a href='#/' onClick={ this.viewPassedAuditsDetail }>Passed Audits</a></h5>
+      </div>
+    } else {
+      passedAuditsDisplay =
+      <div className="well well-sm">
+        <h5>{passedAudits.length} <a href='#/' onClick={ this.hidePassedAuditsDetail }>Passed Audits</a></h5>
+        {performancePassNodes}
+      </div>
+    }
 
     return (
       <div>
@@ -284,6 +327,8 @@ class PerformanceDetail extends Component {
         {inputLatencyDisplay}
 
         {opportunityDetailDisplay}
+
+        {passedAuditsDisplay}
       </div>
     )
   }

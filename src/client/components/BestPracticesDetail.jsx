@@ -55,21 +55,21 @@ class BestPracticesDetail extends Component {
         passedAudits.push(bestPracticesPassDescript + ": " + bestPracticesPassHelp);
       }
     }
-    // maps out all failed audits to split them up
+    // maps out all passed audits to split them up
     let bestPracticesPassNodes = passedAudits.map(passedAudit => {
-      return (<div key={passedAudit} className="well well-sm"><p>- {passedAudit}</p></div>);
+      return (<div key={passedAudit}><p>- {passedAudit}</p></div>);
     });
 
     // options for passing audit display
     let passedAuditsDisplay;
     if (this.state.passedAuditsShowing === false) {
       passedAuditsDisplay =
-      <div>
+      <div className="well well-sm">
         <h5>{passedAudits.length} <a href='#/' onClick={ this.viewPassedAudits }>Passed Audits</a></h5>
       </div>
     } else {
       passedAuditsDisplay =
-      <div>
+      <div className="well well-sm">
         <h5>{passedAudits.length} <a href='#/' onClick={ this.hidePassedAudits }>Passed Audits</a></h5>
         {bestPracticesPassNodes}
       </div>
