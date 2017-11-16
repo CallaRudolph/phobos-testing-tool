@@ -164,7 +164,8 @@ class PerformanceDetail extends Component {
     // first paint information and display
     let firstPaint = audits['first-meaningful-paint']['displayValue'];
     let firstPaintOptimal = audits['first-meaningful-paint']['optimalValue'];
-    let firstPaintDescript = audits['first-meaningful-paint']['helpText'];
+    let firstPaintDescript = audits['first-meaningful-paint']['helpText'].replace(/Learn More/i, '').replace('[', '').replace(']', '').replace('(', '').replace(').', '');
+
     let paintDisplay;
     if (this.state.paintDetailShowing === false) {
       paintDisplay =
@@ -182,7 +183,7 @@ class PerformanceDetail extends Component {
 
     // first interactive information and display
     let firstInteractive = audits['first-interactive']['displayValue'];
-    let firstInteractiveDescript = audits['first-interactive']['helpText'];
+    let firstInteractiveDescript = audits['first-interactive']['helpText'].replace(/Learn More/i, '').replace('[', '').replace(']', '').replace('(', '').replace(').', '');
     let firstInteractiveDisplay;
     if (this.state.firstInteractiveShowing === false) {
       firstInteractiveDisplay =
@@ -199,7 +200,7 @@ class PerformanceDetail extends Component {
 
     // consistently interactive information and display
     let consistentlyInteractive = audits['consistently-interactive']['displayValue'];
-    let consistentlyInteractiveDescript = audits['consistently-interactive']['helpText'];
+    let consistentlyInteractiveDescript = audits['consistently-interactive']['helpText'].replace(/Learn More/i, '').replace('[', '').replace(']', '').replace('(', '').replace(').', '');
     let consistentlyInteractiveDisplay;
     if (this.state.consistentlyInteractiveShowing === false) {
       consistentlyInteractiveDisplay =
@@ -217,7 +218,7 @@ class PerformanceDetail extends Component {
     // perceptual speed index information and display
     let speedScore = audits['speed-index-metric']['displayValue'];
     let optimalSpeed = audits['speed-index-metric']['optimalValue'];
-    let speedScoreDescript = audits['speed-index-metric']['helpText'];
+    let speedScoreDescript = audits['speed-index-metric']['helpText'].replace(/Learn More/i, '').replace('[', '').replace(']', '').replace('(', '').replace(').', '');
     let speedIndexDisplay;
     if (this.state.speedIndexShowing === false) {
       speedIndexDisplay =
@@ -236,7 +237,7 @@ class PerformanceDetail extends Component {
     // estimated input latency information and display
     let inputLatency = audits['estimated-input-latency']['displayValue'];
     let inputLatencyOptimal = audits['estimated-input-latency']['optimalValue'];
-    let inputLatencyDescript = audits['estimated-input-latency']['helpText'];
+    let inputLatencyDescript = audits['estimated-input-latency']['helpText'].replace(/Learn More/i, '').replace('[', '').replace(']', '').replace('(', '').replace(').', '');
     let inputLatencyDisplay;
     if (this.state.inputLatencyShowing === false) {
       inputLatencyDisplay =
@@ -259,7 +260,7 @@ class PerformanceDetail extends Component {
     for (var i = 0; i < perfAudit.length; i++) {
       if (perfAudit[i].group === "perf-hint" && perfAudit[i].score < 100) {
         var perfOpportunityDescript = perfAudit[i].result.description;
-        var perfOpportunityHelp = perfAudit[i].result.helpText;
+        var perfOpportunityHelp = perfAudit[i].result.helpText.replace(/Learn More/i, '').replace('[', '').replace('](', '').replace(').', '');
         perfOpportunities.push(perfOpportunityDescript + ": " + perfOpportunityHelp);
       }
     }
@@ -287,7 +288,7 @@ class PerformanceDetail extends Component {
     for (var i = 0; i < perfAudit.length; i++) {
       if (perfAudit[i].score === 100) {
         var passedAuditDescript = perfAudit[i].result.description;
-        var passedAuditHelp = perfAudit[i].result.helpText;
+        var passedAuditHelp = perfAudit[i].result.helpText.replace(/Learn More/i, '').replace('[', '').replace('](', ' ').replace(')', '').replace('[highly correlated]', 'highly correlated').replace(')', '').replace('[layout reflows]', 'layout reflows').replace('),', ',').replace('s(', 's ').replace('[]', ' ').replace('d(', 'd ');
         passedAudits.push(passedAuditDescript + ": " + passedAuditHelp);
       }
     }

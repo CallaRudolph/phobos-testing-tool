@@ -37,8 +37,8 @@ class AccessibilityDetail extends Component {
     for (var i = 0; i < accessAudit.length; i++) {
       if (accessAudit[i].score === 0) {
         var accessFailDescript = accessAudit[i].result.description;
-        var accessFailHelp = accessAudit[i].result.helpText;
-        accessFails.push(accessFailDescript + ": " + accessFailHelp);
+        var accessFailHelp = accessAudit[i].result.helpText.replace(/Learn More/i, '').replace('[', '').replace(']', '').replace('(', '').replace(').', '');
+        accessFails.push(accessFailDescript + " " + accessFailHelp);
       }
     }
     // maps out all failed audits to split them up
@@ -50,9 +50,9 @@ class AccessibilityDetail extends Component {
     let passedAudits = [];
     for (var i = 0; i < accessAudit.length; i++) {
       if (accessAudit[i].score === 100) {
-        var accessPassDescript = accessAudit[i].result.description;
-        var accessPassHelp = accessAudit[i].result.helpText;
-        passedAudits.push(accessPassDescript + ": " + accessPassHelp);
+        var accessPassDescript = accessAudit[i].result.description.replace('`[', '').replace(']`', '');
+        var accessPassHelp = accessAudit[i].result.helpText.replace(/Learn More/i, '').replace('[', '').replace(']', '').replace('(', '').replace(').', '');
+        passedAudits.push(accessPassDescript + " " + accessPassHelp);
       }
     }
     // maps out all passed audits to split them up

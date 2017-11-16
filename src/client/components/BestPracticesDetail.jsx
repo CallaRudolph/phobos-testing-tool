@@ -37,7 +37,7 @@ class BestPracticesDetail extends Component {
     for (var i = 0; i < bestPracticesAudit.length; i++) {
       if (bestPracticesAudit[i].score === 0) {
         var bestPracticesFailDescript = bestPracticesAudit[i].result.description;
-        var bestPracticesFailHelp = bestPracticesAudit[i].result.helpText;
+        var bestPracticesFailHelp = bestPracticesAudit[i].result.helpText.replace(/Learn More/i, '').replace('[', '').replace(']', '').replace('(', '').replace(').', '');
         bestPracticesFails.push(bestPracticesFailDescript + ": " + bestPracticesFailHelp);
       }
     }
@@ -51,7 +51,7 @@ class BestPracticesDetail extends Component {
     for (var i = 0; i < bestPracticesAudit.length; i++) {
       if (bestPracticesAudit[i].score === 100) {
         var bestPracticesPassDescript = bestPracticesAudit[i].result.description;
-        var bestPracticesPassHelp = bestPracticesAudit[i].result.helpText;
+        var bestPracticesPassHelp = bestPracticesAudit[i].result.helpText.replace(/Learn More/i, '').replace('[', '').replace('](', '').replace(').', '').replace(')', '');
         passedAudits.push(bestPracticesPassDescript + ": " + bestPracticesPassHelp);
       }
     }
