@@ -35,9 +35,10 @@ class BestPracticesDetail extends Component {
     // finds all failed audits for best practices
     let bestPracticesFails = [];
     for (var i = 0; i < bestPracticesAudit.length; i++) {
-      if (bestPracticesAudit[i].score === 0) {
+      if (bestPracticesAudit[i].score === 0 && bestPracticesAudit[i].result.details !== undefined) {
         var bestPracticesFailDescript = bestPracticesAudit[i].result.description;
         var bestPracticesFailHelp = bestPracticesAudit[i].result.helpText.replace(/Learn More/i, '').replace('[', '').replace(']', '').replace('(', '').replace(').', '');
+
         // finds specific line items for the failures
         var failItemsLoop = bestPracticesAudit[i].result.details.items;
         var failItems = [];
@@ -52,14 +53,13 @@ class BestPracticesDetail extends Component {
             failItems.push(itemArray);
           }
         }
-        var failItemsMerge = failItems[0];
         let failItemsDisplay;
         // ensures no empty line items are joined
-        if (failItemsMerge !== undefined) {
-          failItemsDisplay = failItemsMerge.join(", ");
+        if (failItems !== undefined) {
+          failItemsDisplay = failItems.join(", ");
         }
         // some failed audits don't show line items, this decides what to display for the failed audit
-        if (failItemsDisplay === undefined) {
+        if (failItemsDisplay === undefined || failItemsDisplay === '') {
           bestPracticesFails.push(bestPracticesFailDescript + ": " + bestPracticesFailHelp);
         } else {
           bestPracticesFails.push(bestPracticesFailDescript + ": " + bestPracticesFailHelp + " --> the issue can be found at " + failItemsDisplay);
