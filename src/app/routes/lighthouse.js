@@ -5,8 +5,12 @@ self.setImmediate = function(callback, ...argsForCallback) {
 }; // prevents '_destroySSL' error message during testing between lighthouse & crawler
 const chromeLauncher = require('chrome-launcher');
 
+chromeOptions = {
+        chromeFlags: ["--disable-gpu", "--headless", "--enable-logging", "--no-sandbox"]
+}
+
 function launchChromeAndRunLighthouse(url, flags = {}, config = null) {
-  return chromeLauncher.launch().then(chrome => {
+  return chromeLauncher.launch(chromeOptions).then(chrome => {
     flags.port = chrome.port;
     return lighthouse(url, flags, config).then(results =>
       chrome.kill().then(() => results));
