@@ -7,7 +7,7 @@ const chromeLauncher = require('chrome-launcher');
 
 chromeOptions = {
         chromeFlags: ["--disable-gpu", "--headless", "--enable-logging", "--no-sandbox"]
-}
+} // need these to prevent (node:2808) UnhandledPromiseRejectionWarning: Unhandled promise rejection (rejection id: 1): Error: connect ECONNREFUSED 127.0.0.1:43215 in Travis
 
 function launchChromeAndRunLighthouse(url, flags = {}, config = null) {
   return chromeLauncher.launch(chromeOptions).then(chrome => {
