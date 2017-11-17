@@ -1,19 +1,7 @@
-let Url = require('../models/urlModel');
 var Crawler = require("js-crawler");
 
-// GET /crawl route to retrieve all the tasks.
-function getUrls(req, res) {
-  //Query the DB and if no errors, send all the sites
-  let query = Url.find({});
-  query.exec((err, urls) => {
-    if(err) res.send(err);
-    //if no errors, send them back to the client
-    res.json(urls);
-  });
-}
-
-//POST /crawl to save a new site
-function postUrl(req, res) {
+//POST /crawl endpoint to initialize crawler
+function postCrawl(req, res) {
   console.log("Crawler running...");
   var currentUrl = req.body.url; // from user input
   var pages = []; // dummy array that will be used to check for duplicate entries
@@ -62,4 +50,4 @@ function postUrl(req, res) {
 }
 
 //export all the functions
-module.exports = { getUrls, postUrl };
+module.exports = { postCrawl };
