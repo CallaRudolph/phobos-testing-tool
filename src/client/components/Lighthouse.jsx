@@ -21,7 +21,7 @@ class Lighthouse extends Component {
   }
 
   handleSubmit(event) {
-    this.setState({pending: true}); // alters state for pending crawler message
+    this.setState({pending: true}); // alters state for pending lighthouse message
     event.preventDefault();
     var url = {'url': this.state.url};
     axios.post('/lighthouse', url)

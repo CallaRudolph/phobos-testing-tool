@@ -59,7 +59,7 @@ class UrlCrawler extends Component {
           <input
             placeholder="https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
             <Button bsStyle="success"
-            bsSize="xsmall" type="submit">crawl</Button>
+            bsSize="xsmall" type="submit">Start Testing</Button>
         </form>
         { crawlPending }
         <CrawlList
