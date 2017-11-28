@@ -52,5 +52,8 @@ app.route("/crawl")
   .post(crawl.postCrawl);
 app.route("/lighthouse")
   .post(lighthouse.postLighthouse);
+app.route("/results")
+  .get(crawl.getResults)
+  .post(crawl.postResults);
 
 module.exports = app; //for testing

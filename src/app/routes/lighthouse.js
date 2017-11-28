@@ -17,7 +17,6 @@ function launchChromeAndRunLighthouse(url, flags = {}, config = null) {
   });
 }
 
-
 //POST /lighthouse to save a new site
 function postLighthouse(req, res) {
   console.log("Lighthouse running...");
@@ -29,8 +28,20 @@ function postLighthouse(req, res) {
     // console.log(results);
     res.status(200).json(results);
   });
+}
 
+// New Function to use in the crawler
+function runLighthouse(url){
+  console.log("Lighthouse running for crawler");
+  var currentUrl = url; // from user input
+  const flags = {output: 'json'};
+
+  return new Promise((resolve, reject) => {
+    launchChromeAndRunLighthouse(currentUrl, flags).then(results => {
+      resolve(results);
+    });
+  });
 }
 
 //export all the functions
-module.exports = { postLighthouse };
+module.exports = { postLighthouse, runLighthouse };

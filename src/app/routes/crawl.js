@@ -1,62 +1,8 @@
 var Crawler = require("js-crawler");
 var http = require('http');
-
-//make a async function to call with a url to go fetch lighthouse data
-// this is where you will put the post request
-
-async function retrieveJsonBlobs ($urls){
-  for (let $aUrl of $urls){
-    const blob = await getJson($aUrl);
-    console.log(blob);
-  }
-}
-
-async function getJson($aUrl){
-  const postData = JSON.stringify({
-    'url': $aUrl
-  });
-
-  //The url we want `http://localhost:3000/lighthouse`
-  var options = {
-    host: 'localhost',
-    path: '/lighthouse',
-    //since we are listening on a custom port, we need to specify it by hand
-    port: '3000',
-    //This is what changes the request to a POST request
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Content-Length': Buffer.byteLength(postData)
-    }
-  };
-
-  const req = http.request(options, (res) => {
-    console.log(`STATUS: ${res.statusCode}`);
-    res.setEncoding('utf8');
-    res.on('data', (chunk) => {
-      console.log(`BODY: ${chunk}`);
-    });
-    res.on('end', () => {
-      console.log('No more data in response.');
-    });
-  });
-
-  req.on('error', (e) => {
-    console.error(`problem with request: ${e.message}`);
-  });
-
-  // write data to request body
-  req.write(postData);
-  req.end();
-}
-
-
-
-
-
-
-
-
+let lighthouse = require('./lighthouse');
+let axios = require('axios');
+let Result = require('../models/resultModel');
 
 //POST /crawl endpoint to initialize crawler
 function postCrawl(req, res) {
@@ -101,17 +47,69 @@ function postCrawl(req, res) {
       if (crawledUrls.length <= 1) {
         res.status(200).json(error); // send error when crawler returns nothing
       } else {
-        retrieveJsonBlobs(noDuplicates)
-        .then(res.status(200).json(noDuplicates) // send full list from crawler with no duplicates
-        );
+        // var currentUrl = "https://percussionaire.com";
 
+        // lighthouse.runLighthouse(currentUrl).then((result) => {
+        //   console.log(result + " success");
+        //   res.status(200).json(noDuplicates);
+        // });
 
+        var blobs = async function(urls) {
+          let masterData = [];
+          res.status(200).json(noDuplicates)
+          res.end("done");
 
+          for (let url of urls){
+            var blob = await lighthouse.runLighthouse(url).then((jsonBlob) => {
+              var currentResult = {"url":url, "blob":jsonBlob};
+
+              // console.log(currentResult);
+
+              // axios.post('results', currentResult)
+              // .catch(err => {
+              //   console.error(err);
+              // });
+              console.log(url + ":");
+              console.log(jsonBlob);
+              masterData.push({"url":url, "blob":jsonBlob});
+            });
+          }
+
+          return masterData;
+
+        }
+
+        blobs(noDuplicates).then((resultTotal) => {
+          console.log("we made it!");
+          // res.status(200).json(noDuplicates);
+        });
 
       }
     }
   });
 }
 
+function getResults(req, res) {
+  //Query the DB and if no errors, send all the results
+  let query = Result.find({});
+  query.exec((err, results) => {
+    if(err) res.send(err);
+    //if no errors, send them back to the client
+    res.json(results);
+  });
+}
+
+function postResults(req, res) {
+  var newResult = new Result(req);
+  newResult.save((err,result) => {
+    if(err) {
+      res.send(err);
+    }
+    else {
+      res.json({message: "result saved", result});
+    }
+  });
+}
+
 //export all the functions
-module.exports = { postCrawl };
+module.exports = { postCrawl, postResults, getResults };

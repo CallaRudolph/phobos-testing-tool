@@ -9,7 +9,7 @@ class App extends Component {
       <div className='container'>
         <h2>Phobos Testing Tool</h2>
         <p><em>description here</em></p>
-        {/* <TaskInput/> */}
+        <TaskInput/>
         <UrlCrawler/>
         {/* <Lighthouse/> */}
       </div>
