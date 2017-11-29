@@ -26,9 +26,9 @@ The lighthouse API which will be used to build to the database with site feedbac
 - [x] **Step 2: Crawling**
   - [x] Crawl Unit Tests Written and Failing
   - [x] js-crawler Implementation and Tests Passing
-- [ ] **Step 3: Lighthouse API Integration**
-  - [ ] Lighthouse API Unit Tests Written and Failing
-  - [ ] Lighthouse API Integrated and Basic Tests Passing
+- [x] **Step 3: Lighthouse API Integration**
+  - [x] Lighthouse API Unit Tests Written and Failing
+  - [x] Lighthouse API Integrated and Basic Tests Passing
 - [ ] **Step 4: Putting the Crawl and the Lighthouse API Together**
   - [ ] Unit Test Written and Failing to Feed Crawler a URL and Run Lighthouse on Each Page
   - [ ] Unit Test Passing to Crawl and Test Each Page
