@@ -49,6 +49,7 @@ class Lighthouse extends Component {
 
     return (
       <div>
+        <h4>Enter a url to lighthouse:</h4>
         <form onSubmit={this.handleSubmit}>
           <input
             size="28"

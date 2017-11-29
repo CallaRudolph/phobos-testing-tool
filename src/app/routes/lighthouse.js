@@ -30,7 +30,7 @@ function postLighthouse(req, res) {
   });
 }
 
-// New Function to use in the crawler
+// runs lighthouse on every url from the crawler
 function runLighthouse(url){
   console.log("Lighthouse running for crawler");
   var currentUrl = url; // from user input

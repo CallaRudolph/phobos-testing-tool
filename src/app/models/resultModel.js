@@ -4,7 +4,8 @@ let Schema = mongoose.Schema;
 // result schema definition
 let ResultSchema = new Schema(
   {
-    lighthouse: { type: Object, required: true },
+    url: { type: String, required: true },
+    blob: { type: Object, required: true },
     createdAt: { type: Date, default: Date.now },
   },
   {

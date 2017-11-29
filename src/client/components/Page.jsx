@@ -97,8 +97,8 @@ class Page extends Component {
         <div>
           <div>
             <Row>
-              <Col xs={3} md={3}></Col>
-              <Col xs={4} md={4}>
+              {/* <Col xs={3} md={3}></Col> */}
+              <Col xs={7} md={7}>
                 <h4>Results for {url}</h4>
               </Col>
               <Col xs={3} md={3}>
@@ -136,7 +136,7 @@ class Page extends Component {
             </Row>
           </div>
         </div>
-        
+
         <PageDetail
           data={data}/>
 

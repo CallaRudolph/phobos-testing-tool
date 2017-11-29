@@ -54,12 +54,12 @@ class UrlCrawler extends Component {
 
     return (
       <div>
-        <h3>Enter a url to crawl:</h3>
+        <h4>Enter a url to crawl:</h4>
         <form onSubmit={this.handleSubmit}>
           <input
             placeholder="https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
             <Button bsStyle="success"
-            bsSize="xsmall" type="submit">Start Testing</Button>
+            bsSize="xsmall" type="submit">Start Crawling</Button>
         </form>
         { crawlPending }
         <CrawlList

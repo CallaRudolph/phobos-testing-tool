@@ -47,43 +47,30 @@ function postCrawl(req, res) {
       if (crawledUrls.length <= 1) {
         res.status(200).json(error); // send error when crawler returns nothing
       } else {
-        // var currentUrl = "https://percussionaire.com";
-
-        // lighthouse.runLighthouse(currentUrl).then((result) => {
-        //   console.log(result + " success");
-        //   res.status(200).json(noDuplicates);
-        // });
-
         var blobs = async function(urls) {
           let masterData = [];
+
           res.status(200).json(noDuplicates)
-          res.end("done");
+          res.end("done"); // these are needed to prevent a timeout in the server
 
           for (let url of urls){
             var blob = await lighthouse.runLighthouse(url).then((jsonBlob) => {
-              var currentResult = {"url":url, "blob":jsonBlob};
+              var currentResult = {"url":url, "blob":jsonBlob.audits}; // shrink to just audits piece due to mongoDB size restriction
 
-              // console.log(currentResult);
-
-              // axios.post('results', currentResult)
-              // .catch(err => {
-              //   console.error(err);
-              // });
-              console.log(url + ":");
-              console.log(jsonBlob);
+              axios.post('http://localhost:3000/results', currentResult)
+              .catch(err => {
+                console.error(err);
+              });
+              // need the full url in post request here to prevent connect ECONNREFUSED 127.0.0.1:80
               masterData.push({"url":url, "blob":jsonBlob});
             });
           }
-
           return masterData;
-
         }
 
         blobs(noDuplicates).then((resultTotal) => {
-          console.log("we made it!");
-          // res.status(200).json(noDuplicates);
+          console.log("all crawled urls have been sent through lighthouse!");
         });
-
       }
     }
   });
@@ -100,12 +87,15 @@ function getResults(req, res) {
 }
 
 function postResults(req, res) {
-  var newResult = new Result(req);
+  var newResult = new Result(req.body);
+  newResult.set('validateBeforeSave', false);
   newResult.save((err,result) => {
     if(err) {
       res.send(err);
+      console.log(err + " error");
     }
     else {
+      console.log(result + " result");
       res.json({message: "result saved", result});
     }
   });

@@ -8,10 +8,11 @@ let lighthouse = require('../app/routes/lighthouse');
 
 var app = express();
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
+// increase limit from default 1mb
 
 //parse application/json and look for raw text
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit:50000})); // increase limit for large lighthouse object to save to mongo
 app.use(bodyParser.json({ type: 'application/json'}));
 
 app.use(express.static(__dirname + './../../'));
