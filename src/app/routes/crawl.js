@@ -55,10 +55,10 @@ function postCrawl(req, res) {
 
           for (let url of urls){
             var blob = await lighthouse.runLighthouse(url).then((jsonBlob) => {
-              let paintScore = parseInt(jsonBlob.audits['first-meaningful-paint']['score']);
-              let performanceScore = parseInt((jsonBlob.reportCategories[1].score).toFixed());
-              let bestPracticeScore = parseInt((jsonBlob.reportCategories[3].score).toFixed());
-              let accessibilityScore = parseInt((jsonBlob.reportCategories[2].score).toFixed());
+              let paintScore = jsonBlob.audits['first-meaningful-paint']['score'];
+              let performanceScore = (jsonBlob.reportCategories[1].score).toFixed();
+              let bestPracticeScore = (jsonBlob.reportCategories[3].score).toFixed();
+              let accessibilityScore = (jsonBlob.reportCategories[2].score).toFixed();
 
               var currentResult = {"url":url, "firstPaint":paintScore, "performance":performanceScore, "bestPractices":bestPracticeScore, "accessibility":accessibilityScore}; // shrink to only high level data from jsonBlob due to mongoDB size restriction & '.' key error
 
@@ -67,7 +67,7 @@ function postCrawl(req, res) {
                 console.error(err);
               });
               // need the full url in post request here to prevent connect ECONNREFUSED 127.0.0.1:80
-              masterData.push({"url":url, "blob":jsonBlob});
+              masterData.push({"blob":currentResult});
             });
           }
           return masterData;
@@ -93,14 +93,12 @@ function getResults(req, res) {
 
 function postResults(req, res) {
   var newResult = new Result(req.body);
-  newResult.set('validateBeforeSave', false);
   newResult.save((err,result) => {
     if(err) {
       res.send(err);
       console.log(err + " error");
     }
     else {
-      console.log(result + " result");
       res.json({message: "result saved", result});
     }
   });

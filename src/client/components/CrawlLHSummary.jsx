@@ -84,7 +84,9 @@ class CrawlLHSummary extends Component {
 
     // decreases size of arc labels
     var small = {
-      fontSize: "11px"
+      textAlign: "center",
+      fontSize: "12px",
+      whiteSpace: "nowrap"
     }
 
     // makes the progress arcs smaller

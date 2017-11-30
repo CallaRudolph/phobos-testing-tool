@@ -19,8 +19,8 @@ function launchChromeAndRunLighthouse(url, flags = {}, config = null) {
 
 //POST /lighthouse to save a new site
 function postLighthouse(req, res) {
-  console.log("Lighthouse running...");
   var currentUrl = req.body.url; // from user input
+  console.log("Lighthouse detail running on " + currentUrl);
   const flags = {output: 'json'};
 
   // Usage:
@@ -32,8 +32,8 @@ function postLighthouse(req, res) {
 
 // runs lighthouse on every url from the crawler
 function runLighthouse(url){
-  console.log("Lighthouse running for crawler");
   var currentUrl = url; // from user input
+  console.log("Lighthouse running for crawler on " + currentUrl);
   const flags = {output: 'json'};
 
   return new Promise((resolve, reject) => {

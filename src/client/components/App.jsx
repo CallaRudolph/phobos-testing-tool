@@ -8,7 +8,8 @@ class App extends Component {
     return (
       <div className='container'>
         <h2>Phobos Testing Tool</h2>
-        <p><em>description here</em></p>
+        <p><em>A project to automate basic testing of websites using Google Lighthouse API.</em></p>
+        <br/>
         {/* <TaskInput/> */}
         <UrlCrawler/>
         <br/>
