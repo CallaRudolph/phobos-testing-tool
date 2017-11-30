@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import TaskInput from './TaskInput.jsx';
 import UrlCrawler from './UrlCrawler.jsx';
-import Lighthouse from './Lighthouse.jsx';
+import LighthouseDetail from './LighthouseDetail.jsx';
 
 class App extends Component {
   render() {
@@ -11,7 +11,8 @@ class App extends Component {
         <p><em>description here</em></p>
         {/* <TaskInput/> */}
         <UrlCrawler/>
-        <Lighthouse/>
+        <br/>
+        <LighthouseDetail/>
       </div>
     )
   }

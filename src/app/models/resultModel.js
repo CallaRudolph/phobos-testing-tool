@@ -5,7 +5,10 @@ let Schema = mongoose.Schema;
 let ResultSchema = new Schema(
   {
     url: { type: String, required: true },
-    blob: { type: Object, required: true },
+    firstPaint: { type: String, required: true },
+    performance: { type: String, required: true },
+    bestPractices: { type: String, required: true },
+    accessibility: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
   },
   {

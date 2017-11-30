@@ -55,7 +55,12 @@ function postCrawl(req, res) {
 
           for (let url of urls){
             var blob = await lighthouse.runLighthouse(url).then((jsonBlob) => {
-              var currentResult = {"url":url, "blob":jsonBlob.audits}; // shrink to just audits piece due to mongoDB size restriction
+              let paintScore = parseInt(jsonBlob.audits['first-meaningful-paint']['score']);
+              let performanceScore = parseInt((jsonBlob.reportCategories[1].score).toFixed());
+              let bestPracticeScore = parseInt((jsonBlob.reportCategories[3].score).toFixed());
+              let accessibilityScore = parseInt((jsonBlob.reportCategories[2].score).toFixed());
+
+              var currentResult = {"url":url, "firstPaint":paintScore, "performance":performanceScore, "bestPractices":bestPracticeScore, "accessibility":accessibilityScore}; // shrink to only high level data from jsonBlob due to mongoDB size restriction & '.' key error
 
               axios.post('http://localhost:3000/results', currentResult)
               .catch(err => {
@@ -101,5 +106,12 @@ function postResults(req, res) {
   });
 }
 
+//DELETE /results/:id to delete a result given its id
+function deleteResults(req, res) {
+  Result.remove({_id : req.params.id}, (err, result) => {
+    res.json({ message: "result successfully deleted", result });
+  });
+}
+
 //export all the functions
-module.exports = { postCrawl, postResults, getResults };
+module.exports = { postCrawl, postResults, getResults, deleteResults };

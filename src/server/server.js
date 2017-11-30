@@ -24,6 +24,10 @@ if(process.env.MONGODB_URI) {
 } else {
   var mongoDB = 'mongodb://127.0.0.1/my_database';
   mongoose.connect(mongoDB);
+  // mongoose.connect(mongoDB, function(){
+  //   /* Drop the DB if needed */
+  //   mongoose.connection.db.dropDatabase();
+  // });
 }
 
 var db = mongoose.connection;
@@ -56,5 +60,8 @@ app.route("/lighthouse")
 app.route("/results")
   .get(crawl.getResults)
   .post(crawl.postResults);
+app.route("/results/:id")
+  .get(crawl.getResults)
+  .delete(crawl.deleteResults);
 
 module.exports = app; //for testing

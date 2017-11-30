@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import PageList from "./PageList.jsx";
 // import { Grid, Col, Row } from 'react-bootstrap';
 
-class Lighthouse extends Component {
+class LighthouseDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -49,7 +49,7 @@ class Lighthouse extends Component {
 
     return (
       <div>
-        <h4>Enter a url to lighthouse:</h4>
+        <h4>Enter a url for detailed lighthouse results:</h4>
         <form onSubmit={this.handleSubmit}>
           <input
             size="28"
@@ -67,4 +67,4 @@ class Lighthouse extends Component {
   }
 }
 
-export default Lighthouse;
+export default LighthouseDetail;

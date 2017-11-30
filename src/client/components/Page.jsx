@@ -97,7 +97,6 @@ class Page extends Component {
         <div>
           <div>
             <Row>
-              {/* <Col xs={3} md={3}></Col> */}
               <Col xs={7} md={7}>
                 <h4>Results for {url}</h4>
               </Col>
@@ -108,29 +107,29 @@ class Page extends Component {
             </Row>
             <Row>
               <Col xs={4} md={4}></Col>
-            <Col style={arcStyle} xs={1} md={1}>
+              <Col style={arcStyle} xs={1} md={1}>
                 <StyledProgressArc
                   value={paintScore}
                   arcColor={this.state.paint}/>
-                <h6 style={center}>First Paint</h6>
+                  <h6 style={center}>First Paint</h6>
               </Col>
               <Col style={arcStyle} xs={1} md={1}>
                 <StyledProgressArc
                   value={performanceScore}
                   arcColor={this.state.performance}/>
-                <h6 style={center}>Performance</h6>
+                  <h6 style={center}>Performance</h6>
               </Col>
               <Col style={arcStyle} xs={1} md={1}>
                 <StyledProgressArc
                   value={bestPracticeScore}
                   arcColor={this.state.bestPractice}/>
-                <h5 style={center}>Best Practices</h5>
+                  <h5 style={center}>Best Practices</h5>
               </Col>
               <Col style={arcStyle} xs={1} md={1}>
                 <StyledProgressArc
                   value={accessibilityScore}
                   arcColor={this.state.accessibility}/>
-                <h5 style={center}>Accessibility</h5>
+                  <h5 style={center}>Accessibility</h5>
               </Col>
               <Col xs={4} md={4}></Col>
             </Row>

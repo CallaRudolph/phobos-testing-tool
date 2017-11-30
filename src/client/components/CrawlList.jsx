@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import CrawlLHSummary from './CrawlLHSummary.jsx';
 
 class CrawlList extends Component {
   constructor(props) {
@@ -24,26 +25,44 @@ class CrawlList extends Component {
   }
 
   render() {
-    let pageNodes = this.props.data.map(url => {
+    let crawledLighthouseNodes = this.props.local.map(result => {
       return (
-          <p key={url}>{url}</p>
+        <CrawlLHSummary
+          key={ result._id }
+          id={ result._id }
+          url={ result.url }
+          createdAt={ result.createdAt }
+          firstPaint={ result.firstPaint }
+          performance={ result.performance }
+          bestPractices={ result.bestPractices }
+          accessibility={ result.accessibility }/>
       )
     });
+
+    // this is just the basic crawl list w/o lighthouse results
+    // let pageNodes = this.props.data.map(url => {
+    //   return (
+    //       <p key={url}>{url}</p>
+    //   )
+    // });
+
     let formAreaContent;
-    if (pageNodes.length === 0) {
+    if (crawledLighthouseNodes.length === 0) {
       formAreaContent = ''
     } else if (this.state.listShowing === false) {
       formAreaContent =
         <div>
-          <h5><a href='#/' onClick={ this.viewCrawlList }>click for list of pages found from crawler</a></h5>
+          <h4><a href='#/' onClick={ this.viewCrawlList }>summary of crawled urls from lighthouse</a></h4>
         </div>
     } else {
         formAreaContent =
           <div>
-            <h4><a href='#/' onClick={ this.hideCrawlList }>list of pages found from crawler:</a></h4>
-            { pageNodes }
+            <h4><a href='#/' onClick={ this.hideCrawlList }>hide list</a></h4>
+            {/* { pageNodes } */}
+            { crawledLighthouseNodes }
           </div>
     }
+
     return (
       <div>
         { formAreaContent }
