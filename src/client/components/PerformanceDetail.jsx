@@ -254,7 +254,6 @@ class PerformanceDetail extends Component {
 
     // performance opportunity information and display
     let perfAudit = reports[1].audits;
-    console.log(perfAudit);
 
     let perfOpportunitiesDescript = data.reportGroups['perf-hint']['description'];
     let perfOpportunities = [];

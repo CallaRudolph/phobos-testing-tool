@@ -74,4 +74,4 @@ The lighthouse API which will be used to build to the database with site feedbac
 # Next Steps
 - [ ] Write and pass tests for crawler/lighthouse integration
 - [ ] Attempt to save entire lighthouse object into Mongo
-- [ ] Improve UI for lighthouse results, including more details for critical chain issues
+- [ ] Improve UI for lighthouse results, including display of critical request chain values for easy copy/paste

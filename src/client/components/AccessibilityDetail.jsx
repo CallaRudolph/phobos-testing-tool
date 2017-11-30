@@ -29,7 +29,7 @@ class AccessibilityDetail extends Component {
     let audits = data.audits;
 
     let accessibility = reports[2].name;
-    let accDescription = reports[2].description;
+    let accDescription = reports[2].description.replace('[', '').replace('](', ' - ').replace(').', '');
     let accessAudit = reports[2].audits;
 
     // finds all failed audits for accessibility
