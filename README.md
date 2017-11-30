@@ -33,13 +33,13 @@ The lighthouse API which will be used to build to the database with site feedbac
   - [ ] Unit Test Written and Failing to Feed Crawler a URL and Run Lighthouse on Each Page
   - [ ] Unit Test Passing to Crawl and Test Each Page
 - [ ] **Step 5: Saving the Data**
-  - [ ] Analyze Lighthouse JSON and Develop DB Schema for Archiving Results
+  - [x] Analyze Lighthouse JSON and Develop DB Schema for Archiving Results
   - [ ] Write Unit Tests for Storing Lighthouse API Data
   - [ ] Unit Tests Passing for Storing Data
   - [ ] Write Unit Tests for Storing All Lighthouse Results From a Successful Crawl
   - [ ] Successful Crawl Lighthouse Results Unit Test Passing
 - [ ] **Step 6: Displaying Results**
-  - [ ] Create Basic UX / Component Map for Displaying Results of Multiple Sites Reviewed
+  - [x] Create Basic UX / Component Map for Displaying Results of Multiple Sites Reviewed
   - [ ] Write Unit Tests for Displaying Sites and Lighthouse Page Audits
   - [ ] Write React Components to Display Results and Pass Tests
 
@@ -70,3 +70,8 @@ The lighthouse API which will be used to build to the database with site feedbac
 10. Update .travis.yml with your specific Heroku app name --> app: my-app-123
 11. Commit any changes you have made.
 12. `git push origin master`
+
+# Next Steps
+- [ ] Write and pass tests for crawler/lighthouse integration
+- [ ] Attempt to save entire lighthouse object into Mongo
+- [ ] Improve UI for lighthouse results, including more details for critical chain issues
