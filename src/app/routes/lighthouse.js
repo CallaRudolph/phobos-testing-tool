@@ -17,11 +17,10 @@ function launchChromeAndRunLighthouse(url, flags = {}, config = null) {
   });
 }
 
-
 //POST /lighthouse to save a new site
 function postLighthouse(req, res) {
-  console.log("Lighthouse running...");
   var currentUrl = req.body.url; // from user input
+  console.log("Lighthouse detail running on " + currentUrl);
   const flags = {output: 'json'};
 
   // Usage:
@@ -29,8 +28,20 @@ function postLighthouse(req, res) {
     // console.log(results);
     res.status(200).json(results);
   });
+}
 
+// runs lighthouse on every url from the crawler
+function runLighthouse(url){
+  var currentUrl = url; // from user input
+  console.log("Lighthouse running for crawler on " + currentUrl);
+  const flags = {output: 'json'};
+
+  return new Promise((resolve, reject) => {
+    launchChromeAndRunLighthouse(currentUrl, flags).then(results => {
+      resolve(results);
+    });
+  });
 }
 
 //export all the functions
-module.exports = { postLighthouse };
+module.exports = { postLighthouse, runLighthouse };

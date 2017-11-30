@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import PageList from "./PageList.jsx";
 // import { Grid, Col, Row } from 'react-bootstrap';
 
-class Lighthouse extends Component {
+class LighthouseDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,7 +21,7 @@ class Lighthouse extends Component {
   }
 
   handleSubmit(event) {
-    this.setState({pending: true}); // alters state for pending crawler message
+    this.setState({pending: true}); // alters state for pending lighthouse message
     event.preventDefault();
     var url = {'url': this.state.url};
     axios.post('/lighthouse', url)
@@ -49,6 +49,7 @@ class Lighthouse extends Component {
 
     return (
       <div>
+        <h4>Enter a url for detailed lighthouse results:</h4>
         <form onSubmit={this.handleSubmit}>
           <input
             size="28"
@@ -66,4 +67,4 @@ class Lighthouse extends Component {
   }
 }
 
-export default Lighthouse;
+export default LighthouseDetail;

@@ -9,10 +9,20 @@ class UrlCrawler extends Component {
     this.state = {
       url: '',
       pending: false,
-      data: []
+      data: [],
+      local: []
     };
+    this.loadResultsFromServer = this.loadResultsFromServer.bind(this);
     this.handleUrlChange = this.handleUrlChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  loadResultsFromServer() {
+    // makes axios Get request to save all data into state
+    axios.get('http://localhost:3000/results')
+    .then(res => {
+      this.setState({ local: res.data });
+    })
   }
 
   handleUrlChange(event) {
@@ -36,7 +46,20 @@ class UrlCrawler extends Component {
     });
   }
 
+  componentDidMount() {
+    // loads all crawled lighthouse results from axios Get request when comp loads
+    this.loadResultsFromServer();
+    setInterval(this.loadResultsFromServer, 2000);
+  }
+
   render() {
+    // to display crawled lighthouse results
+    var crawledLighthouse = this.state.local;
+    let crawledLighthouseNodes = crawledLighthouse.map(result => {
+      return (result)
+    });
+
+    // this is just a basic crawl list w/ no lighthouse results
     var crawledPages = this.state.data;
     let pageNodes = crawledPages.map(url => {
       return (url)
@@ -54,16 +77,18 @@ class UrlCrawler extends Component {
 
     return (
       <div>
-        <h3>Enter a url to crawl:</h3>
+        <h4>Enter a url to crawl and send results to lighthouse:</h4>
         <form onSubmit={this.handleSubmit}>
           <input
             placeholder="https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
             <Button bsStyle="success"
-            bsSize="xsmall" type="submit">crawl</Button>
+            bsSize="xsmall" type="submit">Start Crawling</Button>
         </form>
         { crawlPending }
         <CrawlList
-          data={ pageNodes }/>
+          local={ crawledLighthouseNodes }
+          // data={ pageNodes }
+        />
       </div>
     )
   }

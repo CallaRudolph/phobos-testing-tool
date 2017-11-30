@@ -1,17 +1,19 @@
 import React, { Component } from "react";
 import TaskInput from './TaskInput.jsx';
 import UrlCrawler from './UrlCrawler.jsx';
-import Lighthouse from './Lighthouse.jsx';
+import LighthouseDetail from './LighthouseDetail.jsx';
 
 class App extends Component {
   render() {
     return (
       <div className='container'>
         <h2>Phobos Testing Tool</h2>
-        <p><em>description here</em></p>
-        {/* <TaskInput/>
-        <UrlCrawler/> */}
-        <Lighthouse/>
+        <p><em>A project to automate basic testing of websites using Google Lighthouse API.</em></p>
+        <br/>
+        {/* <TaskInput/> */}
+        <UrlCrawler/>
+        <br/>
+        <LighthouseDetail/>
       </div>
     )
   }
