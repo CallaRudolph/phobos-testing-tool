@@ -32,14 +32,14 @@ describe('Crawler', () => {
     });
     it('it should not return duplicate urls', (done) => {
       let url = {
-        url: "https://argylewinery.com",
+        url: "https://percussionaire.com",
       }
       chai.request(server)
         .post('/crawl')
         .send(url)
         .end((err, res) => {
           res.should.have.status(200);
-          expect(['https://argylewinery.com/shop/wines/']).to.have.lengthOf(1);
+          expect(['https://percussionaire.com/flow-ventilation/']).to.have.lengthOf(1);
         done();
       });
     });
