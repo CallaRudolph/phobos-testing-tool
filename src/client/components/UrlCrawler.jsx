@@ -18,8 +18,8 @@ class UrlCrawler extends Component {
   }
 
   loadResultsFromServer() {
-    // makes axios Get request to save all data into state
-    axios.get('http://localhost:3000/results')
+    // makes axios Get request to save all data into state CHANGE BACK to http://localhost:3000/results during development!
+    axios.get('https://phobos-testing-tool.herokuapp.com/results')
     .then(res => {
       this.setState({ local: res.data });
     })
@@ -75,12 +75,16 @@ class UrlCrawler extends Component {
         </div>
     }
 
+    var inputSpace = {
+      marginRight: "5px"
+    }
+
     return (
       <div>
         <h4>Enter a url to crawl and send results to lighthouse:</h4>
         <form onSubmit={this.handleSubmit}>
           <input
-            placeholder="https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
+            style={inputSpace} placeholder="https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
             <Button bsStyle="success"
             bsSize="xsmall" type="submit">Start Crawling</Button>
         </form>

@@ -47,11 +47,16 @@ class LighthouseDetail extends Component {
         </div>
     }
 
+    var inputSpace = {
+      marginRight: "5px"
+    }
+
     return (
       <div>
         <h4>Enter a url for detailed lighthouse results:</h4>
         <form onSubmit={this.handleSubmit}>
           <input
+            style={inputSpace}
             size="28"
             placeholder="enter a url - - https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
           <Button bsStyle="warning"
