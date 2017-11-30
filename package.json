@@ -7,7 +7,7 @@
     "start": "nodemon src/server/server.js",
     "webpack": "./node_modules/.bin/webpack -w",
     "heroku-postbuild": "webpack --progress",
-    "test": "mocha --timeout 100000"
+    "test": "mocha --timeout 1000000"
   },
   "repository": {
     "type": "git",
