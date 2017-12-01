@@ -24,8 +24,7 @@ class LighthouseDetail extends Component {
     this.setState({pending: true}); // alters state for pending lighthouse message
     event.preventDefault();
     var url = {'url': this.state.url};
-    // CHANGE BACK to /lighthouse during development!
-    axios.post('https://phobos-testing-tool.herokuapp.com/lighthouse', url)
+    axios.post('/lighthouse', url)
     .then(function(response) {
       console.log(response);
       this.setState({url: ''});

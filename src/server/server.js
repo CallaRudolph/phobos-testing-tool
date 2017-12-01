@@ -1,7 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var timeout = require('connect-timeout')
 
 let task = require('../app/routes/task');
 let crawl = require('../app/routes/crawl');
@@ -9,24 +8,8 @@ let lighthouse = require('../app/routes/lighthouse');
 
 var app = express();
 
-app.use('/save', timeout('5s'), bodyParser.json({limit: '50mb'}), haltOnTimedout, function (req, res, next) {
-  savePost(req.body, function (err, id) {
-   if (err) return next(err)
-   if (req.timedout) return
-   res.send('saved as id ' + id)
- })
-});
+app.use(bodyParser.json({limit: '50mb'}));
 // increase limit from default 1mb
-
-function haltOnTimedout (req, res, next) {
-  if (!req.timedout) next()
-}
-
-function savePost (post, cb) {
-  setTimeout(function () {
-    cb(null, ((Math.random() * 40000) >>> 0))
-  }, (Math.random() * 7000) >>> 0)
-}
 
 //parse application/json and look for raw text
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit:50000})); // increase limit for large lighthouse object to save to mongo
