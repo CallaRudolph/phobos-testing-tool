@@ -1,16 +1,12 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var timeout = require('connect-timeout');
 
 let task = require('../app/routes/task');
 let crawl = require('../app/routes/crawl');
 let lighthouse = require('../app/routes/lighthouse');
 
 var app = express();
-
-let SERVER_TIMEOUT = 300000;
-app.use(timeout((SERVER_TIMEOUT/1000)+"s"))
 
 app.use(bodyParser.json({limit: '50mb'}));
 // increase limit from default 1mb
@@ -21,13 +17,18 @@ app.use(bodyParser.json({ type: 'application/json'}));
 
 app.use(express.static(__dirname + './../../'));
 
+var options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
+                replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } };
+
+
+
 mongoose.Promise = global.Promise;
 
 if(process.env.MONGODB_URI) {
-  mongoose.connect(process.env.MONGODB_URI);
+  mongoose.connect(process.env.MONGODB_URI, options);
 } else {
   var mongoDB = 'mongodb://127.0.0.1/my_database';
-  mongoose.connect(mongoDB);
+  mongoose.connect(mongoDB, options);
   // mongoose.connect(mongoDB, function(){
   //   /* Drop the DB if needed */
   //   mongoose.connection.db.dropDatabase();
@@ -42,8 +43,6 @@ var server = app.listen(process.env.PORT || 3000, function () {
   var port = server.address().port;
   console.log("app now running on port", port);
 });
-
-server.timeout = SERVER_TIMEOUT;
 
 // Generic error handler used by all endpoints.
 function handleError(res, reason, message, code) {
