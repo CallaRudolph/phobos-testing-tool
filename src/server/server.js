@@ -1,19 +1,24 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var timeout = require('connect-timeout')
 
 let task = require('../app/routes/task');
 let crawl = require('../app/routes/crawl');
 let lighthouse = require('../app/routes/lighthouse');
 
 var app = express();
+app.use(timeout('30s')) // prevents Heroku timeout
 
 app.use(bodyParser.json({limit: '50mb'}));
 // increase limit from default 1mb
+app.use(haltOnTimedout) // prevents Heroku timeout
 
 //parse application/json and look for raw text
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit:50000})); // increase limit for large lighthouse object to save to mongo
 app.use(bodyParser.json({ type: 'application/json'}));
+
+app.use(haltOnTimedout) // prevents Heroku timeout
 
 app.use(express.static(__dirname + './../../'));
 
@@ -63,5 +68,9 @@ app.route("/results")
 app.route("/results/:id")
   .get(crawl.getResults)
   .delete(crawl.deleteResults);
+
+function haltOnTimedout (req, res, next) {
+  if (!req.timedout) next()
+}
 
 module.exports = app; //for testing
