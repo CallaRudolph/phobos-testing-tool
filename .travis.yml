@@ -8,9 +8,4 @@ deploy:
   api_key:
     secure: RUSJzWc1bLjk6yl1IDbVB3SWhA6yoEb4EE+fPF0MG/4yqr7679LaFO8ssPvJZBdm+nSlCXeyYPFGuM4zcT50y1woFNbEjaIf+oK6UoxGVnOTIpZIvAE7fqr8uBtQKxaeCgoc+CtyB1gvuqQ7bXVjkn+ZA3++ze9F3aWX7Ny7Ab9A94b/BKvs+7X3N6Ov+yGMG8D7wfsu0uIvG470KDzGOLV7WovQxCOG9e4UV9SAv/kO0GaOVgP++5q+yo+O2Z8IOScqvPJBjBdVdoAyv75FsyZlC/NoX/ELLUVwKlFVvhucHB27qeIft/LIlebNqv3fCx5UsAgn55o0gNg3/8brX7/U6s1B15q75fhbpW5jWXvdtMvBcZIFT0ikgwP9RPFvEnJa6bzhEdyah1TdZUqNKd4WcWhDU76dzk3Oy5vKksQPhzi5RFEgHpfu7KyGr1Sm7eG17d4apG5IoPVdt1oKT4VxcThdtO926iZ72aFaCaHdkDSjX4+8rEZB8+wJ74pNmFhN38aAAxLBvvwqnRw2f/Qz34Tq4NNTVocTLRh+5jnPnFdDvZjdgPgL+gfFJcau5Xdfnl9Cc7OhBKJyvUcmUAPKloYUO9IatAiLsunpvhECWD191NEF0SAiuKRVOiM12osTit/j+d/d1at6r+fuNoNX3BwBSVpI+mkvS4MkIng=
   on: master
-  before_script:
-  - npm --prefix ./lighthouse-extension install ./lighthouse-extension
-  - export DISPLAY=:99.0
-  - export LIGHTHOUSE_CHROMIUM_PATH="$(pwd)/chrome-linux/chrome"
-  - sh -e /etc/init.d/xvfb start
-  - ./lighthouse-core/scripts/download-chrome.sh
+  
