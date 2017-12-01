@@ -26,7 +26,7 @@ class LighthouseDetail extends Component {
     var url = {'url': this.state.url};
     axios.post('/lighthouse', url)
     .then(function(response) {
-      console.log(response);
+      // console.log(response);
       this.setState({url: ''});
       this.setState({data: response});
       this.setState({pending: false});

@@ -1,12 +1,16 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var timeout = require('connect-timeout');
 
 let task = require('../app/routes/task');
 let crawl = require('../app/routes/crawl');
 let lighthouse = require('../app/routes/lighthouse');
 
 var app = express();
+
+let SERVER_TIMEOUT = 300000;
+app.use(timeout((SERVER_TIMEOUT/1000)+"s"))
 
 app.use(bodyParser.json({limit: '50mb'}));
 // increase limit from default 1mb
@@ -38,6 +42,8 @@ var server = app.listen(process.env.PORT || 3000, function () {
   var port = server.address().port;
   console.log("app now running on port", port);
 });
+
+server.timeout = SERVER_TIMEOUT;
 
 // Generic error handler used by all endpoints.
 function handleError(res, reason, message, code) {

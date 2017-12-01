@@ -22,12 +22,12 @@ function postLighthouse(req, res) {
   var currentUrl = req.body.url; // from user input
   console.log("Lighthouse detail running on " + currentUrl);
   const flags = {output: 'json'};
+
   // Usage:
   launchChromeAndRunLighthouse(currentUrl, flags).then(results => {
     // console.log(results);
     res.status(200).json(results);
   });
-  return res.end();
 }
 
 // runs lighthouse on every url from the crawler
