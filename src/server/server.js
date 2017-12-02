@@ -17,18 +17,13 @@ app.use(bodyParser.json({ type: 'application/json'}));
 
 app.use(express.static(__dirname + './../../'));
 
-var options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
-                replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } };
-
-
-
 mongoose.Promise = global.Promise;
 
 if(process.env.MONGODB_URI) {
-  mongoose.connect(process.env.MONGODB_URI, options);
+  mongoose.connect(process.env.MONGODB_URI);
 } else {
   var mongoDB = 'mongodb://127.0.0.1/my_database';
-  mongoose.connect(mongoDB, options);
+  mongoose.connect(mongoDB);
   // mongoose.connect(mongoDB, function(){
   //   /* Drop the DB if needed */
   //   mongoose.connection.db.dropDatabase();
