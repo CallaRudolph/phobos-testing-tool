@@ -3,11 +3,11 @@ var path = require('path');
 
 
 const BUILD_DIR = path.resolve(__dirname, './build');
-const APP_DIR = path.resolve(__dirname, './src/client');
+const APP_DIR = path.resolve(__dirname, './src');
 
-const config = {
+module.exports = {
   entry: {
-    main: APP_DIR + '/index.jsx'
+    main: APP_DIR + '/client/index.jsx'
   },
   output: {
     filename: 'bundle.js',
@@ -27,6 +27,7 @@ const config = {
       },
       {
         test: /\.(jsx|js)?$/,
+        exclude: /node_modules/, // watches routes file without error messages from node_modules
         use: [{
           loader: "babel-loader",
           options: {
@@ -36,7 +37,11 @@ const config = {
         }]
       }
     ],
+  },
+  node: {
+    fs: 'empty',
+    tls: 'empty',
+    lib: 'empty',
+    net: 'empty'
   }
 }
-
-module.exports = config;

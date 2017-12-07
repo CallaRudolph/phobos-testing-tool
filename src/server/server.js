@@ -1,18 +1,18 @@
 var express = require('express');
-var mongodb = require('mongodb');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 let task = require('../app/routes/task');
-
-var TASK_COLLECTION = 'tasks';
+let crawl = require('../app/routes/crawl');
+let lighthouse = require('../app/routes/lighthouse');
 
 var app = express();
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
+// increase limit from default 1mb
 
 //parse application/json and look for raw text
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit:50000})); // increase limit for large lighthouse object to save to mongo
 app.use(bodyParser.json({ type: 'application/json'}));
 
 app.use(express.static(__dirname + './../../'));
@@ -24,6 +24,10 @@ if(process.env.MONGODB_URI) {
 } else {
   var mongoDB = 'mongodb://127.0.0.1/my_database';
   mongoose.connect(mongoDB);
+  // mongoose.connect(mongoDB, function(){
+  //   /* Drop the DB if needed */
+  //   mongoose.connection.db.dropDatabase();
+  // });
 }
 
 var db = mongoose.connection;
@@ -49,5 +53,15 @@ app.route("/tasks/:id")
   .get(task.getTask)
   .delete(task.deleteTask)
   .put(task.updateTask);
+app.route("/crawl")
+  .post(crawl.postCrawl);
+app.route("/lighthouse")
+  .post(lighthouse.postLighthouse);
+app.route("/results")
+  .get(crawl.getResults)
+  .post(crawl.postResults);
+app.route("/results/:id")
+  .get(crawl.getResults)
+  .delete(crawl.deleteResults);
 
 module.exports = app; //for testing

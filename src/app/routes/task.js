@@ -1,5 +1,4 @@
-let mongoose = require('mongoose');
-let Task = require('../models/task');
+let Task = require('../models/taskModel');
 
 // GET /task route to retrieve all the tasks.
 function getTasks(req, res) {

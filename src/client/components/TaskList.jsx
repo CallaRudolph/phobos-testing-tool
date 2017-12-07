@@ -19,10 +19,19 @@ class TaskList extends Component {
           onTaskDelete={this.props.onTaskDelete}/>
       )
     });
+    let formAreaContent;
+    if (taskNodes.length < 1) {
+      formAreaContent = ''
+    } else {
+      formAreaContent =
+        <div>
+          <h5>these are all of the tasks:</h5>
+          { taskNodes }
+        </div>
+    }
     return (
       <div>
-        <h3>these are all of the tasks:</h3>
-        { taskNodes }
+        {formAreaContent}
       </div>
     )
   }
