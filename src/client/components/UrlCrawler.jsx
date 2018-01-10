@@ -18,8 +18,10 @@ class UrlCrawler extends Component {
   }
 
   loadResultsFromServer() {
-    // makes axios Get request to save all data into state CHANGE BACK to http://localhost:3000/results during development!
-    axios.get('https://phobos-testing-tool.herokuapp.com/results')
+    // makes axios Get request to save all data into state
+    // CHANGE BACK to http://localhost:3000/results during development!
+    // CHANGE BACK to https://phobos-testing-tool.herokuapp.com/results for heroku
+    axios.get('http://localhost:3000/results')
     .then(res => {
       this.setState({ local: res.data });
     })
