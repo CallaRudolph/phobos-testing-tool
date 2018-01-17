@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import TaskInput from './TaskInput.jsx';
 import UrlCrawler from './UrlCrawler.jsx';
 import LighthouseDetail from './LighthouseDetail.jsx';
+import LHCrawl from './LHCrawl.jsx';
 import LighthouseSingle from './LHSingle.jsx';
 
 class App extends Component {
@@ -14,7 +15,9 @@ class App extends Component {
         {/* <TaskInput/> */}
         {/* <UrlCrawler/>
         <br/> */}
-        <LighthouseDetail/>
+        {/* <LighthouseDetail/>
+        <br/> */}
+        <LHCrawl/>
         <br/>
         <LighthouseSingle/>
       </div>

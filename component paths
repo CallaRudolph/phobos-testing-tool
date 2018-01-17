@@ -1,0 +1,12 @@
+Original:
+
+UrlCrawler -> CrawlList -> CrawlLHSummary -> LHSummaryDelete
+
+LighthouseDetail -> PageList -> Page (arcs) -> PageDetail -> Performance/Accessibility/BestPractices Detail
+
+
+REFACTOR:
+
+LHCrawl -> LHCrawlList -> LHCrawlDetail
+
+LHSingle

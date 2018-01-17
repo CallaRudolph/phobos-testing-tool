@@ -63,5 +63,11 @@ app.route("/results")
 app.route("/results/:id")
   .get(crawl.getResults)
   .delete(crawl.deleteResults);
+app.route("/crawlLH")
+  .get(crawl.getLHCrawl)
+  .post(crawl.postLHCrawl);
+app.route("/crawlLH/:id")
+  .get(crawl.getLHCrawl)
+  .delete(crawl.deleteLHCrawl);
 
 module.exports = app; //for testing

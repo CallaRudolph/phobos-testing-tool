@@ -3,6 +3,7 @@ var http = require('http');
 let lighthouse = require('./lighthouse');
 let axios = require('axios');
 let Result = require('../models/resultModel');
+let LHCrawl = require('../models/LHCrawlModel');
 
 //POST /crawl endpoint to initialize crawler
 function postCrawl(req, res) {
@@ -48,13 +49,15 @@ function postCrawl(req, res) {
         res.status(200).json(error); // send error when crawler returns nothing
       } else {
         var blobs = async function(urls) {
-          let masterData = [];
+          let masterData = []; // for LHsummary
+          let crawlLHData = [];
 
           res.status(200).json(noDuplicates)
           res.end("done"); // these are needed to prevent a timeout in the server
 
           for (let url of urls){
             var blob = await lighthouse.runLighthouse(url).then((jsonBlob) => {
+              /////////////////summary////////////////////////
               let paintScore = jsonBlob.audits['first-meaningful-paint']['score'];
               let performanceScore = (jsonBlob.reportCategories[1].score).toFixed();
               let bestPracticeScore = (jsonBlob.reportCategories[3].score).toFixed();
@@ -68,9 +71,39 @@ function postCrawl(req, res) {
               });
               // need the full url in post request here to prevent connect ECONNREFUSED 127.0.0.1:80
               masterData.push({"blob":currentResult});
+              //////////////////end summary ///////////////////////
+
+              let perfOpp = jsonBlob.reportCategories[1].audits;
+
+              // offscreen images
+              let offscreenHelpDisplay = [];
+              let offscreenDisplay = [];
+              for (var i = 0; i < perfOpp.length; i++) {
+                if(perfOpp[i].id === "offscreen-images" && perfOpp[i].score < 100) {
+                  var offscreenHelp = perfOpp[i].result.helpText.replace(/Learn More/i, 'Learn more: ').replace('[', '').replace('](', '').replace(').', '');
+                  offscreenHelpDisplay.push(offscreenHelp);
+                  var offscreenItems = perfOpp[i].result.details.items;
+                  if (offscreenItems.length > 0) {
+                    for (var j = 0; j < offscreenItems.length; j++) {
+                      var item = offscreenItems[j][1].text;
+                      var size = offscreenItems[j][2].text;
+                      offscreenDisplay.push(" " + item + " size: " + size);
+                    }
+                  }
+                }
+              }
+
+              var crawlLHResult = {"url":url, "offscreenHelp":offscreenHelpDisplay, "offscreenImages":offscreenDisplay};
+
+              axios.post('http://localhost:3000/crawlLH', crawlLHResult)
+              .catch(err => {
+                console.error(err);
+              });
+              crawlLHData.push({"blob":crawlLHResult});
             });
           }
-          return masterData;
+          // return masterData; USE FOR SUMMARY!
+          return crawlLHData;
         }
 
         blobs(noDuplicates).then((resultTotal) => {
@@ -81,6 +114,7 @@ function postCrawl(req, res) {
   });
 }
 
+//////////////////SUMMARY////////////////////////
 function getResults(req, res) {
   //Query the DB and if no errors, send all the results
   let query = Result.find({});
@@ -110,6 +144,37 @@ function deleteResults(req, res) {
     res.json({ message: "result successfully deleted", result });
   });
 }
+//////////////END SUMMARY///////////////////////
+
+function getLHCrawl(req, res) {
+  //Query the DB and if no errors, send all the results
+  let query = LHCrawl.find({});
+  query.exec((err, LHCrawl) => {
+    if(err) res.send(err);
+    //if no errors, send them back to the client
+    res.json(LHCrawl);
+  });
+}
+
+function postLHCrawl(req, res) {
+  var newLHCrawl = new LHCrawl(req.body);
+  newLHCrawl.save((err,LHCrawl) => {
+    if(err) {
+      res.send(err);
+      console.log(err + " error");
+    }
+    else {
+      res.json({message: "LH Crawl saved", LHCrawl});
+    }
+  });
+}
+
+//DELETE /LHCrawl/:id to delete a result given its id
+function deleteLHCrawl(req, res) {
+  LHCrawl.remove({_id : req.params.id}, (err, LHCrawl) => {
+    res.json({ message: "LH Crawl successfully deleted", LHCrawl });
+  });
+}
 
 //export all the functions
-module.exports = { postCrawl, postResults, getResults, deleteResults };
+module.exports = { postCrawl, postResults, getResults, deleteResults, getLHCrawl, postLHCrawl, deleteLHCrawl };
