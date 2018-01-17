@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Grid, Col, Row } from 'react-bootstrap';
 import axios from 'axios';
+import LHCrawlDelete from './LHCrawlDelete.jsx';
 var dateFormat = require('dateformat');
 
 class LHCrawlDetail extends Component {
@@ -9,10 +10,10 @@ class LHCrawlDetail extends Component {
     this.state = {
 
     };
-    this.handleLighthouseDelete = this.handleLighthouseDelete.bind(this);
+    this.handleLHCrawlDelete = this.handleLHCrawlDelete.bind(this);
   }
 
-  handleLighthouseDelete(id) {
+  handleLHCrawlDelete(id) {
     // id sent from LHSummaryDelete comp to create axios Delete request
     axios.delete('crawlLH/' + id)
     .then(res => {
@@ -54,6 +55,14 @@ class LHCrawlDetail extends Component {
               <Row>
                 <Col xs={10} md={10}>
                   <p>{offscreenImages}</p>
+                </Col>
+              </Row>
+              <Row>
+                <Col xs={4} md={4}>
+                  <LHCrawlDelete
+                    id={this.props.id}
+                    onLHCrawlDelete={ this.handleLHCrawlDelete}
+                  />
                 </Col>
               </Row>
               <hr/>
