@@ -12,7 +12,9 @@ class LHCrawlDetail extends Component {
       offscreenImages: '',
       offscreenHelp: '',
       renderSheets: '',
-      renderSheetsHelp: ''
+      renderSheetsHelp: '',
+      renderScripts: '',
+      renderScriptsHelp: ''
     };
     this.loadResultsFromServer = this.loadResultsFromServer.bind(this);
     this.handleLHCrawlDelete = this.handleLHCrawlDelete.bind(this);
@@ -75,6 +77,43 @@ class LHCrawlDetail extends Component {
       return (result)
     });
     this.setState({renderSheetsHelp: renderSheetsHelpDisplay[0]});
+
+    // render scripts
+    let renderScriptsNodes = crawledLighthouse.map(result => {
+      if (result.renderScripts.length < 1) {
+        return ("");
+      } else {
+        return (" " + result.url + ": " + result.renderScripts)
+      }
+    });
+    this.setState({renderScripts: renderScriptsNodes});
+    let renderScriptsHelpDisplay = [];
+    let renderScriptsHelpNodes = crawledLighthouse.map(result => {
+      if (result.renderScriptsHelp.length > 0){
+        renderScriptsHelpDisplay.push(result.renderScriptsHelp[0])
+      }
+      return (result)
+    });
+    this.setState({renderScriptsHelp: renderScriptsHelpDisplay[0]});
+
+    // image size
+    let imageSizeNodes = crawledLighthouse.map(result => {
+      if (result.imageSize.length < 1) {
+        return ("");
+      } else {
+        return (" " + result.url + ": " + result.imageSize)
+      }
+    });
+    this.setState({imageSize: imageSizeNodes});
+    let imageSizeHelpDisplay = [];
+    let imageSizeHelpNodes = crawledLighthouse.map(result => {
+      if (result.imageSizeHelp.length > 0){
+        imageSizeHelpDisplay.push(result.imageSizeHelp[0])
+      }
+      return (result)
+    });
+    this.setState({imageSizeHelp: imageSizeHelpDisplay[0]});
+
   }
 
   componentDidMount() {
@@ -90,6 +129,10 @@ class LHCrawlDetail extends Component {
         <p>{this.state.offscreenImages}</p>
         <h4>{this.state.renderSheetsHelp}</h4>
         <p>{this.state.renderSheets}</p>
+        <h4>{this.state.renderScriptsHelp}</h4>
+        <p>{this.state.renderScripts}</p>
+        <h4>{this.state.imageSizeHelp}</h4>
+        <p>{this.state.imageSize}</p>
       </div>
     )
   }

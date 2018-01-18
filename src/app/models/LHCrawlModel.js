@@ -9,6 +9,10 @@ let LHCrawlSchema = new Schema(
     offscreenImages: { type: Array, required: true },
     renderSheetsHelp: { type: Array, required: true },
     renderSheets: { type: Array, required: true },
+    renderScriptsHelp: { type: Array, required: true },
+    renderScripts: { type: Array, required: true },
+    imageSizeHelp: { type: Array, required: true },
+    imageSize: { type: Array, required: true },
     createdAt: { type: Date, default: Date.now },
   },
   {

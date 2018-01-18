@@ -111,7 +111,43 @@ function postCrawl(req, res) {
                 }
               }
 
-              var crawlLHResult = {"url":url, "offscreenHelp":offscreenHelpDisplay, "offscreenImages":offscreenDisplay, "renderSheetsHelp":renderSheetsHelpDisplay, "renderSheets":renderSheetsDisplay};
+              // render-blocking scripts
+              let renderScriptsHelpDisplay = [];
+              let renderScriptsDisplay = [];
+              for (var i = 0; i < perfOpp.length; i++) {
+                if(perfOpp[i].id === "script-blocking-first-paint" && perfOpp[i].score < 100) {
+                  var renderScriptsHelp = perfOpp[i].result.helpText.replace(/Learn More/i, 'Learn more: ').replace('[', '').replace('](', '').replace(').', '');
+                  renderScriptsHelpDisplay.push(renderScriptsHelp);
+                  var renderScriptsItems = perfOpp[i].result.details.items;
+                  if (renderScriptsItems.length > 0) {
+                    for (var j = 0; j < renderScriptsItems.length; j++) {
+                      var item = renderScriptsItems[j][0].text;
+                      var size = renderScriptsItems[j][1].text;
+                      renderScriptsDisplay.push(" " + item + " size: " + size);
+                    }
+                  }
+                }
+              }
+
+              // properly size images
+              let imageSizeHelpDisplay = [];
+              let imageSizeDisplay = [];
+              for (var i = 0; i < perfOpp.length; i++) {
+                if(perfOpp[i].id === "uses-responsive-images" && perfOpp[i].score < 100) {
+                  var imageSizeHelp = perfOpp[i].result.helpText.replace(/Learn More/i, 'Learn more: ').replace('[', '').replace('](', '').replace(').', '');
+                  imageSizeHelpDisplay.push(imageSizeHelp);
+                  var imageSizeItems = perfOpp[i].result.details.items;
+                  if (imageSizeItems.length > 0) {
+                    for (var j = 0; j < imageSizeItems.length; j++) {
+                      var item = imageSizeItems[j][1].text;
+                      var size = imageSizeItems[j][2].text;
+                      imageSizeDisplay.push(" " + item + " size: " + size);
+                    }
+                  }
+                }
+              }
+
+              var crawlLHResult = {"url":url, "offscreenHelp":offscreenHelpDisplay, "offscreenImages":offscreenDisplay, "renderSheetsHelp":renderSheetsHelpDisplay, "renderSheets":renderSheetsDisplay, "renderScriptsHelp":renderScriptsHelpDisplay, "renderScripts":renderScriptsDisplay, "imageSizeHelp":imageSizeHelpDisplay, "imageSize":imageSizeDisplay};
 
               axios.post('http://localhost:3000/crawlLH', crawlLHResult)
               .catch(err => {
