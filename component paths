@@ -7,6 +7,6 @@ LighthouseDetail -> PageList -> Page (arcs) -> PageDetail -> Performance/Accessi
 
 REFACTOR:
 
-LHCrawl -> LHCrawlList -> LHCrawlDetail
+LHCrawl -> LHCrawlList -> LHCrawlDetail -> LHCrawlDelete
 
 LHSingle

@@ -93,7 +93,25 @@ function postCrawl(req, res) {
                 }
               }
 
-              var crawlLHResult = {"url":url, "offscreenHelp":offscreenHelpDisplay, "offscreenImages":offscreenDisplay};
+              // render-blocking stylesheets
+              let renderSheetsHelpDisplay = [];
+              let renderSheetsDisplay = [];
+              for (var i = 0; i < perfOpp.length; i++) {
+                if(perfOpp[i].id === "link-blocking-first-paint" && perfOpp[i].score < 100) {
+                  var renderSheetsHelp = perfOpp[i].result.helpText.replace(/Learn More/i, 'Learn more: ').replace('[', '').replace('](', '').replace(').', '');
+                  renderSheetsHelpDisplay.push(renderSheetsHelp);
+                  var renderSheetsItems = perfOpp[i].result.details.items;
+                  if (renderSheetsItems.length > 0) {
+                    for (var j = 0; j < renderSheetsItems.length; j++) {
+                      var item = renderSheetsItems[j][0].text;
+                      var size = renderSheetsItems[j][1].text;
+                      renderSheetsDisplay.push(" " + item + " size: " + size);
+                    }
+                  }
+                }
+              }
+
+              var crawlLHResult = {"url":url, "offscreenHelp":offscreenHelpDisplay, "offscreenImages":offscreenDisplay, "renderSheetsHelp":renderSheetsHelpDisplay, "renderSheets":renderSheetsDisplay};
 
               axios.post('http://localhost:3000/crawlLH', crawlLHResult)
               .catch(err => {

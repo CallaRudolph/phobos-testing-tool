@@ -7,6 +7,8 @@ let LHCrawlSchema = new Schema(
     url: { type: String, required: true },
     offscreenHelp: { type: Array, required: true },
     offscreenImages: { type: Array, required: true },
+    renderSheetsHelp: { type: Array, required: true },
+    renderSheets: { type: Array, required: true },
     createdAt: { type: Date, default: Date.now },
   },
   {
