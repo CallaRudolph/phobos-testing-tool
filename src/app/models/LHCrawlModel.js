@@ -1,10 +1,12 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
+let uuid = require('uuid-v4');
 
 // result schema definition
 let LHCrawlSchema = new Schema(
   {
     url: { type: String, required: true },
+    id: { type: String, required: true, default: uuid() },
     offscreenHelp: { type: Array },
     offscreenImages: { type: Array },
     renderSheetsHelp: { type: Array },

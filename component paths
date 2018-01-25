@@ -1,12 +1,23 @@
 Original:
 
-UrlCrawler -> CrawlList -> CrawlLHSummary -> LHSummaryDelete
+UrlCrawler ->
+CrawlList ->
+CrawlLHSummary ->
+LHSummaryDelete
 
-LighthouseDetail -> PageList -> Page (arcs) -> PageDetail -> Performance/Accessibility/BestPractices Detail
+LighthouseDetail ->
+PageList ->
+Page (arcs) ->
+PageDetail ->
+Performance/Accessibility/BestPractices Detail
 
 
 REFACTOR:
 
-LHCrawl -> LHCrawlList -> LHCrawlDetail -> LHCrawlDelete
+LHCrawl ->
+LHCrawlList ->
+LHCrawlDetail ->
+  -Performance folder for individual items (mapping)
+  -LHCrawlDelete
 
 LHSingle

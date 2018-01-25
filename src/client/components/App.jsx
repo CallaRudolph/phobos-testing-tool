@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import TaskInput from './TaskInput.jsx';
-import UrlCrawler from './UrlCrawler.jsx';
-import LighthouseDetail from './LighthouseDetail.jsx';
-import LHCrawl from './LHCrawl.jsx';
+import TaskInput from './Task/TaskInput.jsx';
+import UrlCrawler from './LHCrawlSummary/UrlCrawler.jsx';
+import LighthouseDetail from './LHDetail/LighthouseDetail.jsx';
+import LHCrawl from './LHCrawl/LHCrawl.jsx';
 import LighthouseSingle from './LHSingle.jsx';
 
 class App extends Component {
@@ -11,15 +11,14 @@ class App extends Component {
       <div className='container'>
         <h2>Phobos Testing Tool</h2>
         <p><em>A project to automate basic testing of websites using Google Lighthouse API.</em></p>
-        <br/>
         {/* <TaskInput/> */}
-        <UrlCrawler/>
-        <br/>
+        {/* <UrlCrawler/>
+        <br/> */}
         {/* <LighthouseDetail/>
         <br/> */}
         <LHCrawl/>
-        <br/>
-        <LighthouseSingle/>
+        {/* <br/>
+        <LighthouseSingle/> */}
       </div>
     )
   }

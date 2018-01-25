@@ -4,6 +4,7 @@ let lighthouse = require('./lighthouse');
 let axios = require('axios');
 let Result = require('../models/resultModel');
 let LHCrawl = require('../models/LHCrawlModel');
+let uuid = require('uuid-v4');
 
 //POST /crawl endpoint to initialize crawler
 function postCrawl(req, res) {
@@ -194,7 +195,11 @@ function postCrawl(req, res) {
               //   }
               // }
 
-              var crawlLHResult = {"url":url, "offscreenHelp":offscreenHelpDisplay, "offscreenImages":offscreenDisplay, "renderSheetsHelp":renderSheetsHelpDisplay, "renderSheets":renderSheetsDisplay, "renderScriptsHelp":renderScriptsHelpDisplay, "renderScripts":renderScriptsDisplay, "imageSizeHelp":imageSizeHelpDisplay, "imageSize":imageSizeDisplay, "optimizeImageHelp":optimizeImageHelpDisplay, "optimizeImage":optimizeImageDisplay};
+
+
+              var crawlLHResult = {"url":url,
+                "id":uuid(),
+                "offscreenHelp":offscreenHelpDisplay, "offscreenImages":offscreenDisplay, "renderSheetsHelp":renderSheetsHelpDisplay, "renderSheets":renderSheetsDisplay, "renderScriptsHelp":renderScriptsHelpDisplay, "renderScripts":renderScriptsDisplay, "imageSizeHelp":imageSizeHelpDisplay, "imageSize":imageSizeDisplay, "optimizeImageHelp":optimizeImageHelpDisplay, "optimizeImage":optimizeImageDisplay};
 
               axios.post('http://localhost:3000/crawlLH', crawlLHResult)
               .catch(err => {
