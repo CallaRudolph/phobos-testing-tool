@@ -15,12 +15,20 @@ function postCrawl(req, res) {
     shouldCrawl: function(url) {
       if (url.indexOf(currentUrl) < 0) {
         return false; // does not allow crawling outside main site
-      } else if (url.indexOf("google") > 0) {
+      } else if (url.indexOf("https://google.com") > 0) {
         return false; // does not include google links
       } else if (url.indexOf(".jpg") > 0) {
         return false; // does not include .jpg links
       } else if (url.indexOf(".pdf") > 0) {
         return false; // does not include .pdf links
+      } else if (url.indexOf("mailto:") >= 0) {
+        return false; // does not include mailto links
+      } else if (url.indexOf("https://twitter.com") >= 0) {
+        return false; // does not include twitter links
+      } else if (url.indexOf("https://facebook.com") >= 0) {
+        return false; // does not include facebook links
+      } else if (url.indexOf("https://accounts.google.com") >= 0) {
+        return false; // does not include facebook links
       } else {
         return true;
       }
@@ -147,7 +155,46 @@ function postCrawl(req, res) {
                 }
               }
 
-              var crawlLHResult = {"url":url, "offscreenHelp":offscreenHelpDisplay, "offscreenImages":offscreenDisplay, "renderSheetsHelp":renderSheetsHelpDisplay, "renderSheets":renderSheetsDisplay, "renderScriptsHelp":renderScriptsHelpDisplay, "renderScripts":renderScriptsDisplay, "imageSizeHelp":imageSizeHelpDisplay, "imageSize":imageSizeDisplay};
+              // optimize images
+              let optimizeImageHelpDisplay = [];
+              let optimizeImageDisplay = [];
+              for (var i = 0; i < perfOpp.length; i++) {
+                if(perfOpp[i].id === "uses-optimized-images" && perfOpp[i].score < 100) {
+                  var optimizeImageHelp = perfOpp[i].result.helpText.replace(/Learn More/i, 'Learn more: ').replace('[', '').replace('](', '').replace(').', '');
+                  optimizeImageHelpDisplay.push(optimizeImageHelp);
+                  var optimizeImageItems = perfOpp[i].result.details.items;
+                  if (optimizeImageItems.length > 0) {
+                    for (var j = 0; j < optimizeImageItems.length; j++) {
+                      var item = optimizeImageItems[j][1].text;
+                      var size = optimizeImageItems[j][2].text;
+                      optimizeImageDisplay.push(" " + item + " size: " + size);
+                    }
+                  }
+                }
+              }
+
+              // // accessibility opportunities
+              // let accessOpp = jsonBlob.reportCategories[2].audits;
+              //
+              // let imageAltDisplay = [];
+              // let imageAltHelpDisplay = [];
+              //
+              // for (var i = 0; i < accessOpp.length; i++) {
+              //   // image alt
+              //   if (accessOpp[i].id === "image-alt" && accessOpp[i].score < 100) {
+              //     var imageAltHelp = accessOpp[i].result.helpText.replace(/Learn More/i, 'Learn more: ').replace('[', '').replace('](', '').replace(').', '');
+              //     imageAltHelpDisplay.push(imageAltHelp);
+              //     var imageAltItems = accessOpp[i].result.details.items;
+              //     if (imageAltItems.length > 0) {
+              //       for (var j = 0; j < imageAltItems.length; j++) {
+              //         var item = imageAltItems[j].snippet;
+              //         imageAltDisplay.push(" " + item);
+              //       }
+              //     }
+              //   }
+              // }
+
+              var crawlLHResult = {"url":url, "offscreenHelp":offscreenHelpDisplay, "offscreenImages":offscreenDisplay, "renderSheetsHelp":renderSheetsHelpDisplay, "renderSheets":renderSheetsDisplay, "renderScriptsHelp":renderScriptsHelpDisplay, "renderScripts":renderScriptsDisplay, "imageSizeHelp":imageSizeHelpDisplay, "imageSize":imageSizeDisplay, "optimizeImageHelp":optimizeImageHelpDisplay, "optimizeImage":optimizeImageDisplay};
 
               axios.post('http://localhost:3000/crawlLH', crawlLHResult)
               .catch(err => {

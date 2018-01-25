@@ -40,11 +40,11 @@ class CrawlList extends Component {
     });
 
     // this is just the basic crawl list w/o lighthouse results
-    // let pageNodes = this.props.data.map(url => {
-    //   return (
-    //       <p key={url}>{url}</p>
-    //   )
-    // });
+    let pageNodes = this.props.data.map(url => {
+      return (
+          <p key={url}>{url}</p>
+      )
+    });
 
     let formAreaContent;
     if (crawledLighthouseNodes.length === 0) {
@@ -58,7 +58,7 @@ class CrawlList extends Component {
         formAreaContent =
           <div>
             <h4><a href='#/' onClick={ this.hideCrawlList }>hide list</a></h4>
-            {/* { pageNodes } */}
+            { pageNodes }
             { crawledLighthouseNodes }
           </div>
     }

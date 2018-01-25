@@ -1,31 +1,28 @@
 import React, { Component } from "react";
 import { Grid, Col, Row } from 'react-bootstrap';
-import axios from 'axios';
 import LHCrawlDelete from './LHCrawlDelete.jsx';
+import OffscreenImages from './OffscreenImages.jsx';
 var dateFormat = require('dateformat');
 
 class LHCrawlDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      local: [],
       offscreenImages: '',
       offscreenHelp: '',
       renderSheets: '',
       renderSheetsHelp: '',
       renderScripts: '',
-      renderScriptsHelp: ''
+      renderScriptsHelp: '',
+      imageSize: '',
+      imageSizeHelp: '',
+      optimizeImage: '',
+      optimizeImageHelp: '',
+      offscreenMap: ''
+      // imageAlt: '',
+      // imageAltHelp: ''
     };
-    this.loadResultsFromServer = this.loadResultsFromServer.bind(this);
     this.handleLHCrawlDelete = this.handleLHCrawlDelete.bind(this);
-  }
-
-  loadResultsFromServer() {
-    // makes axios Get request to save all data into state
-    axios.get('http://localhost:3000/crawlLH')
-    .then(res => {
-      this.setState({ local: res.data });
-    })
   }
 
   handleLHCrawlDelete(id) {
@@ -41,6 +38,8 @@ class LHCrawlDetail extends Component {
 
   componentWillMount() {
     var crawledLighthouse = this.props.local;
+
+    // PERFORMANCE! //
 
     // offscreen images
     let offscreenImageNodes = crawledLighthouse.map(result => {
@@ -59,6 +58,22 @@ class LHCrawlDetail extends Component {
       return (result)
     });
     this.setState({offscreenHelp: offscreenHelpDisplay[0]});
+
+    // offscreen image mapping test
+    let offscreenImageMapNodes = crawledLighthouse.map(result => {
+      if (result.offscreenImages.length < 1) {
+        return ("");
+      } else {
+        return (<OffscreenImages  key={result.offscreenImages}
+                                  help={result.offscreenHelp[0]}
+                                  url={result.url}
+                                  offscreenImages={result.offscreenImages}/>)
+      }
+    });
+    this.setState({offscreenMap: offscreenImageMapNodes})
+
+
+
 
     // render sheets
     let renderSheetsNodes = crawledLighthouse.map(result => {
@@ -114,17 +129,50 @@ class LHCrawlDetail extends Component {
     });
     this.setState({imageSizeHelp: imageSizeHelpDisplay[0]});
 
-  }
-
-  componentDidMount() {
-    // loads all crawled lighthouse results from axios Get request when comp loads
-    this.loadResultsFromServer();
-    setInterval(this.loadResultsFromServer, 2000);
+    // optimize image
+    let optimizeImageNodes = crawledLighthouse.map(result => {
+      if (result.optimizeImage.length < 1) {
+        return ("");
+      } else {
+        return (" " + result.url + ": " + result.optimizeImage)
+      }
+    });
+    this.setState({optimizeImage: optimizeImageNodes});
+    let optimizeImageHelpDisplay = [];
+    let optimizeImageHelpNodes = crawledLighthouse.map(result => {
+      if (result.optimizeImageHelp.length > 0){
+        optimizeImageHelpDisplay.push(result.optimizeImageHelp[0])
+      }
+      return (result)
+    });
+    this.setState({optimizeImageHelp: optimizeImageHelpDisplay[0]});
+  //
+  //   // ACCESSIBILITY! //
+  //
+  //   // image alts
+  //   let imageAltNodes = crawledLighthouse.map(result => {
+  //     if (result.imageAlt.length < 1) {
+  //       return ("");
+  //     } else {
+  //       return (" " + result.url + ": " + result.imageAlt)
+  //     }
+  //   });
+  //   this.setState({imageAlt: imageAltNodes});
+  //   let imageAltHelpDisplay = [];
+  //   let imageAltHelpNodes = crawledLighthouse.map(result => {
+  //     if (result.imageAltHelp.length > 0){
+  //       imageAltHelpDisplay.push(result.imageAltHelp[0])
+  //     }
+  //     return (result)
+  //   });
+  //   this.setState({imageAltHelp: imageAltHelpDisplay[0]});
   }
 
   render() {
     return (
       <div>
+        <h2>Quality Assurance Tasks</h2>
+        <h3>Performance Opportunities:</h3>
         <h4>{this.state.offscreenHelp}</h4>
         <p>{this.state.offscreenImages}</p>
         <h4>{this.state.renderSheetsHelp}</h4>
@@ -133,6 +181,13 @@ class LHCrawlDetail extends Component {
         <p>{this.state.renderScripts}</p>
         <h4>{this.state.imageSizeHelp}</h4>
         <p>{this.state.imageSize}</p>
+        <h4>{this.state.optimizeImageHelp}</h4>
+        <p>{this.state.optimizeImage}</p>
+        <br/>
+        {this.state.offscreenMap}
+        {/* <h3>Accessibility Opportunities:</h3>
+        <h4>{this.state.imageAltHelp}</h4>
+        <p>{this.state.imageAlt}</p> */}
       </div>
     )
   }

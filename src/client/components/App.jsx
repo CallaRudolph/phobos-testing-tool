@@ -13,8 +13,8 @@ class App extends Component {
         <p><em>A project to automate basic testing of websites using Google Lighthouse API.</em></p>
         <br/>
         {/* <TaskInput/> */}
-        {/* <UrlCrawler/>
-        <br/> */}
+        <UrlCrawler/>
+        <br/>
         {/* <LighthouseDetail/>
         <br/> */}
         <LHCrawl/>

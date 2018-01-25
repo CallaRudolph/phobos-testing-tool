@@ -77,7 +77,7 @@ class UrlCrawler extends Component {
 
     return (
       <div>
-        <h4>Enter a url to crawl and send results to lighthouse:</h4>
+        <h4>Enter a url to crawl and show summary results for lighthouse:</h4>
         <form onSubmit={this.handleSubmit}>
           <input
             placeholder="https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
@@ -87,7 +87,7 @@ class UrlCrawler extends Component {
         { crawlPending }
         <CrawlList
           local={ crawledLighthouseNodes }
-          // data={ pageNodes }
+          data={ pageNodes }
         />
       </div>
     )

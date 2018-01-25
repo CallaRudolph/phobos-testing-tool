@@ -143,6 +143,18 @@ class LighthouseSingle extends Component {
         }
       }
 
+      // // accessibility opportunities
+      // let accessOpp = data.reportCategories[2].audits;
+      // let accessDescript = data.reportCategories[2].description.replace('[', '').replace(']', ' ');
+      // let accessOppDisplay = [];
+      // let accessHelpDisplay = [];
+      // for (var i = 0; i < accessOpp.length; i++) {
+      //   if (accessOpp[i].score < 100) {
+      //     console.log(accessOpp[i]);
+      //     accessOppDisplay.push(accessOpp[i].id);
+      //   }
+      // }
+
       lighthouseFinished =
         <div>
           <h3>{data.initialUrl}</h3>
@@ -154,6 +166,9 @@ class LighthouseSingle extends Component {
           <p>{renderScriptsDisplay}</p>
           <p>{imageSizeDisplay}</p>
           <p>{optimizeImageDisplay}</p>
+          {/* <h4>Accessibility Opportunities:</h4>
+          <h5>{accessDescript}</h5>
+          <p>{accessOppDisplay}</p> */}
         </div>
     } else {
       lighthouseFinished = ''
