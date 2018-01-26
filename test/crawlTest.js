@@ -2,7 +2,6 @@
 process.env.NODE_ENV = 'test';
 
 var mongoose = require("mongoose");
-var Url = require('../src/app/models/urlModel');
 
 //Require the dev-dependencies
 var chai = require('chai');
@@ -14,15 +13,9 @@ var expect = require('chai').expect;
 chai.use(chaiHttp);
 
 //our parent block
-describe('Urls', () => {
-  beforeEach((done) => { //Before each test we empty the database
-    Url.remove({}, (err) => {
-      done();
-    });
-  });
-
+describe('Crawler', () => {
   //test the /POST route
-  describe('/POST url', () => {
+  describe('/POST crawl', () => {
     it('it should return error message with faulty url input', (done) => {
       let url = {
         url: "http://maxobaxo.com",
@@ -39,18 +32,18 @@ describe('Urls', () => {
     });
     it('it should not return duplicate urls', (done) => {
       let url = {
-        url: "https://argylewinery.com",
+        url: "https://percussionaire.com",
       }
       chai.request(server)
         .post('/crawl')
         .send(url)
         .end((err, res) => {
           res.should.have.status(200);
-          expect(['https://argylewinery.com/shop/wines/']).to.have.lengthOf(1);
+          expect(['https://percussionaire.com/flow-ventilation/']).to.have.lengthOf(1);
         done();
       });
     });
-    it('it should POST a url ', (done) => {
+    it('it should return a crawl array', (done) => {
       let url = {
         url: "https://maxobaxo.com",
       }
@@ -68,5 +61,4 @@ describe('Urls', () => {
       });
     });
   });
-
 });

@@ -7,21 +7,14 @@ class PageList extends Component {
   }
 
   render() {
-    let pageNodes = this.props.data.map(url => {
-      return (
-        <Page
-          url={ url }
-          key={ url }/>
-      )
-    });
     let formAreaContent;
-    if (pageNodes.length === 0) {
+    if (this.props.data.length === 0) {
       formAreaContent = ''
     } else {
       formAreaContent =
         <div>
-          <h4>pages found from crawler:</h4>
-          { pageNodes }
+          <Page
+            data={this.props.data}/>
         </div>
     }
     return (

@@ -83,8 +83,7 @@ class TaskInput extends Component {
           <input
             placeholder="enter a time" type="text" value={this.state.time} onChange={this.handleTimeChange} />
           <input
-            placeholder="more details" type="text" value={this.state.details} onChange={this.handleDetailsChange} />
-          <br/>
+            placeholder="more details" type="text" value={this.state.details} onChange={this.handleDetailsChange}/>
           <Button bsStyle="info" bsSize="xsmall" type="submit">submit</Button>
         </form>
         <TaskList
