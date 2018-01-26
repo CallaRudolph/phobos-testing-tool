@@ -5,6 +5,7 @@ let uuid = require('uuid-v4');
 // result schema definition
 let LHCrawlSchema = new Schema(
   {
+    mainUrl: { type: String, required: true },
     url: { type: String, required: true },
     id: { type: String, required: true, default: uuid() },
     offscreenHelp: { type: Array },

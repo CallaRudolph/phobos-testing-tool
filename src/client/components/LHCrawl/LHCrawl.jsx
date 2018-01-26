@@ -53,6 +53,12 @@ class LHCrawl extends Component {
   }
 
   render() {
+    //this is just a basic crawl list w/ no lighthouse results
+    // var crawledPages = this.state.data;
+    // let pageNodes = crawledPages.map(url => {
+    //   return (url)
+    // });
+
     // to display crawled lighthouse results
     var crawledLighthouse = this.state.local;
     let crawledLHNodes;
@@ -69,12 +75,6 @@ class LHCrawl extends Component {
           // data={ pageNodes }
         />
     }
-
-    // this is just a basic crawl list w/ no lighthouse results
-    // var crawledPages = this.state.data;
-    // let pageNodes = crawledPages.map(url => {
-    //   return (url)
-    // });
 
     let crawlPending; // displays a pending message to let user know the crawler is running
     if (this.state.pending === false) {

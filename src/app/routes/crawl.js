@@ -196,8 +196,8 @@ function postCrawl(req, res) {
               // }
 
 
-
-              var crawlLHResult = {"url":url,
+              var crawlLHResult = {"mainUrl":currentUrl,
+                "url":url,
                 "id":uuid(),
                 "offscreenHelp":offscreenHelpDisplay, "offscreenImages":offscreenDisplay, "renderSheetsHelp":renderSheetsHelpDisplay, "renderSheets":renderSheetsDisplay, "renderScriptsHelp":renderScriptsHelpDisplay, "renderScripts":renderScriptsDisplay, "imageSizeHelp":imageSizeHelpDisplay, "imageSize":imageSizeDisplay, "optimizeImageHelp":optimizeImageHelpDisplay, "optimizeImage":optimizeImageDisplay};
 
