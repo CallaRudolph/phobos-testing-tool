@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import { Button } from "react-bootstrap";
-import CrawlList from "./CrawlList.jsx";
+import LHCrawlList from "./LHCrawlList.jsx";
 
-class UrlCrawler extends Component {
+class LHCrawl extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,7 +19,7 @@ class UrlCrawler extends Component {
 
   loadResultsFromServer() {
     // makes axios Get request to save all data into state
-    axios.get('http://localhost:3000/results')
+    axios.get('http://localhost:3000/crawlLH')
     .then(res => {
       this.setState({ local: res.data });
     })
@@ -39,7 +39,7 @@ class UrlCrawler extends Component {
       crawlResponse.push(response.data);
       this.setState({url: ''});
       this.setState({data: crawlResponse[0]});
-      this.setState({pending: false});
+      this.setState({pending: false}); // this goes away too soon.
     }.bind(this)) //need the bind for axios post response to affect state
     .catch(err => {
       console.error(err);
@@ -55,15 +55,26 @@ class UrlCrawler extends Component {
   render() {
     // to display crawled lighthouse results
     var crawledLighthouse = this.state.local;
-    let crawledLighthouseNodes = crawledLighthouse.map(result => {
-      return (result)
-    });
+    let crawledLHNodes;
+    let crawledLHNodesDisplay;
+    if (crawledLighthouse.length < 1) {
+      crawledLHNodesDisplay = ''
+    } else {
+      let crawledLHNodes = crawledLighthouse.map(result => {
+        return (result)
+      });
+      crawledLHNodesDisplay =
+        <LHCrawlList
+          local={ crawledLHNodes }
+          // data={ pageNodes }
+        />
+    }
 
     // this is just a basic crawl list w/ no lighthouse results
-    var crawledPages = this.state.data;
-    let pageNodes = crawledPages.map(url => {
-      return (url)
-    });
+    // var crawledPages = this.state.data;
+    // let pageNodes = crawledPages.map(url => {
+    //   return (url)
+    // });
 
     let crawlPending; // displays a pending message to let user know the crawler is running
     if (this.state.pending === false) {
@@ -77,21 +88,18 @@ class UrlCrawler extends Component {
 
     return (
       <div>
-        <h4>Enter a url to crawl and send results to lighthouse:</h4>
+        <h4>Enter a url to crawl and run results through lighthouse:</h4>
         <form onSubmit={this.handleSubmit}>
           <input
             placeholder="https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
-            <Button bsStyle="success"
+            <Button bsStyle="info"
             bsSize="xsmall" type="submit">Start Crawling</Button>
         </form>
         { crawlPending }
-        <CrawlList
-          local={ crawledLighthouseNodes }
-          // data={ pageNodes }
-        />
+        { crawledLHNodesDisplay }
       </div>
     )
   }
 }
 
-export default UrlCrawler;
+export default LHCrawl;
