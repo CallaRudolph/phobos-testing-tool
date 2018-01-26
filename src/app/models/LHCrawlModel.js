@@ -1,0 +1,37 @@
+let mongoose = require('mongoose');
+let Schema = mongoose.Schema;
+let uuid = require('uuid-v4');
+
+// result schema definition
+let LHCrawlSchema = new Schema(
+  {
+    url: { type: String, required: true },
+    id: { type: String, required: true, default: uuid() },
+    offscreenHelp: { type: Array },
+    offscreenImages: { type: Array },
+    renderSheetsHelp: { type: Array },
+    renderSheets: { type: Array },
+    renderScriptsHelp: { type: Array },
+    renderScripts: { type: Array },
+    imageSizeHelp: { type: Array },
+    imageSize: { type: Array },
+    optimizeImageHelp: { type: Array },
+    optimizeImage: { type: Array },
+    createdAt: { type: Date, default: Date.now },
+  },
+  {
+    versionKey: false
+  }
+);
+
+// Sets the createdAt parameter equal to the current time
+LHCrawlSchema.pre('save', next => {
+  now = new Date();
+  if(!this.createdAt) {
+    this.createdAt = now;
+  }
+  next();
+});
+
+//Exports the ResultSchema for use elsewhere.
+module.exports = mongoose.model('LHCrawl', LHCrawlSchema);
