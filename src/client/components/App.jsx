@@ -12,8 +12,8 @@ class App extends Component {
         <h2>Phobos Testing Tool</h2>
         <p><em>A project to automate basic testing of websites using Google Lighthouse API.</em></p>
         {/* <TaskInput/> */}
-        {/* <UrlCrawler/>
-        <br/> */}
+        <UrlCrawler/>
+        <br/>
         {/* <LighthouseDetail/>
         <br/> */}
         <LHCrawl/>

@@ -39,7 +39,7 @@ class LHCrawl extends Component {
       crawlResponse.push(response.data);
       this.setState({url: ''});
       this.setState({data: crawlResponse[0]});
-      this.setState({pending: false}); // move to where hyperlink is displayed?
+      this.setState({pending: false}); // this goes away too soon.
     }.bind(this)) //need the bind for axios post response to affect state
     .catch(err => {
       console.error(err);

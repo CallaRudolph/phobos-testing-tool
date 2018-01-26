@@ -95,7 +95,7 @@ class LHCrawlDetail extends Component {
     // image size mapping
     let imageSizeHelpDisplay = [];
     let imageSizeMapNodes = crawledLighthouse.map(result => {
-      if (result.imageSize.length === undefined) {
+      if (result.imageSize.length < 1) {
         let noHelp = '';
         this.setState({imageSizeHelp: noHelp});
         return ("");
