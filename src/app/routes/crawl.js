@@ -283,5 +283,62 @@ function deleteLHCrawl(req, res) {
   });
 }
 
+function basicCrawl(req, res) {
+  console.log("Basic crawler running...");
+  var currentUrl = req.body.url; // from user input
+  var pages = []; // dummy array that will be used to check for duplicate entries
+
+  var crawler = new Crawler().configure({
+    shouldCrawl: function(url) {
+      if (url.indexOf(currentUrl) < 0) {
+        return false; // does not allow crawling outside main site
+      } else if (url.indexOf("https://google.com") > 0) {
+        return false; // does not include google links
+      } else if (url.indexOf(".jpg") > 0) {
+        return false; // does not include .jpg links
+      } else if (url.indexOf(".pdf") > 0) {
+        return false; // does not include .pdf links
+      } else if (url.indexOf("mailto:") >= 0) {
+        return false; // does not include mailto links
+      } else if (url.indexOf("https://twitter.com") >= 0) {
+        return false; // does not include twitter links
+      } else if (url.indexOf("https://facebook.com") >= 0) {
+        return false; // does not include facebook links
+      } else if (url.indexOf("https://accounts.google.com") >= 0) {
+        return false; // does not include facebook links
+      } else {
+        return true;
+      }
+    },
+    depth: 3, // depth to which links from original site will be crawled. 1 is low.
+    maxRequestsPerSecond: 10, // max # of HTTP requests per second that can be made by the crawler
+    maxConcurrentRequests: 5 // max # of concurrent requests that should not be exceeded by the crawler
+  });
+
+  crawler.crawl({
+    url: currentUrl,
+    success: function(page) {
+      pages.push(page.url); // sends crawled Urls to dummy array
+    },
+    failure: function(page) {
+      console.log(page.status + ": " + page.url); // 404 errors
+    },
+    finished: function (crawledUrls) {
+      // crawledUrls is array of what the crawler returns
+      var duplicateCheck = pages.concat(crawledUrls); // combines two separate arrays of all crawled urls
+      var set = new Set(duplicateCheck); // removes duplicates from combined array
+      noDuplicates = Array.from(set); //creates new array without duplicates
+
+      var error = ["The crawler couldn't find anything from " + currentUrl + ". Check the URL."]; // error message for invalid url inputs - no https, etc.
+
+      if (crawledUrls.length === 0) {
+        res.status(200).json(error);
+      } else {
+        res.status(200).json(noDuplicates);
+      }
+    }
+  });
+}
+
 //export all the functions
-module.exports = { postCrawl, postResults, getResults, deleteResults, getLHCrawl, postLHCrawl, deleteLHCrawl };
+module.exports = { postCrawl, postResults, getResults, deleteResults, getLHCrawl, postLHCrawl, deleteLHCrawl, basicCrawl };

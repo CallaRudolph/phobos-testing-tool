@@ -4,6 +4,7 @@ import UrlCrawler from './LHCrawlSummary/UrlCrawler.jsx';
 import LighthouseDetail from './LHDetail/LighthouseDetail.jsx';
 import LHCrawl from './LHCrawl/LHCrawl.jsx';
 import LighthouseSingle from './LHSingle.jsx';
+import BasicCrawler from './BasicCrawler.jsx';
 
 class App extends Component {
   render() {
@@ -19,6 +20,8 @@ class App extends Component {
         <LHCrawl/>
         {/* <br/>
         <LighthouseSingle/> */}
+        <br/>
+        <BasicCrawler/>
       </div>
     )
   }
