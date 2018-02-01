@@ -86,13 +86,18 @@ class LHCrawl extends Component {
         </div>
     }
 
+    var button = {
+      margin: "3px",
+      marginTop: "2px"
+    }
+
     return (
       <div>
         <h4>Enter a url to crawl and run results through lighthouse:</h4>
         <form onSubmit={this.handleSubmit}>
           <input
             placeholder="https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
-            <Button bsStyle="info"
+          <Button style={button} bsStyle="info"
             bsSize="xsmall" type="submit">Start Crawling</Button>
         </form>
         { crawlPending }

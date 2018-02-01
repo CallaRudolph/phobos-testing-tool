@@ -46,14 +46,19 @@ class LighthouseDetail extends Component {
         </div>
     }
 
+    var button = {
+      margin: "3px",
+      marginTop: "2px"
+    }
+
     return (
       <div>
         <h4>Enter a url for detailed lighthouse results:</h4>
         <form onSubmit={this.handleSubmit}>
           <input
             size="28"
-            placeholder="enter a url - - https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
-          <Button bsStyle="warning"
+            placeholder="https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
+          <Button style={button} bsStyle="warning"
             bsSize="xsmall" type="submit">
             Start Testing
           </Button>

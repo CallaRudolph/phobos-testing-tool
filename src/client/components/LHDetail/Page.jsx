@@ -3,6 +3,7 @@ import { Grid, Col, Row } from 'react-bootstrap';
 import PageDetail from './PageDetail.jsx';
 import ProgressArc from 'progress-arc-component'
 import styled, { css } from 'styled-components';
+var dateFormat = require('dateformat');
 
 class Page extends Component {
   constructor(props) {
@@ -62,7 +63,7 @@ class Page extends Component {
     let data = this.props.data.data;
     let reports = data.reportCategories;
     let url = data.initialUrl;
-    let date = this.props.data.headers.date;
+    let date = dateFormat(this.props.data.headers.date, "dddd, mmmm dS, yyyy, h:MM:ss TT");
 
     let paintScore = parseInt(data.audits['first-meaningful-paint']['score']);
     let performanceScore = parseInt((reports[1].score).toFixed());
@@ -100,10 +101,10 @@ class Page extends Component {
               <Col xs={7} md={7}>
                 <h4>Results for {url}</h4>
               </Col>
-              <Col xs={3} md={3}>
+              <Col xs={4} md={4}>
                 <p style={dateStyle}>{date}</p>
               </Col>
-              <Col xs={2} md={2}></Col>
+              <Col xs={1} md={1}></Col>
             </Row>
             <Row>
               <Col xs={4} md={4}></Col>

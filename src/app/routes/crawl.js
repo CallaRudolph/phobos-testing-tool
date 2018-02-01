@@ -199,6 +199,7 @@ function postCrawl(req, res) {
               var crawlLHResult = {"mainUrl":currentUrl,
                 "url":url,
                 "id":uuid(),
+                "firstPaint":paintScore, "performance":performanceScore, "bestPractices":bestPracticeScore, "accessibility":accessibilityScore,
                 "offscreenHelp":offscreenHelpDisplay, "offscreenImages":offscreenDisplay, "renderSheetsHelp":renderSheetsHelpDisplay, "renderSheets":renderSheetsDisplay, "renderScriptsHelp":renderScriptsHelpDisplay, "renderScripts":renderScriptsDisplay, "imageSizeHelp":imageSizeHelpDisplay, "imageSize":imageSizeDisplay, "optimizeImageHelp":optimizeImageHelpDisplay, "optimizeImage":optimizeImageDisplay};
 
               axios.post('http://localhost:3000/crawlLH', crawlLHResult)

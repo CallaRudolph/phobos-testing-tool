@@ -75,13 +75,18 @@ class UrlCrawler extends Component {
         </div>
     }
 
+    var button = {
+      margin: "3px",
+      marginTop: "2px"
+    }
+
     return (
       <div>
         <h4>Enter a url to crawl and show summary results for lighthouse:</h4>
         <form onSubmit={this.handleSubmit}>
           <input
             placeholder="https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
-            <Button bsStyle="success"
+          <Button style={button} bsStyle="success"
             bsSize="xsmall" type="submit">Start Crawling</Button>
         </form>
         { crawlPending }

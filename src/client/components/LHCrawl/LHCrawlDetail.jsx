@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Grid, Col, Row } from 'react-bootstrap';
 import LHCrawlDelete from './LHCrawlDelete.jsx';
+import ProgressArcs from './ProgressArcs.jsx';
 import OffscreenImages from './Performance/OffscreenImages.jsx';
 import RenderSheets from './Performance/RenderSheets.jsx';
 import RenderScripts from './Performance/RenderScripts.jsx';
@@ -14,6 +15,7 @@ class LHCrawlDetail extends Component {
     this.state = {
       mainUrl: '',
       date: '',
+      progressArcs: '',
       offscreenImagesHelp: '',
       offscreenImages: '',
       renderSheetsHelp: '',
@@ -120,6 +122,22 @@ class LHCrawlDetail extends Component {
     var date = dateFormat(crawledLighthouse[0].createdAt, "dddd, mmmm dS, yyyy, h:MM:ss TT");
     this.setState({mainUrl: crawledLighthouse[0].mainUrl});
     this.setState({date: date});
+
+    // progress arc
+
+    let progressArcs = crawledLighthouse.map(result => {
+      let paintScore = parseInt(result.firstPaint);
+      let performanceScore = parseInt(result.performance);
+      let bestPracticeScore = parseInt(result.bestPractices);
+      let accessibilityScore = parseInt(result.accessibility);
+      return (<ProgressArcs key={result.id}
+                            url={result.url}
+                            paintScore={paintScore}
+                            performanceScore={performanceScore}
+                            bestPracticeScore={bestPracticeScore}
+                            accessibilityScore={accessibilityScore}/>)
+    });
+    this.setState({progressArcs: progressArcs});
 
     // PERFORMANCE! //
 
@@ -244,7 +262,7 @@ class LHCrawlDetail extends Component {
       renderScriptsDisplay = ''
     } else if (this.state.renderScriptsShow === false) {
       renderScriptsDisplay =
-        <h4><a href='#/' onClick={ this.viewRenderScripts }>Render Stylesheets</a> {this.state.renderScriptsHelp}</h4>
+        <h4><a href='#/' onClick={ this.viewRenderScripts }>Render Scripts</a> {this.state.renderScriptsHelp}</h4>
     } else {
       renderScriptsDisplay =
         <div>
@@ -284,13 +302,14 @@ class LHCrawlDetail extends Component {
     return (
       <div>
         <h2>Quality Assurance Tasks</h2>
-        <p>{this.state.mainUrl} / {this.state.date}</p>
+        <h4>{this.state.mainUrl} on {this.state.date}</h4>
         <h3>Performance Opportunities:</h3>
         {offscreenDisplay}
         {renderSheetsDisplay}
         {renderScriptsDisplay}
         {imageSizeDisplay}
         {optimizeImageDisplay}
+        {this.state.progressArcs}
       </div>
     )
   }

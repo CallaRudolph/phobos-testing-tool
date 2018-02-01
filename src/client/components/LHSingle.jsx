@@ -174,14 +174,19 @@ class LighthouseSingle extends Component {
       lighthouseFinished = ''
     }
 
+    var button = {
+      margin: "3px",
+      marginTop: "2px"
+    }
+
     return (
       <div>
         <h4>Enter a url to check lighthouse results without crawling:</h4>
         <form onSubmit={this.handleSubmit}>
           <input
             size="28"
-            placeholder="enter a url - - https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
-          <Button bsStyle="danger"
+            placeholder="https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
+          <Button style={button} bsStyle="danger"
             bsSize="xsmall" type="submit">
             Start Testing
           </Button>
