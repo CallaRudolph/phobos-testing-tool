@@ -20,8 +20,8 @@ class App extends Component {
         <LHCrawl/>
         {/* <br/>
         <LighthouseSingle/> */}
-        {/* <br/>
-        <BasicCrawler/> */}
+        <br/>
+        <BasicCrawler/>
       </div>
     )
   }

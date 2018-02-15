@@ -68,7 +68,7 @@ function postCrawl(req, res) {
             var blob = await lighthouse.runLighthouse(url).then((jsonBlob) => {
               /////////////////summary////////////////////////
               let paintScore = jsonBlob.audits['first-meaningful-paint']['score'];
-              let performanceScore = (jsonBlob.reportCategories[1].score).toFixed();
+              let performanceScore = (jsonBlob.reportCategories[0].score).toFixed();
               let bestPracticeScore = (jsonBlob.reportCategories[3].score).toFixed();
               let accessibilityScore = (jsonBlob.reportCategories[2].score).toFixed();
 
@@ -82,7 +82,7 @@ function postCrawl(req, res) {
               masterData.push({"blob":currentResult});
               //////////////////end summary ///////////////////////
 
-              let perfOpp = jsonBlob.reportCategories[1].audits;
+              let perfOpp = jsonBlob.reportCategories[0].audits;
 
               // offscreen images
               let offscreenHelpDisplay = [];
@@ -173,28 +173,6 @@ function postCrawl(req, res) {
                   }
                 }
               }
-
-              // // accessibility opportunities
-              // let accessOpp = jsonBlob.reportCategories[2].audits;
-              //
-              // let imageAltDisplay = [];
-              // let imageAltHelpDisplay = [];
-              //
-              // for (var i = 0; i < accessOpp.length; i++) {
-              //   // image alt
-              //   if (accessOpp[i].id === "image-alt" && accessOpp[i].score < 100) {
-              //     var imageAltHelp = accessOpp[i].result.helpText.replace(/Learn More/i, 'Learn more: ').replace('[', '').replace('](', '').replace(').', '');
-              //     imageAltHelpDisplay.push(imageAltHelp);
-              //     var imageAltItems = accessOpp[i].result.details.items;
-              //     if (imageAltItems.length > 0) {
-              //       for (var j = 0; j < imageAltItems.length; j++) {
-              //         var item = imageAltItems[j].snippet;
-              //         imageAltDisplay.push(" " + item);
-              //       }
-              //     }
-              //   }
-              // }
-
 
               var crawlLHResult = {"mainUrl":currentUrl,
                 "url":url,
@@ -330,8 +308,7 @@ function basicCrawl(req, res) {
       noDuplicates = Array.from(set); //creates new array without duplicates
 
       var error = ["The crawler couldn't find anything from " + currentUrl + ". Check the URL."]; // error message for invalid url inputs - no https, etc.
-
-      if (crawledUrls.length === 0) {
+      if (crawledUrls.length <= 1) {
         res.status(200).json(error);
       } else {
         res.status(200).json(noDuplicates);

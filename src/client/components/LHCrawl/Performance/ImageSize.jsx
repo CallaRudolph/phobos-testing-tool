@@ -4,7 +4,7 @@ class ImageSize extends Component {
   render() {
     return (
       <div className='container'>
-        <h4>{this.props.url}</h4>
+        <h5>{this.props.url}</h5>
         <ul>
           {this.props.imagesSize.map(function(imageSize){
             return <li className="list-unstyled" key={imageSize}>{imageSize}</li>

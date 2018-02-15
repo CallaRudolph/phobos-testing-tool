@@ -158,8 +158,8 @@ class PerformanceDetail extends Component {
     let reports = data.reportCategories;
     let audits = data.audits;
 
-    let performance = reports[1].name;
-    let perfDescription = reports[1].description;
+    let performance = reports[0].name;
+    let perfDescription = reports[0].description;
 
     // first paint information and display
     let firstPaint = audits['first-meaningful-paint']['displayValue'];

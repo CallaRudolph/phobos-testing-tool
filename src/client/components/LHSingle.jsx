@@ -34,6 +34,8 @@ class LighthouseSingle extends Component {
     });
   }
 
+
+
   render() {
     let lighthousePending; // displays a pending message to let user know the crawler is running
     if (this.state.pending === false) {
@@ -49,9 +51,10 @@ class LighthouseSingle extends Component {
 
     let lighthouseFinished; // displays lighthouse results
     if (this.state.data.length === undefined) {
+      console.log(data);
 
       // performance opportunities
-      let perfOpp = data.reportCategories[1].audits;
+      let perfOpp = data.reportCategories[0].audits;
 
       // offscreen images
       let offscreenDisplay = [];
@@ -181,13 +184,13 @@ class LighthouseSingle extends Component {
 
     return (
       <div>
-        <h4>Enter a url to check lighthouse results without crawling:</h4>
+        <h5>Enter a url to check lighthouse results without crawling:</h5>
         <form onSubmit={this.handleSubmit}>
           <input
             size="28"
             placeholder="https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
-          <Button style={button} bsStyle="danger"
-            bsSize="xsmall" type="submit">
+          <Button style={button}  bsStyle="danger"
+            bsSize="small"  type="submit">
             Start Testing
           </Button>
         </form>

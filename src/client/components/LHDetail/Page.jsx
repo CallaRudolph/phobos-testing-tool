@@ -22,7 +22,7 @@ class Page extends Component {
     let data = this.props.data.data;
     let reports = data.reportCategories;
     let paintScore = parseInt(data.audits['first-meaningful-paint']['score']);
-    let performanceScore = parseInt((reports[1].score).toFixed());
+    let performanceScore = parseInt((reports[0].score).toFixed());
     let bestPracticeScore = parseInt((reports[3].score).toFixed());
     let accessibilityScore = parseInt((reports[2].score).toFixed());
 
@@ -66,7 +66,7 @@ class Page extends Component {
     let date = dateFormat(this.props.data.headers.date, "dddd, mmmm dS, yyyy, h:MM:ss TT");
 
     let paintScore = parseInt(data.audits['first-meaningful-paint']['score']);
-    let performanceScore = parseInt((reports[1].score).toFixed());
+    let performanceScore = parseInt((reports[0].score).toFixed());
     let bestPracticeScore = parseInt((reports[3].score).toFixed());
     let accessibilityScore = parseInt((reports[2].score).toFixed());
 

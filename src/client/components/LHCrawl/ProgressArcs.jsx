@@ -84,7 +84,7 @@ class ProgressArcs extends Component {
             <div>
               <Row>
                 <Col xs={4} md={4}>
-                  <h5>{this.props.url}</h5>
+                  <h6>{this.props.url}</h6>
                 </Col>
                 <Col style={arcStyle} xs={1} md={1}>
                   <StyledProgressArc

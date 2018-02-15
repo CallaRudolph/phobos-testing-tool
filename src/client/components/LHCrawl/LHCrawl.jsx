@@ -86,6 +86,16 @@ class LHCrawl extends Component {
         </div>
     }
 
+    let noCrawl;
+    if (this.state.data.length > 1) {
+      noCrawl = ''
+    } else {
+      noCrawl =
+        <div>
+          <p>{this.state.data}</p>
+        </div>
+    }
+
     var button = {
       margin: "3px",
       marginTop: "2px"
@@ -93,14 +103,15 @@ class LHCrawl extends Component {
 
     return (
       <div>
-        <h4>Enter a url to crawl and run results through lighthouse:</h4>
+        <h5>Enter a url to crawl and run results through lighthouse:</h5>
         <form onSubmit={this.handleSubmit}>
           <input
             placeholder="https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
           <Button style={button} bsStyle="info"
-            bsSize="xsmall" type="submit">Start Crawling</Button>
+            bsSize="small" type="submit">Start Crawling</Button>
         </form>
         { crawlPending }
+        { noCrawl }
         { crawledLHNodesDisplay }
       </div>
     )

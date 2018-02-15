@@ -39,12 +39,12 @@ class CrawlList extends Component {
     } else if (this.state.listShowing === false) {
       formAreaContent =
         <div>
-          <h4><a href='#/' onClick={ this.viewCrawlList }>detailed lighthouse info for crawled urls</a></h4>
+          <h5><a href='#/' onClick={ this.viewCrawlList }>detailed lighthouse info for crawled urls</a></h5>
         </div>
     } else {
         formAreaContent =
           <div>
-            <h4><a href='#/' onClick={ this.hideCrawlList }>hide list</a></h4>
+            <h5><a href='#/' onClick={ this.hideCrawlList }>hide list</a></h5>
             {/* { pageNodes } */}
             <LHCrawlDetail
             local={this.props.local}/>

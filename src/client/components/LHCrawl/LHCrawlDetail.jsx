@@ -234,11 +234,11 @@ class LHCrawlDetail extends Component {
       offscreenDisplay = ''
     } else if (this.state.offscreenImagesShow === false) {
       offscreenDisplay =
-        <h4><a href='#/' onClick={ this.viewOffscreenImages }>Offscreen Images </a>{this.state.offscreenImagesHelp}</h4>
+        <h5><a href='#/' onClick={ this.viewOffscreenImages }>Offscreen Images </a>{this.state.offscreenImagesHelp}</h5>
     } else {
       offscreenDisplay =
         <div>
-          <h4><a href='#/' onClick={ this.hideOffscreenImages }>Offscreen Images </a>{this.state.offscreenImagesHelp}</h4>
+          <h5><a href='#/' onClick={ this.hideOffscreenImages }>Offscreen Images </a>{this.state.offscreenImagesHelp}</h5>
           {this.state.offscreenImages}
         </div>
     }
@@ -248,11 +248,11 @@ class LHCrawlDetail extends Component {
       renderSheetsDisplay = ''
     } else if (this.state.renderSheetsShow === false) {
       renderSheetsDisplay =
-        <h4><a href='#/' onClick={ this.viewRenderSheets }>Render Stylesheets</a> {this.state.renderSheetsHelp}</h4>
+        <h5><a href='#/' onClick={ this.viewRenderSheets }>Render Stylesheets</a> {this.state.renderSheetsHelp}</h5>
     } else {
       renderSheetsDisplay =
         <div>
-          <h4><a href='#/' onClick={ this.hideRenderSheets }>Render Stylesheets</a> {this.state.renderSheetsHelp}</h4>
+          <h5><a href='#/' onClick={ this.hideRenderSheets }>Render Stylesheets</a> {this.state.renderSheetsHelp}</h5>
           {this.state.renderSheets}
         </div>
     }
@@ -262,11 +262,11 @@ class LHCrawlDetail extends Component {
       renderScriptsDisplay = ''
     } else if (this.state.renderScriptsShow === false) {
       renderScriptsDisplay =
-        <h4><a href='#/' onClick={ this.viewRenderScripts }>Render Scripts</a> {this.state.renderScriptsHelp}</h4>
+        <h5><a href='#/' onClick={ this.viewRenderScripts }>Render Scripts</a> {this.state.renderScriptsHelp}</h5>
     } else {
       renderScriptsDisplay =
         <div>
-          <h4><a href='#/' onClick={ this.hideRenderScripts }>Render Scripts</a> {this.state.renderScriptsHelp}</h4>
+          <h5><a href='#/' onClick={ this.hideRenderScripts }>Render Scripts</a> {this.state.renderScriptsHelp}</h5>
           {this.state.renderScripts}
         </div>
     }
@@ -276,11 +276,11 @@ class LHCrawlDetail extends Component {
       imageSizeDisplay = ''
     } else if (this.state.imageSizeShow === false) {
       imageSizeDisplay =
-        <h4><a href='#/' onClick={ this.viewImageSize }>Image Size</a> {this.state.imageSizeHelp}</h4>
+        <h5><a href='#/' onClick={ this.viewImageSize }>Image Size</a> {this.state.imageSizeHelp}</h5>
     } else {
       imageSizeDisplay =
         <div>
-          <h4><a href='#/' onClick={ this.hideImageSize }>Image Size</a> {this.state.imageSizeHelp}</h4>
+          <h5><a href='#/' onClick={ this.hideImageSize }>Image Size</a> {this.state.imageSizeHelp}</h5>
           {this.state.imageSize}
         </div>
     }
@@ -290,20 +290,20 @@ class LHCrawlDetail extends Component {
       optimizeImageDisplay = ''
     } else if (this.state.optimizeImageShow === false) {
       optimizeImageDisplay =
-        <h4><a href='#/' onClick={ this.viewOptimizeImage }>Optimize Images</a> {this.state.optimizeImageHelp}</h4>
+        <h5><a href='#/' onClick={ this.viewOptimizeImage }>Optimize Images</a> {this.state.optimizeImageHelp}</h5>
     } else {
       optimizeImageDisplay =
         <div>
-          <h4><a href='#/' onClick={ this.hideOptimizeImage }>Optimize Images</a> {this.state.optimizeImageHelp}</h4>
+          <h5><a href='#/' onClick={ this.hideOptimizeImage }>Optimize Images</a> {this.state.optimizeImageHelp}</h5>
           {this.state.optimizeImage}
         </div>
     }
 
     return (
       <div>
-        <h2>Quality Assurance Tasks</h2>
-        <h4>{this.state.mainUrl} on {this.state.date}</h4>
-        <h3>Performance Opportunities:</h3>
+        <h4>Quality Assurance Tasks</h4>
+        <h5>{this.state.mainUrl} on {this.state.date}</h5>
+        <h4>Performance Opportunities:</h4>
         {offscreenDisplay}
         {renderSheetsDisplay}
         {renderScriptsDisplay}
