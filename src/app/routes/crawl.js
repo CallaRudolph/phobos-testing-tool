@@ -84,23 +84,50 @@ function postCrawl(req, res) {
 
               let perfOpp = jsonBlob.reportCategories[0].audits;
 
-              // offscreen images
-              let offscreenHelpDisplay = [];
-              let offscreenDisplay = [];
-              for (var i = 0; i < perfOpp.length; i++) {
-                if(perfOpp[i].id === "offscreen-images" && perfOpp[i].score < 100) {
-                  var offscreenHelp = perfOpp[i].result.helpText.replace(/Learn More/i, 'Learn more: ').replace('[', '').replace('](', '').replace(').', '');
-                  offscreenHelpDisplay.push(offscreenHelp);
-                  var offscreenItems = perfOpp[i].result.details.items;
-                  if (offscreenItems.length > 0) {
-                    for (var j = 0; j < offscreenItems.length; j++) {
-                      var item = offscreenItems[j][1].text;
-                      var size = offscreenItems[j][2].text;
-                      offscreenDisplay.push(" " + item + " size: " + size);
+              function parseLHOpportunity (name, startIndex) {
+                let data = {
+                  helpdisplay: [],
+                  items: [],
+                };
+
+                for (var i = 0; i < perfOpp.length; i++) {
+                  if(perfOpp[i].id === name && perfOpp[i].score < 100) {
+                    var offscreenHelp = perfOpp[i].result.helpText.replace(/Learn More/i, 'Learn more: ').replace('[', '').replace('](', '').replace(').', '');
+                    data.helpdisplay.push(offscreenHelp);
+                    var offscreenItems = perfOpp[i].result.details.items;
+                    if (offscreenItems.length > 0) {
+                      for (var j = 0; j < offscreenItems.length; j++) {
+                        var item = offscreenItems[j][startIndex].text;
+                        var size = offscreenItems[j][startIndex+1].text;
+                        data.items.push(" " + item + " size: " + size)
+                      }
                     }
                   }
                 }
+
+                return data;
               }
+
+              let offscreen = parseLHOpportunity("offscreen-images", 1);
+
+              //
+              // // offscreen images
+              // let offscreenHelpDisplay = [];
+              // let offscreenDisplay = [];
+              // for (var i = 0; i < perfOpp.length; i++) {
+              //   if(perfOpp[i].id === "offscreen-images" && perfOpp[i].score < 100) {
+              //     var offscreenHelp = perfOpp[i].result.helpText.replace(/Learn More/i, 'Learn more: ').replace('[', '').replace('](', '').replace(').', '');
+              //     offscreenHelpDisplay.push(offscreenHelp);
+              //     var offscreenItems = perfOpp[i].result.details.items;
+              //     if (offscreenItems.length > 0) {
+              //       for (var j = 0; j < offscreenItems.length; j++) {
+              //         var item = offscreenItems[j][1].text;
+              //         var size = offscreenItems[j][2].text;
+              //         offscreenDisplay.push(" " + item + " size: " + size);
+              //       }
+              //     }
+              //   }
+              // }
 
               // render-blocking stylesheets
               let renderSheetsHelpDisplay = [];
@@ -174,11 +201,20 @@ function postCrawl(req, res) {
                 }
               }
 
+              // var crawlLHResult = {"mainUrl":currentUrl,
+              //   "url":url,
+              //   "id":uuid(),
+              //   "firstPaint":paintScore, "performance":performanceScore, "bestPractices":bestPracticeScore, "accessibility":accessibilityScore,
+              //   "offscreenHelp":offscreenHelpDisplay, "offscreenImages":offscreenDisplay, "renderSheetsHelp":renderSheetsHelpDisplay, "renderSheets":renderSheetsDisplay, "renderScriptsHelp":renderScriptsHelpDisplay, "renderScripts":renderScriptsDisplay, "imageSizeHelp":imageSizeHelpDisplay, "imageSize":imageSizeDisplay, "optimizeImageHelp":optimizeImageHelpDisplay, "optimizeImage":optimizeImageDisplay};
+
               var crawlLHResult = {"mainUrl":currentUrl,
                 "url":url,
                 "id":uuid(),
-                "firstPaint":paintScore, "performance":performanceScore, "bestPractices":bestPracticeScore, "accessibility":accessibilityScore,
-                "offscreenHelp":offscreenHelpDisplay, "offscreenImages":offscreenDisplay, "renderSheetsHelp":renderSheetsHelpDisplay, "renderSheets":renderSheetsDisplay, "renderScriptsHelp":renderScriptsHelpDisplay, "renderScripts":renderScriptsDisplay, "imageSizeHelp":imageSizeHelpDisplay, "imageSize":imageSizeDisplay, "optimizeImageHelp":optimizeImageHelpDisplay, "optimizeImage":optimizeImageDisplay};
+                "firstPaint":paintScore,
+                "performance":performanceScore,
+                "bestPractices":bestPracticeScore,
+                "accessibility":accessibilityScore,
+                "offscreen":offscreen};
 
               axios.post('http://localhost:3000/crawlLH', crawlLHResult)
               .catch(err => {

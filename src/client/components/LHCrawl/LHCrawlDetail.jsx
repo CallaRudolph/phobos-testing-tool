@@ -13,6 +13,7 @@ class LHCrawlDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      local: this.props.local,
       mainUrl: '',
       date: '',
       progressArcs: '',
@@ -117,11 +118,11 @@ class LHCrawlDetail extends Component {
     });
   }
 
-  componentWillMount() {
-    var crawledLighthouse = this.props.local;
+  componentDidMount() {
+    var crawledLighthouse = this.state.local;
     var date = dateFormat(crawledLighthouse[0].createdAt, "dddd, mmmm dS, yyyy, h:MM:ss TT");
-    this.setState({mainUrl: crawledLighthouse[0].mainUrl});
     this.setState({date: date});
+    this.setState({mainUrl: crawledLighthouse[0].mainUrl});
 
     // progress arc
 
@@ -144,87 +145,87 @@ class LHCrawlDetail extends Component {
     // offscreen image mapping
     let offscreenHelpDisplay = [];
     let offscreenImageMapNodes = crawledLighthouse.map(result => {
-      if (result.offscreenImages.length < 1) {
+      if (result.offscreen.length < 1) {
         let noHelp = '';
         this.setState({offscreenHelp: noHelp});
         return ("");
       } else {
-        offscreenHelpDisplay.push(result.offscreenHelp[0])
+        offscreenHelpDisplay.push(result.offscreen[0].helpdisplay[0])
         return (<OffscreenImages  key={result.id}
                                   url={result.url}
-                                  offscreenImages={result.offscreenImages}/>)
+                                  offscreenImages={result.offscreen[0].items}/>)
       }
     });
-    this.setState({offscreenImagesHelp: offscreenHelpDisplay[0]});
+    this.setState({offscreenImagesHelp: offscreenHelpDisplay});
     this.setState({offscreenImages: offscreenImageMapNodes})
 
-    // render sheets mapping
-    let renderSheetsHelpDisplay = [];
-    let renderSheetsMapNodes = crawledLighthouse.map(result => {
-      if (result.renderSheets.length < 1) {
-        let noHelp = '';
-        this.setState({renderSheetsHelp: noHelp});
-        return ("");
-      } else {
-        renderSheetsHelpDisplay.push(result.renderSheetsHelp[0])
-        return (<RenderSheets key={result.id}
-                              url={result.url}
-                              renderSheets={result.renderSheets}/>)
-      }
-    });
-    this.setState({renderSheetsHelp: renderSheetsHelpDisplay[0]});
-    this.setState({renderSheets: renderSheetsMapNodes})
-
-    // render scripts mapping
-    let renderScriptsHelpDisplay = [];
-    let renderScriptsMapNodes = crawledLighthouse.map(result => {
-      if (result.renderScripts.length < 1) {
-        let noHelp = '';
-        this.setState({renderScriptsHelp: noHelp});
-        return ("");
-      } else {
-        renderScriptsHelpDisplay.push(result.renderScriptsHelp[0])
-        return (<RenderScripts key={result.id}
-                              url={result.url}
-                              renderScripts={result.renderScripts}/>)
-      }
-    });
-    this.setState({renderScriptsHelp: renderScriptsHelpDisplay[0]});
-    this.setState({renderScripts: renderScriptsMapNodes})
-
-    // image size mapping
-    let imageSizeHelpDisplay = [];
-    let imageSizeMapNodes = crawledLighthouse.map(result => {
-      if (result.imageSize.length < 1) {
-        let noHelp = '';
-        this.setState({imageSizeHelp: noHelp});
-        return ("");
-      } else {
-        imageSizeHelpDisplay.push(result.imageSizeHelp[0])
-        return (<ImageSize key={result.id}
-                            url={result.url}
-                            imagesSize={result.imageSize}/>)
-      }
-    });
-    this.setState({imageSizeHelp: imageSizeHelpDisplay[0]});
-    this.setState({imageSize: imageSizeMapNodes})
-
-    // optimize image mapping
-    let optimizeImageHelpDisplay = [];
-    let optimizeImageMapNodes = crawledLighthouse.map(result => {
-      if (result.optimizeImage.length < 1) {
-        let noHelp = '';
-        this.setState({optimizeImageHelp: noHelp});
-        return ("");
-      } else {
-        optimizeImageHelpDisplay.push(result.optimizeImageHelp[0])
-        return (<OptimizeImage key={result.id}
-                            url={result.url}
-                            optimizeImages={result.optimizeImage}/>)
-      }
-    });
-    this.setState({optimizeImageHelp: optimizeImageHelpDisplay[0]});
-    this.setState({optimizeImage: optimizeImageMapNodes})
+    // // render sheets mapping
+    // let renderSheetsHelpDisplay = [];
+    // let renderSheetsMapNodes = crawledLighthouse.map(result => {
+    //   if (result.renderSheets.length < 1) {
+    //     let noHelp = '';
+    //     this.setState({renderSheetsHelp: noHelp});
+    //     return ("");
+    //   } else {
+    //     renderSheetsHelpDisplay.push(result.renderSheetsHelp[0])
+    //     return (<RenderSheets key={result.id}
+    //                           url={result.url}
+    //                           renderSheets={result.renderSheets}/>)
+    //   }
+    // });
+    // this.setState({renderSheetsHelp: renderSheetsHelpDisplay[0]});
+    // this.setState({renderSheets: renderSheetsMapNodes})
+    //
+    // // render scripts mapping
+    // let renderScriptsHelpDisplay = [];
+    // let renderScriptsMapNodes = crawledLighthouse.map(result => {
+    //   if (result.renderScripts.length < 1) {
+    //     let noHelp = '';
+    //     this.setState({renderScriptsHelp: noHelp});
+    //     return ("");
+    //   } else {
+    //     renderScriptsHelpDisplay.push(result.renderScriptsHelp[0])
+    //     return (<RenderScripts key={result.id}
+    //                           url={result.url}
+    //                           renderScripts={result.renderScripts}/>)
+    //   }
+    // });
+    // this.setState({renderScriptsHelp: renderScriptsHelpDisplay[0]});
+    // this.setState({renderScripts: renderScriptsMapNodes})
+    //
+    // // image size mapping
+    // let imageSizeHelpDisplay = [];
+    // let imageSizeMapNodes = crawledLighthouse.map(result => {
+    //   if (result.imageSize.length < 1) {
+    //     let noHelp = '';
+    //     this.setState({imageSizeHelp: noHelp});
+    //     return ("");
+    //   } else {
+    //     imageSizeHelpDisplay.push(result.imageSizeHelp[0])
+    //     return (<ImageSize key={result.id}
+    //                         url={result.url}
+    //                         imagesSize={result.imageSize}/>)
+    //   }
+    // });
+    // this.setState({imageSizeHelp: imageSizeHelpDisplay[0]});
+    // this.setState({imageSize: imageSizeMapNodes})
+    //
+    // // optimize image mapping
+    // let optimizeImageHelpDisplay = [];
+    // let optimizeImageMapNodes = crawledLighthouse.map(result => {
+    //   if (result.optimizeImage.length < 1) {
+    //     let noHelp = '';
+    //     this.setState({optimizeImageHelp: noHelp});
+    //     return ("");
+    //   } else {
+    //     optimizeImageHelpDisplay.push(result.optimizeImageHelp[0])
+    //     return (<OptimizeImage key={result.id}
+    //                         url={result.url}
+    //                         optimizeImages={result.optimizeImage}/>)
+    //   }
+    // });
+    // this.setState({optimizeImageHelp: optimizeImageHelpDisplay[0]});
+    // this.setState({optimizeImage: optimizeImageMapNodes})
 
   }
 
@@ -234,70 +235,70 @@ class LHCrawlDetail extends Component {
       offscreenDisplay = ''
     } else if (this.state.offscreenImagesShow === false) {
       offscreenDisplay =
-        <h5><a href='#/' onClick={ this.viewOffscreenImages }>Offscreen Images </a>{this.state.offscreenImagesHelp}</h5>
+        <h5><a href='#/' onClick={ this.viewOffscreenImages }>Offscreen Images </a>{this.state.offscreenImagesHelp[0]}</h5>
     } else {
       offscreenDisplay =
         <div>
-          <h5><a href='#/' onClick={ this.hideOffscreenImages }>Offscreen Images </a>{this.state.offscreenImagesHelp}</h5>
+          <h5><a href='#/' onClick={ this.hideOffscreenImages }>Offscreen Images </a>{this.state.offscreenImagesHelp[0]}</h5>
           {this.state.offscreenImages}
         </div>
     }
 
-    let renderSheetsDisplay;
-    if (this.state.renderSheetsShow === false && this.state.renderSheetsHelp === undefined) {
-      renderSheetsDisplay = ''
-    } else if (this.state.renderSheetsShow === false) {
-      renderSheetsDisplay =
-        <h5><a href='#/' onClick={ this.viewRenderSheets }>Render Stylesheets</a> {this.state.renderSheetsHelp}</h5>
-    } else {
-      renderSheetsDisplay =
-        <div>
-          <h5><a href='#/' onClick={ this.hideRenderSheets }>Render Stylesheets</a> {this.state.renderSheetsHelp}</h5>
-          {this.state.renderSheets}
-        </div>
-    }
-
-    let renderScriptsDisplay;
-    if (this.state.renderScriptsShow === false && this.state.renderScriptsHelp === undefined) {
-      renderScriptsDisplay = ''
-    } else if (this.state.renderScriptsShow === false) {
-      renderScriptsDisplay =
-        <h5><a href='#/' onClick={ this.viewRenderScripts }>Render Scripts</a> {this.state.renderScriptsHelp}</h5>
-    } else {
-      renderScriptsDisplay =
-        <div>
-          <h5><a href='#/' onClick={ this.hideRenderScripts }>Render Scripts</a> {this.state.renderScriptsHelp}</h5>
-          {this.state.renderScripts}
-        </div>
-    }
-
-    let imageSizeDisplay;
-    if (this.state.imageSizeShow === false && this.state.imageSizeHelp === undefined) {
-      imageSizeDisplay = ''
-    } else if (this.state.imageSizeShow === false) {
-      imageSizeDisplay =
-        <h5><a href='#/' onClick={ this.viewImageSize }>Image Size</a> {this.state.imageSizeHelp}</h5>
-    } else {
-      imageSizeDisplay =
-        <div>
-          <h5><a href='#/' onClick={ this.hideImageSize }>Image Size</a> {this.state.imageSizeHelp}</h5>
-          {this.state.imageSize}
-        </div>
-    }
-
-    let optimizeImageDisplay;
-    if (this.state.optimizeImageShow === false && this.state.optimizeImageHelp === undefined) {
-      optimizeImageDisplay = ''
-    } else if (this.state.optimizeImageShow === false) {
-      optimizeImageDisplay =
-        <h5><a href='#/' onClick={ this.viewOptimizeImage }>Optimize Images</a> {this.state.optimizeImageHelp}</h5>
-    } else {
-      optimizeImageDisplay =
-        <div>
-          <h5><a href='#/' onClick={ this.hideOptimizeImage }>Optimize Images</a> {this.state.optimizeImageHelp}</h5>
-          {this.state.optimizeImage}
-        </div>
-    }
+    // let renderSheetsDisplay;
+    // if (this.state.renderSheetsShow === false && this.state.renderSheetsHelp === undefined) {
+    //   renderSheetsDisplay = ''
+    // } else if (this.state.renderSheetsShow === false) {
+    //   renderSheetsDisplay =
+    //     <h5><a href='#/' onClick={ this.viewRenderSheets }>Render Stylesheets</a> {this.state.renderSheetsHelp}</h5>
+    // } else {
+    //   renderSheetsDisplay =
+    //     <div>
+    //       <h5><a href='#/' onClick={ this.hideRenderSheets }>Render Stylesheets</a> {this.state.renderSheetsHelp}</h5>
+    //       {this.state.renderSheets}
+    //     </div>
+    // }
+    //
+    // let renderScriptsDisplay;
+    // if (this.state.renderScriptsShow === false && this.state.renderScriptsHelp === undefined) {
+    //   renderScriptsDisplay = ''
+    // } else if (this.state.renderScriptsShow === false) {
+    //   renderScriptsDisplay =
+    //     <h5><a href='#/' onClick={ this.viewRenderScripts }>Render Scripts</a> {this.state.renderScriptsHelp}</h5>
+    // } else {
+    //   renderScriptsDisplay =
+    //     <div>
+    //       <h5><a href='#/' onClick={ this.hideRenderScripts }>Render Scripts</a> {this.state.renderScriptsHelp}</h5>
+    //       {this.state.renderScripts}
+    //     </div>
+    // }
+    //
+    // let imageSizeDisplay;
+    // if (this.state.imageSizeShow === false && this.state.imageSizeHelp === undefined) {
+    //   imageSizeDisplay = ''
+    // } else if (this.state.imageSizeShow === false) {
+    //   imageSizeDisplay =
+    //     <h5><a href='#/' onClick={ this.viewImageSize }>Image Size</a> {this.state.imageSizeHelp}</h5>
+    // } else {
+    //   imageSizeDisplay =
+    //     <div>
+    //       <h5><a href='#/' onClick={ this.hideImageSize }>Image Size</a> {this.state.imageSizeHelp}</h5>
+    //       {this.state.imageSize}
+    //     </div>
+    // }
+    //
+    // let optimizeImageDisplay;
+    // if (this.state.optimizeImageShow === false && this.state.optimizeImageHelp === undefined) {
+    //   optimizeImageDisplay = ''
+    // } else if (this.state.optimizeImageShow === false) {
+    //   optimizeImageDisplay =
+    //     <h5><a href='#/' onClick={ this.viewOptimizeImage }>Optimize Images</a> {this.state.optimizeImageHelp}</h5>
+    // } else {
+    //   optimizeImageDisplay =
+    //     <div>
+    //       <h5><a href='#/' onClick={ this.hideOptimizeImage }>Optimize Images</a> {this.state.optimizeImageHelp}</h5>
+    //       {this.state.optimizeImage}
+    //     </div>
+    // }
 
     return (
       <div>
@@ -305,10 +306,10 @@ class LHCrawlDetail extends Component {
         <h5>{this.state.mainUrl} on {this.state.date}</h5>
         <h4>Performance Opportunities:</h4>
         {offscreenDisplay}
-        {renderSheetsDisplay}
+        {/* {renderSheetsDisplay}
         {renderScriptsDisplay}
         {imageSizeDisplay}
-        {optimizeImageDisplay}
+        {optimizeImageDisplay} */}
         {this.state.progressArcs}
       </div>
     )

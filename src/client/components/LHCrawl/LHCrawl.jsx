@@ -53,26 +53,18 @@ class LHCrawl extends Component {
   }
 
   render() {
-    //this is just a basic crawl list w/ no lighthouse results
-    // var crawledPages = this.state.data;
-    // let pageNodes = crawledPages.map(url => {
-    //   return (url)
-    // });
-
     // to display crawled lighthouse results
-    var crawledLighthouse = this.state.local;
     let crawledLHNodes;
     let crawledLHNodesDisplay;
-    if (crawledLighthouse.length < 1) {
+    if (this.state.local.length < 1) {
       crawledLHNodesDisplay = ''
     } else {
-      let crawledLHNodes = crawledLighthouse.map(result => {
+      let crawledLHNodes = this.state.local.map(result => {
         return (result)
       });
       crawledLHNodesDisplay =
         <LHCrawlList
           local={ crawledLHNodes }
-          // data={ pageNodes }
         />
     }
 
