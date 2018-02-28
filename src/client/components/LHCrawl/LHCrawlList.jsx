@@ -5,8 +5,7 @@ class CrawlList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listShowing: false,
-      local: this.props.local
+      listShowing: false
     };
     this.viewCrawlList = this.viewCrawlList.bind(this);
     this.hideCrawlList = this.hideCrawlList.bind(this);
@@ -27,7 +26,7 @@ class CrawlList extends Component {
 
   render() {
     let formAreaContent;
-    if (this.state.local === undefined) {
+    if (this.props.local === undefined) {
       formAreaContent = ''
     } else if (this.state.listShowing === false) {
       formAreaContent =
@@ -39,7 +38,7 @@ class CrawlList extends Component {
           <div>
             <h5><a href='#/' onClick={ this.hideCrawlList }>hide list</a></h5>
             <LHCrawlDetail
-            local={this.state.local}/>
+            local={this.props.local}/>
           </div>
     }
 

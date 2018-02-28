@@ -13,20 +13,6 @@ class LHCrawlDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      local: this.props.local,
-      mainUrl: '',
-      date: '',
-      // progressArcs: '',
-      offscreenImagesHelp: '',
-      offscreenImages: '',
-      renderSheetsHelp: '',
-      renderSheets: '',
-      renderScriptsHelp: '',
-      renderScripts: '',
-      imageSizeHelp: '',
-      imageSize: '',
-      optimizeImageHelp: '',
-      optimizeImage: '',
       offscreenImagesShow: false,
       renderSheetsShow: false,
       renderScriptsShow: false,
@@ -118,13 +104,12 @@ class LHCrawlDetail extends Component {
     });
   }
 
-  componentDidMount() {
-    var crawledLighthouse = this.state.local;
-    var date = dateFormat(crawledLighthouse[0].createdAt, "dddd, mmmm dS, yyyy, h:MM:ss TT");
-    this.setState({date: date});
-    this.setState({mainUrl: crawledLighthouse[0].mainUrl});
+  render() {
+    let crawledLighthouse = this.props.local;
+    let mainUrl = crawledLighthouse[0].mainUrl;
+    let date = dateFormat(crawledLighthouse[0].createdAt, "dddd, mmmm dS, yyyy, h:MM:ss TT");
 
-    // // progress arc
+    // progress arcs
     // let progressArcs = crawledLighthouse.map(result => {
     //   let paintScore = parseInt(result.firstPaint);
     //   let performanceScore = parseInt(result.performance);
@@ -137,16 +122,11 @@ class LHCrawlDetail extends Component {
     //                         bestPracticeScore={bestPracticeScore}
     //                         accessibilityScore={accessibilityScore}/>)
     // });
-    // this.setState({progressArcs: progressArcs});
-
-    // PERFORMANCE! //
 
     // offscreen image mapping
     let offscreenHelpDisplay = [];
     let offscreenImageMapNodes = crawledLighthouse.map(result => {
       if (result.offscreen[0].helpdisplay.length < 1) {
-        let noHelp = '';
-        this.setState({offscreenHelp: noHelp});
         return ("");
       } else {
         offscreenHelpDisplay.push(result.offscreen[0].helpdisplay[0])
@@ -155,15 +135,25 @@ class LHCrawlDetail extends Component {
                                   offscreenImages={result.offscreen[0].items}/>)
       }
     });
-    this.setState({offscreenImagesHelp: offscreenHelpDisplay});
-    this.setState({offscreenImages: offscreenImageMapNodes})
+
+    let offscreenDisplay;
+    if (this.state.offscreenImagesShow === false && offscreenHelpDisplay.length < 1) {
+      offscreenDisplay = ''
+    } else if (this.state.offscreenImagesShow === false) {
+      offscreenDisplay =
+        <h5><a href='#/' onClick={ this.viewOffscreenImages }>Offscreen Images </a>{offscreenHelpDisplay[0]}</h5>
+    } else {
+      offscreenDisplay =
+        <div>
+          <h5><a href='#/' onClick={ this.hideOffscreenImages }>Offscreen Images </a>{offscreenHelpDisplay[0]}</h5>
+          {offscreenImageMapNodes}
+        </div>
+    }
 
     // render sheets mapping
     let renderSheetsHelpDisplay = [];
     let renderSheetsMapNodes = crawledLighthouse.map(result => {
       if (result.renderSheets[0].helpdisplay.length < 1) {
-        let noHelp = '';
-        this.setState({renderSheetsHelp: noHelp});
         return ("");
       } else {
         renderSheetsHelpDisplay.push(result.renderSheets[0].helpdisplay)
@@ -172,15 +162,25 @@ class LHCrawlDetail extends Component {
                               renderSheets={result.renderSheets[0].items}/>)
       }
     });
-    this.setState({renderSheetsHelp: renderSheetsHelpDisplay});
-    this.setState({renderSheets: renderSheetsMapNodes})
+
+    let renderSheetsDisplay;
+    if (this.state.renderSheetsShow === false && renderSheetsHelpDisplay.length < 1) {
+      renderSheetsDisplay = ''
+    } else if (this.state.renderSheetsShow === false) {
+      renderSheetsDisplay =
+        <h5><a href='#/' onClick={ this.viewRenderSheets }>Render Stylesheets</a> {renderSheetsHelpDisplay[0]}</h5>
+    } else {
+      renderSheetsDisplay =
+        <div>
+          <h5><a href='#/' onClick={ this.hideRenderSheets }>Render Stylesheets</a> {renderSheetsHelpDisplay[0]}</h5>
+          {renderSheetsMapNodes}
+        </div>
+    }
 
     // render scripts mapping
     let renderScriptsHelpDisplay = [];
     let renderScriptsMapNodes = crawledLighthouse.map(result => {
       if (result.renderScripts[0].helpdisplay.length < 1) {
-        let noHelp = '';
-        this.setState({renderScriptsHelp: noHelp});
         return ("");
       } else {
         renderScriptsHelpDisplay.push(result.renderScripts[0].helpdisplay)
@@ -189,15 +189,25 @@ class LHCrawlDetail extends Component {
                               renderScripts={result.renderScripts[0].items}/>)
       }
     });
-    this.setState({renderScriptsHelp: renderScriptsHelpDisplay});
-    this.setState({renderScripts: renderScriptsMapNodes})
+
+    let renderScriptsDisplay;
+    if (this.state.renderScriptsShow === false && renderScriptsHelpDisplay.length < 1) {
+      renderScriptsDisplay = ''
+    } else if (this.state.renderScriptsShow === false) {
+      renderScriptsDisplay =
+        <h5><a href='#/' onClick={ this.viewRenderScripts }>Render Scripts</a> {renderScriptsHelpDisplay[0]}</h5>
+    } else {
+      renderScriptsDisplay =
+        <div>
+          <h5><a href='#/' onClick={ this.hideRenderScripts }>Render Scripts</a> {renderScriptsHelpDisplay[0]}</h5>
+          {renderScriptsMapNodes}
+        </div>
+    }
 
     // image size mapping
     let imageSizeHelpDisplay = [];
     let imageSizeMapNodes = crawledLighthouse.map(result => {
       if (result.imageSize[0].helpdisplay.length < 1) {
-        let noHelp = '';
-        this.setState({imageSizeHelp: noHelp});
         return ("");
       } else {
         imageSizeHelpDisplay.push(result.imageSize[0].helpdisplay)
@@ -206,15 +216,25 @@ class LHCrawlDetail extends Component {
                             imagesSize={result.imageSize[0].items}/>)
       }
     });
-    this.setState({imageSizeHelp: imageSizeHelpDisplay});
-    this.setState({imageSize: imageSizeMapNodes})
+
+    let imageSizeDisplay;
+    if (this.state.imageSizeShow === false && imageSizeHelpDisplay.length < 1) {
+      imageSizeDisplay = ''
+    } else if (this.state.imageSizeShow === false) {
+      imageSizeDisplay =
+        <h5><a href='#/' onClick={ this.viewImageSize }>Image Size</a> {imageSizeHelpDisplay[0]}</h5>
+    } else {
+      imageSizeDisplay =
+        <div>
+          <h5><a href='#/' onClick={ this.hideImageSize }>Image Size</a> {imageSizeHelpDisplay[0]}</h5>
+          {imageSizeMapNodes}
+        </div>
+    }
 
     // optimize image mapping
     let optimizeImageHelpDisplay = [];
     let optimizeImageMapNodes = crawledLighthouse.map(result => {
       if (result.optimizeImage[0].helpdisplay.length < 1) {
-        let noHelp = '';
-        this.setState({optimizeImageHelp: noHelp});
         return ("");
       } else {
         optimizeImageHelpDisplay.push(result.optimizeImage[0].helpdisplay)
@@ -223,93 +243,32 @@ class LHCrawlDetail extends Component {
                               optimizeImages={result.optimizeImage[0].items}/>)
       }
     });
-    this.setState({optimizeImageHelp: optimizeImageHelpDisplay});
-    this.setState({optimizeImage: optimizeImageMapNodes})
-
-  }
-
-  render() {
-    let offscreenDisplay;
-    if (this.state.offscreenImagesShow === false && this.state.offscreenImagesHelp.length < 1) {
-      offscreenDisplay = ''
-    } else if (this.state.offscreenImagesShow === false) {
-      offscreenDisplay =
-        <h5><a href='#/' onClick={ this.viewOffscreenImages }>Offscreen Images </a>{this.state.offscreenImagesHelp[0]}</h5>
-    } else {
-      offscreenDisplay =
-        <div>
-          <h5><a href='#/' onClick={ this.hideOffscreenImages }>Offscreen Images </a>{this.state.offscreenImagesHelp[0]}</h5>
-          {this.state.offscreenImages}
-        </div>
-    }
-
-    let renderSheetsDisplay;
-    if (this.state.renderSheetsShow === false && this.state.renderSheetsHelp.length < 1) {
-      renderSheetsDisplay = ''
-    } else if (this.state.renderSheetsShow === false) {
-      renderSheetsDisplay =
-        <h5><a href='#/' onClick={ this.viewRenderSheets }>Render Stylesheets</a> {this.state.renderSheetsHelp[0]}</h5>
-    } else {
-      renderSheetsDisplay =
-        <div>
-          <h5><a href='#/' onClick={ this.hideRenderSheets }>Render Stylesheets</a> {this.state.renderSheetsHelp[0]}</h5>
-          {this.state.renderSheets}
-        </div>
-    }
-
-    let renderScriptsDisplay;
-    if (this.state.renderScriptsShow === false && this.state.renderScriptsHelp. length < 1) {
-      renderScriptsDisplay = ''
-    } else if (this.state.renderScriptsShow === false) {
-      renderScriptsDisplay =
-        <h5><a href='#/' onClick={ this.viewRenderScripts }>Render Scripts</a> {this.state.renderScriptsHelp[0]}</h5>
-    } else {
-      renderScriptsDisplay =
-        <div>
-          <h5><a href='#/' onClick={ this.hideRenderScripts }>Render Scripts</a> {this.state.renderScriptsHelp[0]}</h5>
-          {this.state.renderScripts}
-        </div>
-    }
-
-    let imageSizeDisplay;
-    if (this.state.imageSizeShow === false && this.state.imageSizeHelp.length < 1) {
-      imageSizeDisplay = ''
-    } else if (this.state.imageSizeShow === false) {
-      imageSizeDisplay =
-        <h5><a href='#/' onClick={ this.viewImageSize }>Image Size</a> {this.state.imageSizeHelp[0]}</h5>
-    } else {
-      imageSizeDisplay =
-        <div>
-          <h5><a href='#/' onClick={ this.hideImageSize }>Image Size</a> {this.state.imageSizeHelp[0]}</h5>
-          {this.state.imageSize}
-        </div>
-    }
 
     let optimizeImageDisplay;
-    if (this.state.optimizeImageShow === false && this.state.optimizeImageHelp.length < 1) {
+    if (this.state.optimizeImageShow === false && optimizeImageHelpDisplay.length < 1) {
       optimizeImageDisplay = ''
     } else if (this.state.optimizeImageShow === false) {
       optimizeImageDisplay =
-        <h5><a href='#/' onClick={ this.viewOptimizeImage }>Optimize Images</a> {this.state.optimizeImageHelp[0]}</h5>
+        <h5><a href='#/' onClick={ this.viewOptimizeImage }>Optimize Images</a> {optimizeImageHelpDisplay[0]}</h5>
     } else {
       optimizeImageDisplay =
         <div>
-          <h5><a href='#/' onClick={ this.hideOptimizeImage }>Optimize Images</a> {this.state.optimizeImageHelp[0]}</h5>
-          {this.state.optimizeImage}
+          <h5><a href='#/' onClick={ this.hideOptimizeImage }>Optimize Images</a> {optimizeImageHelpDisplay[0]}</h5>
+          {optimizeImageMapNodes}
         </div>
     }
 
     return (
       <div>
         <h4>Quality Assurance Tasks</h4>
-        <h5>{this.state.mainUrl} on {this.state.date}</h5>
-        <h4>Performance Opportunities:</h4>
+        <h5>Crawled Lighthouse Results for <u>{mainUrl}</u> on {date}</h5>
+        <h5><i>Performance Opportunities:</i></h5>
         {offscreenDisplay}
         {renderSheetsDisplay}
         {renderScriptsDisplay}
         {imageSizeDisplay}
         {optimizeImageDisplay}
-        {/* {this.state.progressArcs} */}
+        {/* {progressArcs} */}
       </div>
     )
   }
