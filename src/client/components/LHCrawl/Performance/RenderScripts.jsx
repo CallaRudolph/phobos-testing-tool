@@ -6,7 +6,7 @@ class RenderScripts extends Component {
       <div className='container'>
         <h5>{this.props.url}</h5>
         <ul>
-          {this.props.renderScripts.map(function(renderScript){
+          {this.props.category.map(function(renderScript){
             return <li className="list-unstyled" key={renderScript}>{renderScript}</li>
           })}
         </ul>
