@@ -217,23 +217,28 @@ function basicCrawl(req, res) {
     shouldCrawl: function(url) {
       if (url.indexOf(currentUrl) < 0) {
         return false; // does not allow crawling outside main site
-      } else if (url.indexOf("https://google.com") > 0) {
-        return false; // does not include google links
-      } else if (url.indexOf(".jpg") > 0) {
-        return false; // does not include .jpg links
-      } else if (url.indexOf(".pdf") > 0) {
-        return false; // does not include .pdf links
-      } else if (url.indexOf("mailto:") >= 0) {
-        return false; // does not include mailto links
-      } else if (url.indexOf("https://twitter.com") >= 0) {
-        return false; // does not include twitter links
-      } else if (url.indexOf("https://facebook.com") >= 0) {
-        return false; // does not include facebook links
-      } else if (url.indexOf("https://accounts.google.com") >= 0) {
-        return false; // does not include facebook links
-      } else {
-        return true;
       }
+
+      let excludedUrls = ['https://google.com', '.jpg', '.pdf', 'mailto:', 'https://twitter.com', 'https://facebook.com', 'https://accounts.google.com'];
+
+            return !excludedUrls.includes(url);
+      // else if (url.indexOf("https://google.com") > 0) {
+      //   return false; // does not include google links
+      // } else if (url.indexOf(".jpg") > 0) {
+      //   return false; // does not include .jpg links
+      // } else if (url.indexOf(".pdf") > 0) {
+      //   return false; // does not include .pdf links
+      // } else if (url.indexOf("mailto:") >= 0) {
+      //   return false; // does not include mailto links
+      // } else if (url.indexOf("https://twitter.com") >= 0) {
+      //   return false; // does not include twitter links
+      // } else if (url.indexOf("https://facebook.com") >= 0) {
+      //   return false; // does not include facebook links
+      // } else if (url.indexOf("https://accounts.google.com") >= 0) {
+      //   return false; // does not include facebook links
+      // } else {
+      //   return true;
+      // }
     },
     depth: 3, // depth to which links from original site will be crawled. 1 is low.
     maxRequestsPerSecond: 10, // max # of HTTP requests per second that can be made by the crawler

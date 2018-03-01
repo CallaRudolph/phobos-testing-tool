@@ -87,12 +87,12 @@ class BasicCrawler extends Component {
 
     return (
       <div>
-        <h4>Enter a url to crawl:</h4>
+        <h5>crawl list without LH:</h5>
         <form onSubmit={this.handleSubmit}>
           <input
             placeholder="https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
-          <Button style={button} bsStyle="default"
-            bsSize="xsmall" type="submit">Start Crawling</Button>
+          <Button style={button} bsStyle="success"
+            bsSize="small" type="submit">Start Crawling</Button>
         </form>
         { crawlPending }
         { crawlList }

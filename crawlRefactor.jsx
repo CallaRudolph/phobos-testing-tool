@@ -19,4 +19,4 @@ let excludedUrls = ['https://google.com', '.jpg', '.pdf', 'mailto:', 'https://tw
 // expected output: false
 
 
-// tried to manipulate .indexOf with the refactor but it gets stuck. 
+// tried to manipulate .indexOf with the refactor but it gets stuck.

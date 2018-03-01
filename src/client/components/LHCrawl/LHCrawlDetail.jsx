@@ -155,6 +155,7 @@ class LHCrawlDetail extends Component {
     }
 
     let offscreenDisplay = parsePerformanceDisplay("offscreen", OffscreenImages, this.state.offscreenImagesShow, this.viewOffscreenImages, "Offscreen Images ", this.hideOffscreenImages);
+
     let renderSheetsDisplay = parsePerformanceDisplay("renderSheets", RenderSheets, this.state.renderSheetsShow, this.viewRenderSheets, "Render Stylesheets ", this.hideRenderSheets);
     let renderScriptsDisplay = parsePerformanceDisplay("renderScripts", RenderScripts, this.state.renderScriptsShow, this.viewRenderScripts, "Render Scripts ", this.hideRenderScripts);
     let imageSizeDisplay = parsePerformanceDisplay("imageSize", ImageSize, this.state.imageSizeShow, this.viewImageSize, "Image Size ", this.hideImageSize);
