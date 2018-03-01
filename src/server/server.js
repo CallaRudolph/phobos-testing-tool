@@ -20,14 +20,12 @@ app.use(express.static(__dirname + './../../'));
 mongoose.Promise = global.Promise;
 
 if(process.env.MONGODB_URI) {
-  mongoose.createConnection(process.env.MONGODB_URI);
+  mongoose.connect(process.env.MONGODB_URI);
 } else {
   var mongoDB = 'mongodb://127.0.0.1/my_database';
-  mongoose.createConnection(mongoDB);
-
-  /* Drop the DB if needed::: */
-  // mongoose.connect(mongoDB, { useMongoClient: true, promiseLibrary: global.Promise }, function(){
-  //   // useMongoClient & promiseLibrary cancel out server error message: (node:2029) DeprecationWarning: `open()` is deprecated in mongoose >= 4.11.0, use `openUri()` instead, or set the `useMongoClient` option if using `connect()` or `createConnection()`. See http://mongoosejs.com/docs/connections.html#use-mongo-client
+  mongoose.connect(mongoDB);
+  // mongoose.connect(mongoDB, function(){
+  //   /* Drop the DB if needed */
   //   mongoose.connection.db.dropDatabase();
   // });
 }
