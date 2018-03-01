@@ -6,7 +6,7 @@ class OffscreenImages extends Component {
       <div className='container'>
         <h5>{this.props.url}</h5>
         <ul>
-          {this.props.offscreenImages.map(function(offscreenImage){
+          {this.props.category.map(function(offscreenImage){
             return <li className="list-unstyled" key={offscreenImage}>{offscreenImage}</li>
           })}
         </ul>

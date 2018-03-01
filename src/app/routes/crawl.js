@@ -67,118 +67,65 @@ function postCrawl(req, res) {
           for (let url of urls){
             var blob = await lighthouse.runLighthouse(url).then((jsonBlob) => {
               /////////////////summary////////////////////////
-              let paintScore = jsonBlob.audits['first-meaningful-paint']['score'];
-              let performanceScore = (jsonBlob.reportCategories[0].score).toFixed();
-              let bestPracticeScore = (jsonBlob.reportCategories[3].score).toFixed();
-              let accessibilityScore = (jsonBlob.reportCategories[2].score).toFixed();
-
-              var currentResult = {"url":url, "firstPaint":paintScore, "performance":performanceScore, "bestPractices":bestPracticeScore, "accessibility":accessibilityScore}; // shrink to only high level data from jsonBlob due to mongoDB size restriction & '.' key error
-
-              axios.post('http://localhost:3000/results', currentResult)
-              .catch(err => {
-                console.error(err);
-              });
-              // need the full url in post request here to prevent connect ECONNREFUSED 127.0.0.1:80
-              masterData.push({"blob":currentResult});
+              // let paintScore = jsonBlob.audits['first-meaningful-paint']['score'];
+              // let performanceScore = (jsonBlob.reportCategories[0].score).toFixed();
+              // let bestPracticeScore = (jsonBlob.reportCategories[3].score).toFixed();
+              // let accessibilityScore = (jsonBlob.reportCategories[2].score).toFixed();
+              //
+              // var currentResult = {"url":url, "firstPaint":paintScore, "performance":performanceScore, "bestPractices":bestPracticeScore, "accessibility":accessibilityScore}; // shrink to only high level data from jsonBlob due to mongoDB size restriction & '.' key error
+              //
+              // axios.post('http://localhost:3000/results', currentResult)
+              // .catch(err => {
+              //   console.error(err);
+              // });
+              // // need the full url in post request here to prevent connect ECONNREFUSED 127.0.0.1:80
+              // masterData.push({"blob":currentResult});
               //////////////////end summary ///////////////////////
 
               let perfOpp = jsonBlob.reportCategories[0].audits;
 
-              // offscreen images
-              let offscreenHelpDisplay = [];
-              let offscreenDisplay = [];
-              for (var i = 0; i < perfOpp.length; i++) {
-                if(perfOpp[i].id === "offscreen-images" && perfOpp[i].score < 100) {
-                  var offscreenHelp = perfOpp[i].result.helpText.replace(/Learn More/i, 'Learn more: ').replace('[', '').replace('](', '').replace(').', '');
-                  offscreenHelpDisplay.push(offscreenHelp);
-                  var offscreenItems = perfOpp[i].result.details.items;
-                  if (offscreenItems.length > 0) {
-                    for (var j = 0; j < offscreenItems.length; j++) {
-                      var item = offscreenItems[j][1].text;
-                      var size = offscreenItems[j][2].text;
-                      offscreenDisplay.push(" " + item + " size: " + size);
+              function parseLHOpportunity (name, startIndex) {
+                let data = {
+                  helpdisplay: [],
+                  items: [],
+                };
+
+                for (var i = 0; i < perfOpp.length; i++) {
+                  if(perfOpp[i].id === name && perfOpp[i].score < 100) {
+                    var help = perfOpp[i].result.helpText.replace(/Learn More/i, 'Learn more: ').replace('[', '').replace('](', '').replace(').', '');
+                    data.helpdisplay.push(help);
+                    var items = perfOpp[i].result.details.items;
+                    if (items.length > 0) {
+                      for (var j = 0; j < items.length; j++) {
+                        var item = items[j][startIndex].text;
+                        var size = items[j][startIndex+1].text;
+                        data.items.push(" " + item + " size: " + size)
+                      }
                     }
                   }
                 }
+
+                return data;
               }
 
-              // render-blocking stylesheets
-              let renderSheetsHelpDisplay = [];
-              let renderSheetsDisplay = [];
-              for (var i = 0; i < perfOpp.length; i++) {
-                if(perfOpp[i].id === "link-blocking-first-paint" && perfOpp[i].score < 100) {
-                  var renderSheetsHelp = perfOpp[i].result.helpText.replace(/Learn More/i, 'Learn more: ').replace('[', '').replace('](', '').replace(').', '');
-                  renderSheetsHelpDisplay.push(renderSheetsHelp);
-                  var renderSheetsItems = perfOpp[i].result.details.items;
-                  if (renderSheetsItems.length > 0) {
-                    for (var j = 0; j < renderSheetsItems.length; j++) {
-                      var item = renderSheetsItems[j][0].text;
-                      var size = renderSheetsItems[j][1].text;
-                      renderSheetsDisplay.push(" " + item + " size: " + size);
-                    }
-                  }
-                }
-              }
-
-              // render-blocking scripts
-              let renderScriptsHelpDisplay = [];
-              let renderScriptsDisplay = [];
-              for (var i = 0; i < perfOpp.length; i++) {
-                if(perfOpp[i].id === "script-blocking-first-paint" && perfOpp[i].score < 100) {
-                  var renderScriptsHelp = perfOpp[i].result.helpText.replace(/Learn More/i, 'Learn more: ').replace('[', '').replace('](', '').replace(').', '');
-                  renderScriptsHelpDisplay.push(renderScriptsHelp);
-                  var renderScriptsItems = perfOpp[i].result.details.items;
-                  if (renderScriptsItems.length > 0) {
-                    for (var j = 0; j < renderScriptsItems.length; j++) {
-                      var item = renderScriptsItems[j][0].text;
-                      var size = renderScriptsItems[j][1].text;
-                      renderScriptsDisplay.push(" " + item + " size: " + size);
-                    }
-                  }
-                }
-              }
-
-              // properly size images
-              let imageSizeHelpDisplay = [];
-              let imageSizeDisplay = [];
-              for (var i = 0; i < perfOpp.length; i++) {
-                if(perfOpp[i].id === "uses-responsive-images" && perfOpp[i].score < 100) {
-                  var imageSizeHelp = perfOpp[i].result.helpText.replace(/Learn More/i, 'Learn more: ').replace('[', '').replace('](', '').replace(').', '');
-                  imageSizeHelpDisplay.push(imageSizeHelp);
-                  var imageSizeItems = perfOpp[i].result.details.items;
-                  if (imageSizeItems.length > 0) {
-                    for (var j = 0; j < imageSizeItems.length; j++) {
-                      var item = imageSizeItems[j][1].text;
-                      var size = imageSizeItems[j][2].text;
-                      imageSizeDisplay.push(" " + item + " size: " + size);
-                    }
-                  }
-                }
-              }
-
-              // optimize images
-              let optimizeImageHelpDisplay = [];
-              let optimizeImageDisplay = [];
-              for (var i = 0; i < perfOpp.length; i++) {
-                if(perfOpp[i].id === "uses-optimized-images" && perfOpp[i].score < 100) {
-                  var optimizeImageHelp = perfOpp[i].result.helpText.replace(/Learn More/i, 'Learn more: ').replace('[', '').replace('](', '').replace(').', '');
-                  optimizeImageHelpDisplay.push(optimizeImageHelp);
-                  var optimizeImageItems = perfOpp[i].result.details.items;
-                  if (optimizeImageItems.length > 0) {
-                    for (var j = 0; j < optimizeImageItems.length; j++) {
-                      var item = optimizeImageItems[j][1].text;
-                      var size = optimizeImageItems[j][2].text;
-                      optimizeImageDisplay.push(" " + item + " size: " + size);
-                    }
-                  }
-                }
-              }
+              let offscreen = parseLHOpportunity("offscreen-images", 1);
+              let renderSheets = parseLHOpportunity("link-blocking-first-paint", 0);
+              let renderScripts = parseLHOpportunity("script-blocking-first-paint", 0);
+              let imageSize = parseLHOpportunity("uses-responsive-images", 1);
+              let optimizeImage = parseLHOpportunity("uses-optimized-images", 1);
 
               var crawlLHResult = {"mainUrl":currentUrl,
                 "url":url,
                 "id":uuid(),
-                "firstPaint":paintScore, "performance":performanceScore, "bestPractices":bestPracticeScore, "accessibility":accessibilityScore,
-                "offscreenHelp":offscreenHelpDisplay, "offscreenImages":offscreenDisplay, "renderSheetsHelp":renderSheetsHelpDisplay, "renderSheets":renderSheetsDisplay, "renderScriptsHelp":renderScriptsHelpDisplay, "renderScripts":renderScriptsDisplay, "imageSizeHelp":imageSizeHelpDisplay, "imageSize":imageSizeDisplay, "optimizeImageHelp":optimizeImageHelpDisplay, "optimizeImage":optimizeImageDisplay};
+                // "firstPaint":paintScore,
+                // "performance":performanceScore,
+                // "bestPractices":bestPracticeScore,
+                // "accessibility":accessibilityScore,
+                "offscreen":offscreen,
+                "renderSheets":renderSheets,
+                "renderScripts":renderScripts,
+                "imageSize":imageSize,
+                "optimizeImage":optimizeImage};
 
               axios.post('http://localhost:3000/crawlLH', crawlLHResult)
               .catch(err => {
@@ -270,23 +217,28 @@ function basicCrawl(req, res) {
     shouldCrawl: function(url) {
       if (url.indexOf(currentUrl) < 0) {
         return false; // does not allow crawling outside main site
-      } else if (url.indexOf("https://google.com") > 0) {
-        return false; // does not include google links
-      } else if (url.indexOf(".jpg") > 0) {
-        return false; // does not include .jpg links
-      } else if (url.indexOf(".pdf") > 0) {
-        return false; // does not include .pdf links
-      } else if (url.indexOf("mailto:") >= 0) {
-        return false; // does not include mailto links
-      } else if (url.indexOf("https://twitter.com") >= 0) {
-        return false; // does not include twitter links
-      } else if (url.indexOf("https://facebook.com") >= 0) {
-        return false; // does not include facebook links
-      } else if (url.indexOf("https://accounts.google.com") >= 0) {
-        return false; // does not include facebook links
-      } else {
-        return true;
       }
+
+      let excludedUrls = ['https://google.com', '.jpg', '.pdf', 'mailto:', 'https://twitter.com', 'https://facebook.com', 'https://accounts.google.com'];
+
+            return !excludedUrls.includes(url);
+      // else if (url.indexOf("https://google.com") > 0) {
+      //   return false; // does not include google links
+      // } else if (url.indexOf(".jpg") > 0) {
+      //   return false; // does not include .jpg links
+      // } else if (url.indexOf(".pdf") > 0) {
+      //   return false; // does not include .pdf links
+      // } else if (url.indexOf("mailto:") >= 0) {
+      //   return false; // does not include mailto links
+      // } else if (url.indexOf("https://twitter.com") >= 0) {
+      //   return false; // does not include twitter links
+      // } else if (url.indexOf("https://facebook.com") >= 0) {
+      //   return false; // does not include facebook links
+      // } else if (url.indexOf("https://accounts.google.com") >= 0) {
+      //   return false; // does not include facebook links
+      // } else {
+      //   return true;
+      // }
     },
     depth: 3, // depth to which links from original site will be crawled. 1 is low.
     maxRequestsPerSecond: 10, // max # of HTTP requests per second that can be made by the crawler

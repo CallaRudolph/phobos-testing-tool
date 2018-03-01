@@ -6,7 +6,7 @@ class RenderSheets extends Component {
       <div className='container'>
         <h5>{this.props.url}</h5>
         <ul>
-          {this.props.renderSheets.map(function(renderSheet){
+          {this.props.category.map(function(renderSheet){
             return <li className="list-unstyled" key={renderSheet}>{renderSheet}</li>
           })}
         </ul>
