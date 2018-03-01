@@ -25,7 +25,7 @@ class LighthouseDetail extends Component {
     var url = {'url': this.state.url};
     axios.post('/lighthouse', url)
     .then(function(response) {
-      console.log(response);
+      // console.log(response);
       this.setState({url: ''});
       this.setState({data: response});
       this.setState({pending: false});
@@ -46,9 +46,14 @@ class LighthouseDetail extends Component {
         </div>
     }
 
+
     var button = {
       margin: "3px",
       marginTop: "2px"
+    }
+    var inputSpace = {
+      marginRight: "5px"
+
     }
 
     return (
@@ -56,6 +61,7 @@ class LighthouseDetail extends Component {
         <h4>Enter a url for detailed lighthouse results:</h4>
         <form onSubmit={this.handleSubmit}>
           <input
+            style={inputSpace}
             size="28"
             placeholder="https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
           <Button style={button} bsStyle="warning"
