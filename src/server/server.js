@@ -20,10 +20,10 @@ app.use(express.static(__dirname + './../../'));
 mongoose.Promise = global.Promise;
 
 if(process.env.MONGODB_URI) {
-  mongoose.connect(process.env.MONGODB_URI);
+  mongoose.createConnection(process.env.MONGODB_URI);
 } else {
   var mongoDB = 'mongodb://127.0.0.1/my_database';
-  mongoose.connect(mongoDB);
+  mongoose.createConnection(mongoDB);
   // mongoose.connect(mongoDB, function(){
   //   /* Drop the DB if needed */
   //   mongoose.connection.db.dropDatabase();
