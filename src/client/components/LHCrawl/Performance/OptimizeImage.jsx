@@ -6,7 +6,7 @@ class OptimizeImage extends Component {
       <div className='container'>
         <h5>{this.props.url}</h5>
         <ul>
-          {this.props.optimizeImages.map(function(optimizeImage){
+          {this.props.optimizeImage.map(function(optimizeImage){
             return <li className="list-unstyled" key={optimizeImage}>{optimizeImage}</li>
           })}
         </ul>
