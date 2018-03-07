@@ -24,12 +24,12 @@ class Performance extends Component {
   }
 
   render() {
-    let nodes = this.props.nodes.map(node => {
+    let nodes = this.props.nodes.map(function(node, index) {
       return(
         <div>
           <h6>{node[0]}</h6>
           <PerformanceUrls items={node[1]}
-            key={node[0]}
+                            key={index}
           />
         </div>
       )

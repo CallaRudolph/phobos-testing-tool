@@ -21,7 +21,7 @@ class LHCrawlDetail extends Component {
   //   });
   // }
 
-  parsePerformanceDisplay(category, toggle, viewCategory, verbiage, hideCategory) {
+  parsePerformanceDisplay(category, verbiage) {
     // array
     // let category = array[0];
     // let toggle = array[1];
@@ -29,11 +29,9 @@ class LHCrawlDetail extends Component {
     // let verbiage = array[3];
     // let hideCategory = array[4];
 
-    // console.log(category, toggle, viewCategory, verbiage, hideCategory);
+    // console.log(category, viewCategory, verbiage, hideCategory);
     let crawledLighthouse = this.props.local;
     let helpRender = [];
-    let urls = [];
-    let items = [];
     let key = [];
 
     let nodes = crawledLighthouse.map(result => {
@@ -41,8 +39,6 @@ class LHCrawlDetail extends Component {
         return("");
       } else {
         helpRender.push(result[category][0].helpdisplay[0])
-        urls.push(result.url);
-        items.push(result[category][0].items);
         key.push(result.id);
         return([result.url, [result[category][0].items]])
 
@@ -61,8 +57,6 @@ class LHCrawlDetail extends Component {
         <Performance key={key}
                     verbiage={verbiage}
                     helpRender={helpRender[0]}
-                    urls={urls}
-                    items={items[0]}
                     nodes={nodes}
                     />
       </div>
@@ -107,31 +101,31 @@ class LHCrawlDetail extends Component {
     //                         accessibilityScore={accessibilityScore}/>)
     // });
 
-    let offscreenDisplay = this.parsePerformanceDisplay("offscreen", this.state.offscreenImagesShow, this.viewOffscreenImages, "Offscreen Images ", this.hideOffscreenImages);
-    let renderSheetsDisplay = this.parsePerformanceDisplay("renderSheets", this.state.renderSheetsShow, this.viewRenderSheets, "Render Stylesheets ", this.hideRenderSheets);
-    let renderScriptsDisplay = this.parsePerformanceDisplay("renderScripts", this.state.renderScriptsShow, this.viewRenderScripts, "Render Scripts ", this.hideRenderScripts);
-    let imageSizeDisplay = this.parsePerformanceDisplay("imageSize", this.state.imageSizeShow, this.viewImageSize, "Image Size ", this.hideImageSize);
-    let optimizeImageDisplay = this.parsePerformanceDisplay("optimizeImage", this.state.optimizeImageShow, this.viewOptimizeImage, "Optimize Images ", this.hideOptimizeImage);
+    let offscreenDisplay = this.parsePerformanceDisplay("offscreen", "Offscreen Images ");
+    let renderSheetsDisplay = this.parsePerformanceDisplay("renderSheets", "Render Stylesheets ");
+    let renderScriptsDisplay = this.parsePerformanceDisplay("renderScripts", "Render Scripts ");
+    let imageSizeDisplay = this.parsePerformanceDisplay("imageSize", "Image Size ");
+    let optimizeImageDisplay = this.parsePerformanceDisplay("optimizeImage", "Optimize Images ");
 
-    var performanceItems = {
-      offscreen:[
-        "offscreen", this.state.offscreenImagesShow, this.viewOffscreenImages, "Offscreen Images ", this.hideOffscreenImages
-      ],
-      renderSheets:[
-        "renderSheets", this.state.renderSheetsShow, this.viewRenderSheets, "Render Stylesheets ", this.hideRenderSheets
-      ],
-      renderScripts:[
-        "renderScripts", this.state.renderScriptsShow, this.viewRenderScripts, "Render Scripts ", this.hideRenderScripts
-      ],
-      imageSize:[
-        "imageSize", this.state.imageSizeShow, this.viewImageSize, "Image Size ", this.hideImageSize
-      ],
-      optimizeImage:[
-        "optimizeImage", this.state.optimizeImageShow, this.viewOptimizeImage, "Optimize Images ", this.hideOptimizeImage
-      ]
-    };
-
-    let tester = this.test(performanceItems);
+    // var performanceItems = {
+    //   offscreen:[
+    //     "offscreen", this.state.offscreenImagesShow, this.viewOffscreenImages, "Offscreen Images ", this.hideOffscreenImages
+    //   ],
+    //   renderSheets:[
+    //     "renderSheets", this.state.renderSheetsShow, this.viewRenderSheets, "Render Stylesheets ", this.hideRenderSheets
+    //   ],
+    //   renderScripts:[
+    //     "renderScripts", this.state.renderScriptsShow, this.viewRenderScripts, "Render Scripts ", this.hideRenderScripts
+    //   ],
+    //   imageSize:[
+    //     "imageSize", this.state.imageSizeShow, this.viewImageSize, "Image Size ", this.hideImageSize
+    //   ],
+    //   optimizeImage:[
+    //     "optimizeImage", this.state.optimizeImageShow, this.viewOptimizeImage, "Optimize Images ", this.hideOptimizeImage
+    //   ]
+    // };
+    //
+    // let tester = this.test(performanceItems);
 
 
 

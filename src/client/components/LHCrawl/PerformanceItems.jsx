@@ -9,8 +9,8 @@ class PerformanceItems extends Component {
     return (
       <div>
         <ul>
-          {this.props.items.map(function(item){
-            return <li className="list-unstyled" key={item}>{item}</li>
+          {this.props.items.map(function(item, index){
+            return <li className="list-unstyled" key={index}>{item}</li>
           })}
         </ul>
       </div>

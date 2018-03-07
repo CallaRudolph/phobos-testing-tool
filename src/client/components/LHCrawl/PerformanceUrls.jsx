@@ -7,9 +7,9 @@ class PerformanceUrls extends Component {
   }
 
   render() {
-    let items = this.props.items.map(items => {
+    let items = this.props.items.map(function(items, index) {
       return(<PerformanceItems items={items}
-                                key={items}/>)
+                                key={index}/>)
     })
     return (
       <div>
