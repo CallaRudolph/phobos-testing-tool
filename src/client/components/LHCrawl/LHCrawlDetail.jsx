@@ -54,16 +54,16 @@ class LHCrawlDetail extends Component {
     //                         accessibilityScore={accessibilityScore}/>)
     // });
 
-    let offscreenDisplay = this.parsePerformanceDisplay("offscreen", "Offscreen Images ");
-    let renderSheetsDisplay = this.parsePerformanceDisplay("renderSheets", "Render Stylesheets ");
-    let renderScriptsDisplay = this.parsePerformanceDisplay("renderScripts", "Render Scripts ");
-    let imageSizeDisplay = this.parsePerformanceDisplay("imageSize", "Image Size ");
-    let optimizeImageDisplay = this.parsePerformanceDisplay("optimizeImage", "Optimize Images ");
+    let perfArray = [["offscreen", "Offscreen Images "], ["renderSheets", "Render Stylesheets "], ["renderScripts", "Render Scripts "], ["imageSize", "Image Size "], ["optimizeImage", "Optimize Images "]];
 
-    let array = [offscreenDisplay, renderSheetsDisplay, renderScriptsDisplay, imageSizeDisplay, optimizeImageDisplay];
+    let perfDisplayArray = [];
+    perfArray.map(individual => {
+      let individualDisplay = this.parsePerformanceDisplay(individual[0], individual[1]);
+      perfDisplayArray.push(individualDisplay);
+    });
 
-    let performanceDisplay = array.map(function(performance, index) {
-        // because this is creating multiple subcomponents for each performance area, the key is not unique here. Not sure how to create a unique key when sending through multiple maps for each performance item.
+    let performanceDisplay = perfDisplayArray.map(function(performance, index) {
+        // because this is creating multiple subcomponents for each performance area, the key is not unique here. Not sure how to create a unique key when sending through multiple maps for each performance item. Get a lovely warning message.
       let display;
       if (performance[1] === undefined) {
         // this hides a performance item from showing if no items were found for it.
