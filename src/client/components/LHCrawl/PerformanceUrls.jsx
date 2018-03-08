@@ -12,6 +12,7 @@ class PerformanceUrls extends Component {
       return(<PerformanceItems items={items}
                                 key={index}/>)
     })
+    
     return (
       <div>
         {items}

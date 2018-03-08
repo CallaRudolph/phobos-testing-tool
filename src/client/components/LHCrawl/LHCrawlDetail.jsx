@@ -32,7 +32,7 @@ class LHCrawlDetail extends Component {
       return([result.url, [result[category][0].items]])
     });
 
-    return([verbiage, helpRender[0], nodes])
+    return([verbiage, helpRender[0], nodes, key])
   }
 
   render() {
@@ -64,16 +64,18 @@ class LHCrawlDetail extends Component {
 
     let performanceDisplay = array.map(function(performance, index) {
         // because this is creating multiple subcomponents for each performance area, the key is not unique here. Not sure how to create a unique key when sending through multiple maps for each performance item.
-      if (performance[1] === []) {
+      let display;
+      if (performance[1] === undefined) {
         // this hides a performance item from showing if no items were found for it.
-        let display = ''
+        display = ''
       } else {
-        let display =
+        display =
           <div>
-            <Performance key={index}
+            <Performance
               verbiage={performance[0]}
               helpRender={performance[1]}
               nodes={performance[2]}
+              key={index}
             />
           </div>
       }

@@ -39,8 +39,8 @@ class Performance extends Component {
         )
       }
     })
-    let display;
 
+    let display;
     if (this.state.itemsVisible === false) {
       display =
         <div>
@@ -59,6 +59,7 @@ class Performance extends Component {
           {nodes}
         </div>
     }
+    
     return (
       <div className='container'>
         {display}
