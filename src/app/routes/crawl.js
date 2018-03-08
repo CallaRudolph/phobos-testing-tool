@@ -110,11 +110,13 @@ function postCrawl(req, res) {
                 return data;
               }
 
-              let offscreen = parseLHOpportunity("offscreen-images", 1);
-              let renderSheets = parseLHOpportunity("link-blocking-first-paint", 0);
-              let renderScripts = parseLHOpportunity("script-blocking-first-paint", 0);
-              let imageSize = parseLHOpportunity("uses-responsive-images", 1);
-              let optimizeImage = parseLHOpportunity("uses-optimized-images", 1);
+              let perfArray = [["offscreen-images", 1], ["link-blocking-first-paint", 0], ["script-blocking-first-paint", 0], ["uses-responsive-images", 1], ["uses-optimized-images", 1]];
+
+              let perfModelArray = [];
+              perfArray.map(individual => {
+                let individualModel = parseLHOpportunity(individual[0], individual[1]);
+                perfModelArray.push(individualModel);
+              });
 
               ////////////// END PERFORMANCE /////////////
 
@@ -145,41 +147,14 @@ function postCrawl(req, res) {
                 return data;
               }
 
-              let accessKeys = parseLHAccessibility("accesskeys");
-              let ariaAllowedAttr = parseLHAccessibility("aria-allowed-attr");
-              let ariaRequiredAttr = parseLHAccessibility("aria-required-attr");
-              let ariaRequiredChildren = parseLHAccessibility("aria-required-children");
-              let ariaRequiredParent = parseLHAccessibility("aria-required-parent");
-              let ariaRoles = parseLHAccessibility("aria-roles");
-              let ariaValidAttrValue = parseLHAccessibility("aria-valid-attr-value");
-              let ariaValidAttr = parseLHAccessibility("aria-valid-attr");
-              let audioCaption = parseLHAccessibility("audio-caption");
-              let buttonName = parseLHAccessibility("button-name");
-              let bypass = parseLHAccessibility("bypass");
-              let colorContrast = parseLHAccessibility("color-contrast");
-              let definitionList = parseLHAccessibility("definition-list");
-              let dlItem = parseLHAccessibility("dlitem");
-              let documentTitle = parseLHAccessibility("document-title");
-              let duplicateID = parseLHAccessibility("duplicate-id");
-              let frameTitle = parseLHAccessibility("frame-title");
-              let htmlHasLang = parseLHAccessibility("html-has-lang");
-              let htmlLangValid = parseLHAccessibility("html-lang-valid");
-              let imageAlt = parseLHAccessibility("image-alt");
-              let inputImageAlt = parseLHAccessibility("input-image-alt");
-              let label = parseLHAccessibility("label");
-              let layoutTable = parseLHAccessibility("layout-table");
-              let linkName = parseLHAccessibility("link-name");
-              let list = parseLHAccessibility("list");
-              let listItem = parseLHAccessibility("list-item");
-              let metaRefresh = parseLHAccessibility("meta-refresh");
-              let metaViewport = parseLHAccessibility("meta-viewport");
-              let objectAlt = parseLHAccessibility("object-alt");
-              let tabIndex = parseLHAccessibility("tabindex");
-              let tdHeadersAttr = parseLHAccessibility("td-headers-attr");
-              let thHasDataCells = parseLHAccessibility("ht-has-data-cells");
-              let validLang = parseLHAccessibility("valid-lang");
-              let videoCaption = parseLHAccessibility("video-caption");
-              let videoDescription = parseLHAccessibility("video-description");
+              let accArray = [["accesskeys"], ["aria-allowed-attr"], ["aria-required-attr"], ["aria-required-children"], ["aria-required-parent"], ["aria-roles"], ["aria-valid-attr-value"], ["aria-valid-attr"], ["audio-caption"], ["button-name"], ["bypass"], ["color-contrast"], ["definition-list"], ["dlitem"], ["document-title"], ["duplicate-id"], ["frame-title"], ["html-has-lang"], ["html-lang-valid"], ["image-alt"], ["input-image-alt"], ["label"], ["layout-table"], ["link-name"], ["list"], ["list-item"], ["meta-refresh"], ["meta-viewport"], ["object-alt"], ["tabindex"], ["td-headers-attr"], ["ht-has-data-cells"], ["valid-lang"], ["video-caption"], ["video-description"]];
+
+              let accModelArray = [];
+              accArray.map(individual => {
+                let individualModel = parseLHAccessibility(individual[0]);
+                accModelArray.push(individualModel);
+              });
+
 
               //////////////// END ACCESSIBILITY /////////////
 
@@ -190,45 +165,46 @@ function postCrawl(req, res) {
                 // "performance":performanceScore,
                 // "bestPractices":bestPracticeScore,
                 // "accessibility":accessibilityScore,
-                "offscreen":offscreen,
-                "renderSheets":renderSheets,
-                "renderScripts":renderScripts,
-                "imageSize":imageSize,
-                "optimizeImage":optimizeImage, "accessKeys":accessKeys,
-                "ariaAllowedAttr":ariaAllowedAttr,
-                "ariaRequiredAttr":ariaRequiredAttr,
-                "ariaRequiredChildren":ariaRequiredChildren,
-                "ariaRequiredParent":ariaRequiredParent,
-                "ariaRoles":ariaRoles,
-                "ariaValidAttrValue":ariaValidAttrValue,
-                "ariaValidAttr":ariaValidAttr,
-                "audioCaption":audioCaption,
-                "buttonName":buttonName,
-                "bypass":bypass,
-                "colorContrast":colorContrast,
-                "definitionList":definitionList,
-                "dlItem":dlItem,
-                "documentTitle":documentTitle,
-                "duplicateID":duplicateID,
-                "frameTitle":frameTitle,
-                "htmlHasLang":htmlHasLang,
-                "htmlLangValid":htmlLangValid,
-                "imageAlt":imageAlt,
-                "inputImageAlt":inputImageAlt,
-                "label":label,
-                "layoutTable":layoutTable,
-                "linkName":linkName,
-                "list":list,
-                "listItem":listItem,
-                "metaRefresh":metaRefresh,
-                "metaViewport":metaViewport,
-                "objectAlt":objectAlt,
-                "tabIndex":tabIndex,
-                "tdHeadersAttr":tdHeadersAttr,
-                "thHasDataCells":thHasDataCells,
-                "validLang":validLang,
-                "videoCaption":videoCaption,
-                "videoDescription":videoDescription};
+                "offscreen":perfModelArray[0],
+                "renderSheets":perfModelArray[1],
+                "renderScripts":perfModelArray[2],
+                "imageSize":perfModelArray[3],
+                "optimizeImage":perfModelArray[4],
+                "accessKeys":accModelArray[0],
+                "ariaAllowedAttr":accModelArray[1],
+                "ariaRequiredAttr":accModelArray[2],
+                "ariaRequiredChildren":accModelArray[3],
+                "ariaRequiredParent":accModelArray[4],
+                "ariaRoles":accModelArray[5],
+                "ariaValidAttrValue":accModelArray[6],
+                "ariaValidAttr":accModelArray[7],
+                "audioCaption":accModelArray[8],
+                "buttonName":accModelArray[9],
+                "bypass":accModelArray[10],
+                "colorContrast":accModelArray[11],
+                "definitionList":accModelArray[12],
+                "dlItem":accModelArray[13],
+                "documentTitle":accModelArray[14],
+                "duplicateID":accModelArray[15],
+                "frameTitle":accModelArray[16],
+                "htmlHasLang":accModelArray[17],
+                "htmlLangValid":accModelArray[18],
+                "imageAlt":accModelArray[19],
+                "inputImageAlt":accModelArray[20],
+                "label":accModelArray[21],
+                "layoutTable":accModelArray[22],
+                "linkName":accModelArray[23],
+                "list":accModelArray[24],
+                "listItem":accModelArray[25],
+                "metaRefresh":accModelArray[26],
+                "metaViewport":accModelArray[27],
+                "objectAlt":accModelArray[28],
+                "tabIndex":accModelArray[29],
+                "tdHeadersAttr":accModelArray[30],
+                "thHasDataCells":accModelArray[31],
+                "validLang":accModelArray[32],
+                "videoCaption":accModelArray[33],
+                "videoDescription":accModelArray[34]};
 
               axios.post('http://localhost:3000/crawlLH', crawlLHResult)
               .catch(err => {
