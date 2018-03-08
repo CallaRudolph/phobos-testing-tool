@@ -22,64 +22,17 @@ class LHCrawlDetail extends Component {
   // }
 
   parsePerformanceDisplay(category, verbiage) {
-    // array
-    // let category = array[0];
-    // let toggle = array[1];
-    // let viewCategory = array[2];
-    // let verbiage = array[3];
-    // let hideCategory = array[4];
-
-    // console.log(category, viewCategory, verbiage, hideCategory);
     let crawledLighthouse = this.props.local;
     let helpRender = [];
     let key = [];
 
     let nodes = crawledLighthouse.map(result => {
-      if(result[category][0].helpdisplay.length < 1) {
-        return("");
-      } else {
-        helpRender.push(result[category][0].helpdisplay[0])
-        key.push(result.id);
-        return([result.url, [result[category][0].items]])
-
-        // (<Performance key={result.id}
-        //                       url={result.url}
-        //                       category={result[category][0].items}/>)
-      }
+      helpRender.push(result[category][0].helpdisplay[0])
+      key.push(result.id);
+      return([result.url, [result[category][0].items]])
     });
 
-    let display;
-    if (helpRender.length < 1) {
-      display = ''
-    } else {
-      display =
-      <div>
-        <Performance key={key}
-                    verbiage={verbiage}
-                    helpRender={helpRender[0]}
-                    nodes={nodes}
-                    />
-      </div>
-    }
-
-    return display;
-  }
-
-  test(performanceItems) {
-    // console.log(performanceItems);
-    // let testy = Object.values(performanceItems);
-    // let testy2;
-    // for (var i = 0; i < testy.length; i++) {
-    //   let array = [];
-    //   for (var key in testy[i]) {
-    //     array.push(testy[i][key]);
-    //   }
-    //   // testy2 = this.parsePerformanceDisplay(array);
-    //   console.log(array);
-    //   // for (var j = 0; j < array.length)
-    // }
-    // // console.log(testy2);
-    // // return testy2;
+    return([verbiage, helpRender[0], nodes])
   }
 
   render() {
@@ -107,40 +60,33 @@ class LHCrawlDetail extends Component {
     let imageSizeDisplay = this.parsePerformanceDisplay("imageSize", "Image Size ");
     let optimizeImageDisplay = this.parsePerformanceDisplay("optimizeImage", "Optimize Images ");
 
-    // var performanceItems = {
-    //   offscreen:[
-    //     "offscreen", this.state.offscreenImagesShow, this.viewOffscreenImages, "Offscreen Images ", this.hideOffscreenImages
-    //   ],
-    //   renderSheets:[
-    //     "renderSheets", this.state.renderSheetsShow, this.viewRenderSheets, "Render Stylesheets ", this.hideRenderSheets
-    //   ],
-    //   renderScripts:[
-    //     "renderScripts", this.state.renderScriptsShow, this.viewRenderScripts, "Render Scripts ", this.hideRenderScripts
-    //   ],
-    //   imageSize:[
-    //     "imageSize", this.state.imageSizeShow, this.viewImageSize, "Image Size ", this.hideImageSize
-    //   ],
-    //   optimizeImage:[
-    //     "optimizeImage", this.state.optimizeImageShow, this.viewOptimizeImage, "Optimize Images ", this.hideOptimizeImage
-    //   ]
-    // };
-    //
-    // let tester = this.test(performanceItems);
+    let array = [offscreenDisplay, renderSheetsDisplay, renderScriptsDisplay, imageSizeDisplay, optimizeImageDisplay];
 
-
+    let performanceDisplay = array.map(function(performance, index) {
+        // because this is creating multiple subcomponents for each performance area, the key is not unique here. Not sure how to create a unique key when sending through multiple maps for each performance item.
+      if (performance[1] === []) {
+        // this hides a performance item from showing if no items were found for it.
+        let display = ''
+      } else {
+        let display =
+          <div>
+            <Performance key={index}
+              verbiage={performance[0]}
+              helpRender={performance[1]}
+              nodes={performance[2]}
+            />
+          </div>
+      }
+      return (display)
+    });
 
     return (
       <div>
         <h4>Quality Assurance Tasks</h4>
         <h5>Crawled Lighthouse Results for <u>{mainUrl}</u> on {date}</h5>
         <h5><i>Performance Opportunities:</i></h5>
-        {offscreenDisplay}
-        {renderSheetsDisplay}
-        {renderScriptsDisplay}
-        {imageSizeDisplay}
-        {optimizeImageDisplay}
-        {/* {tester} */}
         {/* {progressArcs} */}
+        {performanceDisplay}
       </div>
     )
   }

@@ -17,9 +17,9 @@ class App extends Component {
         <br/> */}
         {/* <LighthouseDetail/>
         <br/> */}
-        {/* <LHCrawl/> */}
-        <br/>
-        <LighthouseSingle/>
+        <LHCrawl/>
+        {/* <br/>
+        <LighthouseSingle/> */}
         {/* <br/><br/><br/>
         <BasicCrawler/> */}
       </div>

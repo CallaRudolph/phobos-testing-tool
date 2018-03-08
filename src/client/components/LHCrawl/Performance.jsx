@@ -25,14 +25,19 @@ class Performance extends Component {
 
   render() {
     let nodes = this.props.nodes.map(function(node, index) {
-      return(
-        <div>
-          <h6>{node[0]}</h6>
-          <PerformanceUrls items={node[1]}
-                            key={index}
-          />
-        </div>
-      )
+      if (node[1][0].length === 0) {
+        // this hides a URL that does not have any items found in that performance area
+        return('')
+      } else {
+        return(
+          <div>
+            <h6>{node[0]}</h6>
+            <PerformanceUrls items={node[1]}
+                              key={index}
+            />
+          </div>
+        )
+      }
     })
     let display;
 
