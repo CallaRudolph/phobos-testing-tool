@@ -82,6 +82,8 @@ function postCrawl(req, res) {
               // masterData.push({"blob":currentResult});
               //////////////////end summary ///////////////////////
 
+              ///////// PERFORMANCE /////////////
+
               let perfOpp = jsonBlob.reportCategories[0].audits;
 
               function parseLHOpportunity (name, startIndex) {
@@ -114,6 +116,73 @@ function postCrawl(req, res) {
               let imageSize = parseLHOpportunity("uses-responsive-images", 1);
               let optimizeImage = parseLHOpportunity("uses-optimized-images", 1);
 
+              ////////////// END PERFORMANCE /////////////
+
+              ////////////////// ACCESSIBILITY /////////////
+
+              let accOpp = jsonBlob.reportCategories[2].audits;
+
+              function parseLHAccessibility (name) {
+                let data = {
+                  helpdisplay: [],
+                  items: []
+                };
+
+                for (var i = 0; i < accOpp.length; i++) {
+                  if (accOpp[i].id === name && accOpp[i].score < 100 && accOpp[i].group !== "manual-a11y-checks") {
+                    var help = accOpp[i].result.helpText.replace(/Learn More/i, 'Learn more: ').replace('[', '').replace('](', '').replace(').', '');
+                    data.helpdisplay.push(help);
+                    var items = accOpp[i].result.details.items;
+                    if (items.length > 0) {
+                      for (var j = 0; j < items.length; j++) {
+                        var item = items[j].snippet;
+                        data.items.push(item)
+                      }
+                    }
+                  }
+                }
+
+                return data;
+              }
+
+              let accessKeys = parseLHAccessibility("accesskeys");
+              let ariaAllowedAttr = parseLHAccessibility("aria-allowed-attr");
+              let ariaRequiredAttr = parseLHAccessibility("aria-required-attr");
+              let ariaRequiredChildren = parseLHAccessibility("aria-required-children");
+              let ariaRequiredParent = parseLHAccessibility("aria-required-parent");
+              let ariaRoles = parseLHAccessibility("aria-roles");
+              let ariaValidAttrValue = parseLHAccessibility("aria-valid-attr-value");
+              let ariaValidAttr = parseLHAccessibility("aria-valid-attr");
+              let audioCaption = parseLHAccessibility("audio-caption");
+              let buttonName = parseLHAccessibility("button-name");
+              let bypass = parseLHAccessibility("bypass");
+              let colorContrast = parseLHAccessibility("color-contrast");
+              let definitionList = parseLHAccessibility("definition-list");
+              let dlItem = parseLHAccessibility("dlitem");
+              let documentTitle = parseLHAccessibility("document-title");
+              let duplicateID = parseLHAccessibility("duplicate-id");
+              let frameTitle = parseLHAccessibility("frame-title");
+              let htmlHasLang = parseLHAccessibility("html-has-lang");
+              let htmlLangValid = parseLHAccessibility("html-lang-valid");
+              let imageAlt = parseLHAccessibility("image-alt");
+              let inputImageAlt = parseLHAccessibility("input-image-alt");
+              let label = parseLHAccessibility("label");
+              let layoutTable = parseLHAccessibility("layout-table");
+              let linkName = parseLHAccessibility("link-name");
+              let list = parseLHAccessibility("list");
+              let listItem = parseLHAccessibility("list-item");
+              let metaRefresh = parseLHAccessibility("meta-refresh");
+              let metaViewport = parseLHAccessibility("meta-viewport");
+              let objectAlt = parseLHAccessibility("object-alt");
+              let tabIndex = parseLHAccessibility("tabindex");
+              let tdHeadersAttr = parseLHAccessibility("td-headers-attr");
+              let thHasDataCells = parseLHAccessibility("ht-has-data-cells");
+              let validLang = parseLHAccessibility("valid-lang");
+              let videoCaption = parseLHAccessibility("video-caption");
+              let videoDescription = parseLHAccessibility("video-description");
+
+              //////////////// END ACCESSIBILITY /////////////
+
               var crawlLHResult = {"mainUrl":currentUrl,
                 "url":url,
                 "id":uuid(),
@@ -125,7 +194,41 @@ function postCrawl(req, res) {
                 "renderSheets":renderSheets,
                 "renderScripts":renderScripts,
                 "imageSize":imageSize,
-                "optimizeImage":optimizeImage};
+                "optimizeImage":optimizeImage, "accessKeys":accessKeys,
+                "ariaAllowedAttr":ariaAllowedAttr,
+                "ariaRequiredAttr":ariaRequiredAttr,
+                "ariaRequiredChildren":ariaRequiredChildren,
+                "ariaRequiredParent":ariaRequiredParent,
+                "ariaRoles":ariaRoles,
+                "ariaValidAttrValue":ariaValidAttrValue,
+                "ariaValidAttr":ariaValidAttr,
+                "audioCaption":audioCaption,
+                "buttonName":buttonName,
+                "bypass":bypass,
+                "colorContrast":colorContrast,
+                "definitionList":definitionList,
+                "dlItem":dlItem,
+                "documentTitle":documentTitle,
+                "duplicateID":duplicateID,
+                "frameTitle":frameTitle,
+                "htmlHasLang":htmlHasLang,
+                "htmlLangValid":htmlLangValid,
+                "imageAlt":imageAlt,
+                "inputImageAlt":inputImageAlt,
+                "label":label,
+                "layoutTable":layoutTable,
+                "linkName":linkName,
+                "list":list,
+                "listItem":listItem,
+                "metaRefresh":metaRefresh,
+                "metaViewport":metaViewport,
+                "objectAlt":objectAlt,
+                "tabIndex":tabIndex,
+                "tdHeadersAttr":tdHeadersAttr,
+                "thHasDataCells":thHasDataCells,
+                "validLang":validLang,
+                "videoCaption":videoCaption,
+                "videoDescription":videoDescription};
 
               axios.post('http://localhost:3000/crawlLH', crawlLHResult)
               .catch(err => {
