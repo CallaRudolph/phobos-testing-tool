@@ -15,7 +15,7 @@ class CrawlList extends Component {
 
   render() {
     let formAreaContent;
-    if (this.props.local === undefined) {
+    if (this.props.local.length === 0) {
       formAreaContent = ''
     } else {
       formAreaContent =
@@ -23,7 +23,8 @@ class CrawlList extends Component {
         <h5><a href='#/' onClick={() => this.onClick()}>
           lighthouse info for crawled urls
         </a></h5>
-        { this.state.childVisible && <LHCrawlDetail
+        { this.state.childVisible &&
+          <LHCrawlDetail
               local={this.props.local}/> }
       </div>
     }

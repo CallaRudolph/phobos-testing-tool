@@ -39,7 +39,7 @@ class Performance extends Component {
           {this.props.verbiage}
         </a></h5>
         <p>{this.props.helpRender}</p>
-        { this.state.childVisible && nodes}
+        { this.state.childVisible && nodes }
       </div>
     )
   }

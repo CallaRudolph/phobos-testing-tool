@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import LHCrawlDelete from './LHCrawlDelete.jsx';
 import ProgressArcs from './ProgressArcs.jsx';
 import Performance from './Performance/Performance.jsx';
 import Accessibility from './Accessibility/Accessibility.jsx';
@@ -14,7 +13,6 @@ class LHCrawlDetail extends Component {
     };
     this.onClickPerf = this.onClickPerf.bind(this);
     this.onClickAcc = this.onClickAcc.bind(this);
-    // this.handleLHCrawlDelete = this.handleLHCrawlDelete.bind(this);
   }
 
   onClickPerf() {
@@ -24,17 +22,6 @@ class LHCrawlDetail extends Component {
   onClickAcc() {
     this.setState(prevState => ({ accChildVisible: !prevState.accChildVisible }));
   }
-
-  // handleLHCrawlDelete(id) {
-  //   // id sent from LHSummaryDelete comp to create axios Delete request
-  //   axios.delete('crawlLH/' + id)
-  //   .then(res => {
-  //     console.log(res);
-  //   })
-  //   .catch(err => {
-  //     console.error(err);
-  //   });
-  // }
 
   parsePerformanceDisplay(category, verbiage) {
     let crawledLighthouse = this.props.local;
