@@ -1,107 +1,54 @@
 import React, { Component } from "react";
-import { Grid, Col, Row } from 'react-bootstrap';
-import LHCrawlDelete from './LHCrawlDelete.jsx';
 import ProgressArcs from './ProgressArcs.jsx';
-import OffscreenImages from './Performance/OffscreenImages.jsx';
-import RenderSheets from './Performance/RenderSheets.jsx';
-import RenderScripts from './Performance/RenderScripts.jsx';
-import ImageSize from './Performance/ImageSize.jsx';
-import OptimizeImage from './Performance/OptimizeImage.jsx';
+import Performance from './Performance/Performance.jsx';
+import Accessibility from './Accessibility/Accessibility.jsx';
 var dateFormat = require('dateformat');
 
 class LHCrawlDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      offscreenImagesShow: false,
-      renderSheetsShow: false,
-      renderScriptsShow: false,
-      imageSizeShow: false,
-      optimizeImageShow: false
+      perfChildVisible: false,
+      accChildVisible: false
     };
-    // this.handleLHCrawlDelete = this.handleLHCrawlDelete.bind(this);
-    this.viewOffscreenImages = this.viewOffscreenImages.bind(this);
-    this.hideOffscreenImages = this.hideOffscreenImages.bind(this);
-    this.viewRenderSheets = this.viewRenderSheets.bind(this);
-    this.hideRenderSheets = this.hideRenderSheets.bind(this);
-    this.viewRenderScripts = this.viewRenderScripts.bind(this);
-    this.hideRenderScripts = this.hideRenderScripts.bind(this);
-    this.viewImageSize = this.viewImageSize.bind(this);
-    this.hideImageSize = this.hideImageSize.bind(this);
-    this.viewOptimizeImage = this.viewOptimizeImage.bind(this);
-    this.hideOptimizeImage = this.hideOptimizeImage.bind(this);
+    this.onClickPerf = this.onClickPerf.bind(this);
+    this.onClickAcc = this.onClickAcc.bind(this);
   }
 
-  // handleLHCrawlDelete(id) {
-  //   // id sent from LHSummaryDelete comp to create axios Delete request
-  //   axios.delete('crawlLH/' + id)
-  //   .then(res => {
-  //     console.log(res);
-  //   })
-  //   .catch(err => {
-  //     console.error(err);
-  //   });
-  // }
-
-  // toggle for individual LH item views w/ boolean state
-  viewOffscreenImages() {
-    this.setState({
-      offscreenImagesShow: true
-    });
+  onClickPerf() {
+    this.setState(prevState => ({ perfChildVisible: !prevState.perfChildVisible }));
   }
 
-  hideOffscreenImages() {
-    this.setState({
-      offscreenImagesShow: false
-    });
+  onClickAcc() {
+    this.setState(prevState => ({ accChildVisible: !prevState.accChildVisible }));
   }
 
-  viewRenderSheets() {
-    this.setState({
-      renderSheetsShow: true
+  parsePerformanceDisplay(category, verbiage) {
+    let crawledLighthouse = this.props.local;
+    let helpRender = [];
+    let key = [];
+
+    let nodes = crawledLighthouse.map(result => {
+      helpRender.push(result[category][0].helpdisplay[0])
+      key.push(result.id);
+      return([result.url, [result[category][0].items]])
     });
+
+    return([verbiage, helpRender[0], nodes, key])
   }
 
-  hideRenderSheets() {
-    this.setState({
-      renderSheetsShow: false
-    });
-  }
+  parseAccessibilityDisplay(category, verbiage) {
+    let crawledLighthouse = this.props.local;
+    let helpRender = [];
+    let key = [];
 
-  viewRenderScripts() {
-    this.setState({
-      renderScriptsShow: true
+    let nodes = crawledLighthouse.map(result => {
+      helpRender.push(result[category][0].helpdisplay[0])
+      key.push(result.id);
+      return([result.url, [result[category][0].items]])
     });
-  }
 
-  hideRenderScripts() {
-    this.setState({
-      renderScriptsShow: false
-    });
-  }
-
-  viewImageSize() {
-    this.setState({
-      imageSizeShow: true
-    });
-  }
-
-  hideImageSize() {
-    this.setState({
-      imageSizeShow: false
-    });
-  }
-
-  viewOptimizeImage() {
-    this.setState({
-      optimizeImageShow: true
-    });
-  }
-
-  hideOptimizeImage() {
-    this.setState({
-      optimizeImageShow: false
-    });
+    return([verbiage, helpRender[0], nodes, key])
   }
 
   render() {
@@ -123,55 +70,85 @@ class LHCrawlDetail extends Component {
     //                         accessibilityScore={accessibilityScore}/>)
     // });
 
-    function parsePerformanceDisplay(category, ChildComponent, toggle, viewCategory, verbiage, hideCategory) {
-      let helpRender = [];
+    /////////////// PERFORMANCE DISPLAY
 
-      let nodes = crawledLighthouse.map(result => {
-        if(result[category][0].helpdisplay.length < 1) {
-          return("");
-        } else {
-          helpRender.push(result[category][0].helpdisplay[0])
-          return (<ChildComponent key={result.id}
-                                  url={result.url}
-                                  category={result[category][0].items}/>)
-        }
-      });
+    let perfArray = [["offscreen", "Lazy-load offscreen images "], ["renderSheets", "Reduce render-blocking stylesheets "], ["renderScripts", "Reduce render-blocking scripts "], ["imageSize", "Properly size images "], ["optimizeImage", "Optimize images "]];
 
+    let perfDisplayArray = [];
+    perfArray.map(individual => {
+      let individualDisplay = this.parsePerformanceDisplay(individual[0], individual[1]);
+      perfDisplayArray.push(individualDisplay);
+    });
+
+    let performanceDisplay = perfDisplayArray.map(function(performance, index) {
+        // because this is creating multiple subcomponents for each performance area, the key is not unique here. Not sure how to create a unique key when sending through multiple maps for each performance item. Get a lovely warning message.
       let display;
-      if (toggle === false && helpRender.length < 1) {
+      if (performance[1] === undefined) {
+        // this hides a performance item from showing if no items were found for it.
         display = ''
-      } else if (toggle === false) {
-        display =
-          <h5><a href='#/' onClick={ viewCategory }>{verbiage}</a>{helpRender[0]}</h5>
       } else {
         display =
-        <div>
-          <h5><a href='#/' onClick={ hideCategory }>{verbiage}</a>{helpRender[0]}</h5>
-          {nodes}
-        </div>
+          <div>
+            <Performance
+              verbiage={performance[0]}
+              helpRender={performance[1]}
+              nodes={performance[2]}
+              key={index}
+            />
+          </div>
       }
+      return (display)
+    });
+    //////////// END PERFORMANCE DISPLAY
 
-      return display;
-    }
+    ///////// ACCESSIBILITY DISPLAY
+    let accArray = [["accessKeys", "Access key values are not unique "], ["ariaAllowedAttr", "aria attributes match their roles "], ["ariaRequiredAttr", "Roles have required aria attributes "], ["ariaRequiredChildren", "Elements with roles that require children's roles are present "], ["ariaRequiredParent", "Roles are contained by their required parent element "], ["ariaRoles", "aria roles must have valid values "], ["ariaValidAttrValue", "aria attributes have valid values "], ["ariaValidAttr", "aria attributes are valid and not misspelled "], ["audioCaption", "Audio elements are missing a track element with captions "], ["buttonName", "Buttons have an accessible name "], ["bypass", "The page contains a heading, skip link, or landmark region "], ["colorContrast", "Background and foreground colors do not have a sufficient contrast ratio "], ["definitionList", "`<dl>`'s do not contain only properly-ordered `<dt>` and `<dd>` groups, `<script>` or `<template>` elements "], ["dlItem", "Definition list items are not wrapped in `<dl>` elements "], ["documentTitle", "Document has a `<title>` element "], ["duplicateID", "ID attributes on the page are unique "], ["frameTitle", "`<frame>` or `<iframe>` elements do not have a title "], ["htmlHasLang", "`<html>` element has a `[lang]` attribute "], ["htmlLangValid", "`<html>` element has a valid value for its `[lang]` attribute "], ["imageAlt", "Image elements have `[alt]` attributes "], ["inputImageAlt", "`<input type=\"image\">` elements do not have `[alt]` text "], ["label", "Form elements have associated labels "], ["layoutTable", "Presentational `<table>` elements do not avoid using `<th>`, `<caption>` or the `[summary]` attribute "], ["linkName", "Links have a discernible name "], ["list", "Lists contain only `<li>` elements and script supporting elements (`<script>` and `<template>` "], ["listItem", "List items (`<li>`) are contained within `<ul>` or `<ol>` parent elements "], ["metaRefresh", "The document uses `<meta http-equiv=\"refresh\">` "], ["objectAlt", "`<object>` elements do not have `[alt]` text "], ["tabIndex", "Some elements have a `[tabindex]` value greater than 0 "], ["tdHeadersAttr", "Cells in a `<table>` element that use the `[headers]` attribute refers to other cells of that same table "], ["thHasDataCells", "`<th>` elements and elements with `[role=\"columnheader\"/\"rowheader\"]` do not have data cells they describe "], ["validLang", "`[lang]` attributes do not have a valid value "], ["videoCaption", "`<video>` elements do not contain a `<track>` element with `[kind=\"captions\"]` "], ["videoDescription", "`<video>` elements do not contain a `<track>` element with `[kind=\"description\"]` "]];
 
-    let offscreenDisplay = parsePerformanceDisplay("offscreen", OffscreenImages, this.state.offscreenImagesShow, this.viewOffscreenImages, "Offscreen Images ", this.hideOffscreenImages);
+    let accDisplayArray = [];
+    accArray.map(individual => {
+      let individualDisplay = this.parseAccessibilityDisplay(individual[0], individual[1]);
+      accDisplayArray.push(individualDisplay);
+    });
 
-    let renderSheetsDisplay = parsePerformanceDisplay("renderSheets", RenderSheets, this.state.renderSheetsShow, this.viewRenderSheets, "Render Stylesheets ", this.hideRenderSheets);
-    let renderScriptsDisplay = parsePerformanceDisplay("renderScripts", RenderScripts, this.state.renderScriptsShow, this.viewRenderScripts, "Render Scripts ", this.hideRenderScripts);
-    let imageSizeDisplay = parsePerformanceDisplay("imageSize", ImageSize, this.state.imageSizeShow, this.viewImageSize, "Image Size ", this.hideImageSize);
-    let optimizeImageDisplay = parsePerformanceDisplay("optimizeImage", OptimizeImage, this.state.optimizeImageShow, this.viewOptimizeImage, "Optimize Images ", this.hideOptimizeImage);
+    let accessibilityDisplay = accDisplayArray.map(function(accessibility, index) {
+        // because this is creating multiple subcomponents for each performance area, the key is not unique here. Not sure how to create a unique key when sending through multiple maps for each performance item. Get a lovely warning message.
+      let display;
+      if (accessibility[1] === undefined) {
+        // this hides an accessibility item from showing if no items were found for it.
+        display = ''
+      } else {
+        display =
+          <div>
+            <Accessibility
+              verbiage={accessibility[0]}
+              helpRender={accessibility[1]}
+              nodes={accessibility[2]}
+              key={index}
+            />
+          </div>
+      }
+      return (display)
+    });
+
+    ////////// END ACCESSIBILITY DISPLAY
 
     return (
       <div>
         <h4>Quality Assurance Tasks</h4>
         <h5>Crawled Lighthouse Results for <u>{mainUrl}</u> on {date}</h5>
-        <h5><i>Performance Opportunities:</i></h5>
-        {offscreenDisplay}
-        {renderSheetsDisplay}
-        {renderScriptsDisplay}
-        {imageSizeDisplay}
-        {optimizeImageDisplay}
+        <br/>
         {/* {progressArcs} */}
+
+        <h5><i><a href='#/' onClick={() => this.onClickPerf()}>
+          Performance Opportunities
+        </a></i></h5>
+        { this.state.perfChildVisible && performanceDisplay }
+        <br/>
+
+        <h5><i><a href='#/' onClick={() => this.onClickAcc()}>
+          Accessibility Opportunities
+        </a></i></h5>
+        { this.state.accChildVisible && accessibilityDisplay }
       </div>
     )
   }

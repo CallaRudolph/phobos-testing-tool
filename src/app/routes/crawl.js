@@ -82,6 +82,8 @@ function postCrawl(req, res) {
               // masterData.push({"blob":currentResult});
               //////////////////end summary ///////////////////////
 
+              ///////// PERFORMANCE /////////////
+
               let perfOpp = jsonBlob.reportCategories[0].audits;
 
               function parseLHOpportunity (name, startIndex) {
@@ -108,11 +110,53 @@ function postCrawl(req, res) {
                 return data;
               }
 
-              let offscreen = parseLHOpportunity("offscreen-images", 1);
-              let renderSheets = parseLHOpportunity("link-blocking-first-paint", 0);
-              let renderScripts = parseLHOpportunity("script-blocking-first-paint", 0);
-              let imageSize = parseLHOpportunity("uses-responsive-images", 1);
-              let optimizeImage = parseLHOpportunity("uses-optimized-images", 1);
+              let perfArray = [["offscreen-images", 1], ["link-blocking-first-paint", 0], ["script-blocking-first-paint", 0], ["uses-responsive-images", 1], ["uses-optimized-images", 1]];
+
+              let perfModelArray = [];
+              perfArray.map(individual => {
+                let individualModel = parseLHOpportunity(individual[0], individual[1]);
+                perfModelArray.push(individualModel);
+              });
+
+              ////////////// END PERFORMANCE /////////////
+
+              ////////////////// ACCESSIBILITY /////////////
+
+              let accOpp = jsonBlob.reportCategories[2].audits;
+
+              function parseLHAccessibility (name) {
+                let data = {
+                  helpdisplay: [],
+                  items: []
+                };
+
+                for (var i = 0; i < accOpp.length; i++) {
+                  if (accOpp[i].id === name && accOpp[i].score < 100 && accOpp[i].group !== "manual-a11y-checks") {
+                    var help = accOpp[i].result.helpText.replace(/Learn More/i, 'Learn more: ').replace('[', '').replace('](', '').replace(').', '');
+                    data.helpdisplay.push(help);
+                    var items = accOpp[i].result.details.items;
+                    if (items.length > 0) {
+                      for (var j = 0; j < items.length; j++) {
+                        var item = items[j].snippet;
+                        data.items.push(item)
+                      }
+                    }
+                  }
+                }
+
+                return data;
+              }
+
+              let accArray = [["accesskeys"], ["aria-allowed-attr"], ["aria-required-attr"], ["aria-required-children"], ["aria-required-parent"], ["aria-roles"], ["aria-valid-attr-value"], ["aria-valid-attr"], ["audio-caption"], ["button-name"], ["bypass"], ["color-contrast"], ["definition-list"], ["dlitem"], ["document-title"], ["duplicate-id"], ["frame-title"], ["html-has-lang"], ["html-lang-valid"], ["image-alt"], ["input-image-alt"], ["label"], ["layout-table"], ["link-name"], ["list"], ["list-item"], ["meta-refresh"], ["meta-viewport"], ["object-alt"], ["tabindex"], ["td-headers-attr"], ["ht-has-data-cells"], ["valid-lang"], ["video-caption"], ["video-description"]];
+
+              let accModelArray = [];
+              accArray.map(individual => {
+                let individualModel = parseLHAccessibility(individual[0]);
+                accModelArray.push(individualModel);
+              });
+
+
+              //////////////// END ACCESSIBILITY /////////////
 
               var crawlLHResult = {"mainUrl":currentUrl,
                 "url":url,
@@ -121,11 +165,46 @@ function postCrawl(req, res) {
                 // "performance":performanceScore,
                 // "bestPractices":bestPracticeScore,
                 // "accessibility":accessibilityScore,
-                "offscreen":offscreen,
-                "renderSheets":renderSheets,
-                "renderScripts":renderScripts,
-                "imageSize":imageSize,
-                "optimizeImage":optimizeImage};
+                "offscreen":perfModelArray[0],
+                "renderSheets":perfModelArray[1],
+                "renderScripts":perfModelArray[2],
+                "imageSize":perfModelArray[3],
+                "optimizeImage":perfModelArray[4],
+                "accessKeys":accModelArray[0],
+                "ariaAllowedAttr":accModelArray[1],
+                "ariaRequiredAttr":accModelArray[2],
+                "ariaRequiredChildren":accModelArray[3],
+                "ariaRequiredParent":accModelArray[4],
+                "ariaRoles":accModelArray[5],
+                "ariaValidAttrValue":accModelArray[6],
+                "ariaValidAttr":accModelArray[7],
+                "audioCaption":accModelArray[8],
+                "buttonName":accModelArray[9],
+                "bypass":accModelArray[10],
+                "colorContrast":accModelArray[11],
+                "definitionList":accModelArray[12],
+                "dlItem":accModelArray[13],
+                "documentTitle":accModelArray[14],
+                "duplicateID":accModelArray[15],
+                "frameTitle":accModelArray[16],
+                "htmlHasLang":accModelArray[17],
+                "htmlLangValid":accModelArray[18],
+                "imageAlt":accModelArray[19],
+                "inputImageAlt":accModelArray[20],
+                "label":accModelArray[21],
+                "layoutTable":accModelArray[22],
+                "linkName":accModelArray[23],
+                "list":accModelArray[24],
+                "listItem":accModelArray[25],
+                "metaRefresh":accModelArray[26],
+                "metaViewport":accModelArray[27],
+                "objectAlt":accModelArray[28],
+                "tabIndex":accModelArray[29],
+                "tdHeadersAttr":accModelArray[30],
+                "thHasDataCells":accModelArray[31],
+                "validLang":accModelArray[32],
+                "videoCaption":accModelArray[33],
+                "videoDescription":accModelArray[34]};
 
               axios.post('http://localhost:3000/crawlLH', crawlLHResult)
               .catch(err => {

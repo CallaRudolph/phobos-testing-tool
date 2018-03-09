@@ -54,39 +54,26 @@ class LHCrawl extends Component {
 
   render() {
     // to display crawled lighthouse results
-    let crawledLHNodes;
     let crawledLHNodesDisplay;
-    if (this.state.local.length < 1) {
-      crawledLHNodesDisplay = ''
-    } else {
-      let crawledLHNodes = this.state.local.map(result => {
-        return (result)
-      });
-      crawledLHNodesDisplay =
-        <LHCrawlList
-          local={ crawledLHNodes }
-        />
-    }
+    let crawledLHNodes = this.state.local.map(result => {
+      return (result)
+    });
+    crawledLHNodesDisplay =
+      <LHCrawlList
+        local={ crawledLHNodes }
+      />
 
-    let crawlPending; // displays a pending message to let user know the crawler is running
-    if (this.state.pending === false) {
-      crawlPending = ''
-    } else {
-      crawlPending =
-        <div>
-          <p>the crawler is running, results will show soon...</p>
-        </div>
-    }
+    // displays a pending message to let user know the crawler is running
+    let crawlPending =
+      <div>
+        <p>the crawler is running, results will show soon...</p>
+      </div>
 
-    let noCrawl;
-    if (this.state.data.length > 1) {
-      noCrawl = ''
-    } else {
-      noCrawl =
-        <div>
-          <p>{this.state.data}</p>
-        </div>
-    }
+    // message if crawler can't find anything
+    let noCrawl =
+      <div>
+        <p>{this.state.data}</p>
+      </div>
 
     var button = {
       margin: "3px",
@@ -98,12 +85,20 @@ class LHCrawl extends Component {
         <h5>Enter a url to crawl and run results through lighthouse:</h5>
         <form onSubmit={this.handleSubmit}>
           <input
-            placeholder="https://" type="text" value={this.state.url} onChange={this.handleUrlChange} />
-          <Button style={button} bsStyle="info"
-            bsSize="small" type="submit">Start Crawling</Button>
+            placeholder="https://"
+            type="text"
+            value={this.state.url}
+            onChange={this.handleUrlChange} />
+          <Button
+            style={button}
+            bsStyle="info"
+            bsSize="small"
+            type="submit">
+            Start Crawling
+          </Button>
         </form>
-        { crawlPending }
-        { noCrawl }
+        { this.state.pending && crawlPending }
+        { this.state.data.length <= 1 && noCrawl }
         { crawledLHNodesDisplay }
       </div>
     )
